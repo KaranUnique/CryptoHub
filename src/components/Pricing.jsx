@@ -1,51 +1,70 @@
+//@@viewOn:imports
 import "./Pricing.css";
+import { PAGE_TEXT } from "../constants/pages";
+import { BUTTONS } from "../constants/buttons";
+//@@viewOff:imports
+
+//@@viewOn:constants
+const PLAN_IDS = {
+  FREE: "free",
+  PRO: "pro",
+  PREMIUM: "premium",
+};
+
+const PLANS = [
+  {
+    id: PLAN_IDS.FREE,
+    name: "Free",
+    price: "₹0",
+    description: "Get started with essential crypto tools.",
+    features: [
+      "Track top 50 cryptocurrencies",
+      "Real-time price updates",
+      "Basic charts & analytics",
+      "Coin detail pages",
+      "Responsive dashboard",
+    ],
+  },
+  {
+    id: PLAN_IDS.PRO,
+    name: "Pro",
+    price: "₹399/month",
+    description: "Unlock advanced features for serious traders.",
+    features: [
+      "Track up to 500 coins",
+      "Advanced charting tools",
+      "Portfolio tracking",
+      "Price alerts & notifications",
+      "Ad-free experience",
+    ],
+  },
+  {
+    id: PLAN_IDS.PREMIUM,
+    name: "Premium",
+    price: "₹999/month",
+    description: "All-access pass for power users and professionals.",
+    features: [
+      "Unlimited coins & watchlists",
+      "Customizable analytics",
+      "Export data to CSV/Excel",
+      "Early access to new features",
+      "1-on-1 onboarding & support",
+    ],
+  },
+];
+//@@viewOff:constants
 
 export default function Pricing() {
-  const plans = [
-    {
-      name: "Free",
-      price: "₹0",
-      description: "Get started with essential crypto tools.",
-      features: [
-        "Track top 50 cryptocurrencies",
-        "Real-time price updates",
-        "Basic charts & analytics",
-        "Coin detail pages",
-        "Responsive dashboard",
-      ],
-    },
-    {
-      name: "Pro",
-      price: "₹399/month",
-      description: "Unlock advanced features for serious traders.",
-      features: [
-        "Track up to 500 coins",
-        "Advanced charting tools",
-        "Portfolio tracking",
-        "Price alerts & notifications",
-        "Ad-free experience",
-      ],
-    },
-    {
-      name: "Premium",
-      price: "₹999/month",
-      description: "All-access pass for power users and professionals.",
-      features: [
-        "Unlimited coins & watchlists",
-        "Customizable analytics",
-        "Export data to CSV/Excel",
-        "Early access to new features",
-        "1-on-1 onboarding & support",
-      ],
-    },
-  ];
+  //@@viewOn:private
+  //@@viewOff:private
 
+  //@@viewOn:render
   return (
     <div className="pricing-page">
-      <div className="pricing-title">Pricing Plans</div>
-      <div className="pricing-desc">Choose the plan that fits your crypto journey. Upgrade anytime!</div>
+      <div className="pricing-title">{PAGE_TEXT.PRICING.TITLE}</div>
+      <div className="pricing-desc">{PAGE_TEXT.PRICING.DESCRIPTION}</div>
       <div className="pricing-cards">
-        {plans.map((plan, index) => (
+        {PLANS.map((plan, index) => (
           <div key={index} className="pricing-card">
             <h2>{plan.name}</h2>
             <div className="price">{plan.price}</div>
@@ -56,14 +75,15 @@ export default function Pricing() {
               ))}
             </ul>
             <button>
-              {plan.name === "Free" ? "Start for Free" : "Get Started"}
+              {plan.id === PLAN_IDS.FREE ? BUTTONS.START_FREE : BUTTONS.GET_STARTED}
             </button>
           </div>
         ))}
       </div>
       <div style={{textAlign: 'center', marginTop: '40px', color: '#bdbdbd', fontSize: '1.1rem'}}>
-        All plans include secure access, regular updates, and community support.
+        {PAGE_TEXT.PRICING.FOOTNOTE}
       </div>
     </div>
   );
+  //@@viewOff:render
 }
