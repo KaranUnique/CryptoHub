@@ -1,5 +1,9 @@
+//@@viewOn:imports
 import "./Blog.css";
+import { PAGE_TEXT } from "../constants/pages";
+//@@viewOff:imports
 
+//@@viewOn:helpers
 const blogPosts = [
   {
     title: "What is Cryptocurrency?",
@@ -30,13 +34,15 @@ const blogPosts = [
     content: `- Use strong, unique passwords and enable 2FA. - Never share your private keys. - Be cautious of scams and phishing attempts. - Only use trusted wallets and exchanges.`,
   },
 ];
+//@@viewOff:helpers
 
 export default function Blog() {
+  //@@viewOn:render
   return (
     <div className="blog-page">
-      <div className="blog-title">CryptoHub Blog</div>
+      <div className="blog-title">{PAGE_TEXT.BLOG.TITLE}</div>
       <div className="blog-desc">
-        Insights, guides, and tips for everyone interested in cryptocurrency.
+        {PAGE_TEXT.BLOG.SUBTITLE}
       </div>
       <div className="blog-list">
         {blogPosts.map((post, idx) => (
@@ -50,4 +56,5 @@ export default function Blog() {
       </div>
     </div>
   );
+  //@@viewOff:render
 }

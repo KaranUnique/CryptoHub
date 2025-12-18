@@ -1,14 +1,18 @@
+//@@viewOn:imports
 import React, { useEffect, useState } from "react";
 import Chart from "react-google-charts";
+import { CHART_TEXT } from "../constants/charts";
+//@@viewOff:imports
 
-const LineChart = ({ historicaldata }) => {
-  const [data, setData] = useState([["Date", "Prices"]]);
+const LineChart = ({ historicalData }) => {
+  //@@viewOn:private
+  const [data, setData] = useState([[CHART_TEXT.DATE, CHART_TEXT.PRICES]]);
 
   useEffect(() => {
-    let dataCopy = [["Date", "Prices"]];
+    let dataCopy = [[CHART_TEXT.DATE, CHART_TEXT.PRICES]];
 
-    if (historicaldata?.prices) {
-      historicaldata.prices.forEach((item) => {
+    if (historicalData?.prices) {
+      historicalData.prices.forEach((item) => {
         // Format as day/month (e.g., 25/6)
         const d = new Date(item[0]);
         const dateStr = `${d.getDate()}/${d.getMonth() + 1}`;
@@ -16,8 +20,10 @@ const LineChart = ({ historicaldata }) => {
       });
       setData(dataCopy);
     }
-  }, [historicaldata]);
+  }, [historicalData]);
+  //@@viewOff:private
 
+  //@@viewOn:render
   return (
     <Chart
       chartType="LineChart"
@@ -26,6 +32,9 @@ const LineChart = ({ historicaldata }) => {
       legendToggle
     />
   );
+  //@@viewOff:render
 };
 
+//@@viewOn:exports
 export default LineChart;
+//@@viewOff:exports

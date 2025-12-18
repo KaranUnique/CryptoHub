@@ -1,10 +1,16 @@
+//@@viewOn:imports
 import React, { useContext, useEffect, useState } from "react";
-
-import "./Home.css";
-import { CoinContext } from "../../context/CoinContext";
 import { Link } from 'react-router-dom'
 
+import { CoinContext } from "../../context/CoinContext";
+import "./Home.css";
+import { PAGE_TEXT } from "../../constants/pages";
+import { BUTTONS } from "../../constants/buttons";
+import { buildCoinPath } from "../../constants/routes";
+//@@viewOff:imports
+
 const Home = () => {
+  //@@viewOn:private
   const { allCoin, currency } = useContext(CoinContext);
   const [displayCoin, setDisplayCoin] = useState([]);
 
@@ -28,13 +34,15 @@ const Home = () => {
   useEffect(() => {
     setDisplayCoin(allCoin);
   }, [allCoin]);
+  //@@viewOff:private
 
+  //@@viewOn:render
   return (
     <div className="home">
       <div className="hero">
-        <h1 className="hero-title">Discover & Track Crypto Instantly</h1>
+        <h1 className="hero-title">{PAGE_TEXT.HOME.TITLE}</h1>
         <p className="hero-sub">
-          Welcome to CryptoHub — your gateway to real-time prices, trending coins, and powerful analytics. Search any coin and start exploring the world of crypto!
+          {PAGE_TEXT.HOME.WELCOME}
         </p>
         <form className="hero-form" onSubmit={searchHandler} autoComplete="off">
           <input
@@ -42,30 +50,30 @@ const Home = () => {
             list="coinlist"
             value={input}
             type="text"
-            placeholder="Search for a coin..."
+            placeholder={PAGE_TEXT.HOME.SEARCH_PLACEHOLDER}
             required
           />
           <datalist id="coinlist">
             {allCoin.map((item,index)=>(<option key={index} value={item.name}/>))}
           </datalist>
-          <button type="submit">Search</button>
+          <button type="submit">{BUTTONS.SEARCH}</button>
         </form>
       </div>
       <div className="crypto-table">
         <div className="table-layout">
-          <p>#</p>
-          <p>Coins</p>
-          <p>Price</p>
-          <p style={{ textAlign: "center" }}>24h Change</p>
-          <p className="market-cap">Market Cap</p>
+          <p>{PAGE_TEXT.HOME.TABLE.RANK}</p>
+          <p>{PAGE_TEXT.HOME.TABLE.COINS}</p>
+          <p>{PAGE_TEXT.HOME.TABLE.PRICE}</p>
+          <p style={{ textAlign: "center" }}>{PAGE_TEXT.HOME.TABLE.CHANGE_24H}</p>
+          <p className="market-cap">{PAGE_TEXT.HOME.TABLE.MARKET_CAP}</p>
         </div>
         {displayCoin.slice(0, 10).map((item, index) => (
           <Link
-          to={`/coin/${item.id}`}
+          to={buildCoinPath(item.id)}
           className="table-layout" key={index}>
             <p>{item.market_cap_rank}</p>
             <div>
-              <img src={item.image}></img>
+              <img src={item.image} alt={"description"}></img>
               <p>{item.name + " - " + item.symbol}</p>
             </div>
             <p>
@@ -86,6 +94,9 @@ const Home = () => {
       </div>
     </div>
   );
+  //@@viewOff:render
 };
 
+//@@viewOn:exports
 export default Home;
+//@@viewOff:exports

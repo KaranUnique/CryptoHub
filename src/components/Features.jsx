@@ -1,14 +1,26 @@
+//@@viewOn:imports
 import React from "react";
 import "./Features.css";
+import { PAGE_TEXT } from "../constants/pages";
+//@@viewOff:imports
 
-export default function Features() {
+function Features() {
+  //@@viewOn:render
   return (
     <div className="features-page">
-      <div className="features-title">Features</div>
+      <div className="features-title">{PAGE_TEXT.FEATURES.TITLE}</div>
       <div className="features-desc">
-        Exciting features are coming soon to CryptoHub!<br />
-        Stay tuned for updates—we'll announce new tools and improvements here.
+          <>
+            {PAGE_TEXT.FEATURES.LINE1}
+            <br />
+            {PAGE_TEXT.FEATURES.LINE2}
+          </>
       </div>
     </div>
   );
+  //@@viewOff:render
 }
+
+//@@viewOn:exports
+export default Features;
+//@@viewOff:exports
