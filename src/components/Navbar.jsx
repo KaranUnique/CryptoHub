@@ -55,6 +55,11 @@ function Navbar() {
             gap: "10px",
           }}
         >
+          <img 
+     src="/crypto-logo.png" 
+     alt="CryptoHub Logo" 
+     className="navbar-logo"
+   />
           <span className="logo-text">CryptoHub</span>
         </Link>
       </div>

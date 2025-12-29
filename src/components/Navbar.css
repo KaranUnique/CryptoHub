@@ -13,6 +13,21 @@
     z-index: 100;
 }
 
+.navbar-logo {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(121, 39, 255, 0.5);
+    box-shadow: 0 2px 8px rgba(121, 39, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(121, 39, 255, 0.5);
+}
+
 .logo-text {
     font-size: 2.2rem;
     font-weight: 800;
