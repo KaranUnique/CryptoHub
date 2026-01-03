@@ -1,3 +1,12 @@
+.pricing-features li.feature-available {
+  color: #4ade80;
+}
+
+.pricing-features li.feature-unavailable {
+  color: #f87171;
+  opacity: 0.6;
+  text-decoration: line-through;
+}
 .pricing-page {
   min-height: 100vh;
   background: #18122b;

@@ -1,44 +1,51 @@
 import "./Pricing.css";
 
 export default function Pricing() {
-  const plans = [
-    {
-      name: "Free",
-      price: "₹0",
-      description: "Get started with essential crypto tools.",
-      features: [
-        "Track top 50 cryptocurrencies",
-        "Real-time price updates",
-        "Basic charts & analytics",
-        "Coin detail pages",
-        "Responsive dashboard",
-      ],
-    },
-    {
-      name: "Pro",
-      price: "₹399/month",
-      description: "Unlock advanced features for serious traders.",
-      features: [
-        "Track up to 500 coins",
-        "Advanced charting tools",
-        "Portfolio tracking",
-        "Price alerts & notifications",
-        "Ad-free experience",
-      ],
-    },
-    {
-      name: "Premium",
-      price: "₹999/month",
-      description: "All-access pass for power users and professionals.",
-      features: [
-        "Unlimited coins & watchlists",
-        "Customizable analytics",
-        "Export data to CSV/Excel",
-        "Early access to new features",
-        "1-on-1 onboarding & support",
-      ],
-    },
-  ];
+      const plans = [
+  {
+    name: "Free",
+    price: "₹0",
+    description: "Get started with essential crypto tools.",
+    features: [
+      { label: "Track top 50 cryptocurrencies", available: true },
+      { label: "Real-time price updates", available: true },
+      { label: "Basic charts & analytics", available: true },
+      { label: "Coin detail pages", available: true },
+      { label: "Responsive dashboard", available: true },
+      { label: "Portfolio tracking", available: false },
+      { label: "Price alerts & notifications", available: false },
+      { label: "Ad-free experience", available: false },
+      { label: "Advanced charting tools", available: false },
+    ],
+  },
+  {
+    name: "Pro",
+    price: "₹399/month",
+    description: "Unlock advanced features for serious traders.",
+    features: [
+      { label: "Track up to 500 coins", available: true },
+      { label: "Advanced charting tools", available: true },
+      { label: "Portfolio tracking", available: true },
+      { label: "Price alerts & notifications", available: true },
+      { label: "Ad-free experience", available: true },
+      { label: "Unlimited coins & watchlists", available: false },
+      { label: "Export data to CSV/Excel", available: false },
+      { label: "1-on-1 onboarding & support", available: false },
+    ],
+  },
+  {
+    name: "Premium",
+    price: "₹999/month",
+    description: "All-access pass for power users and professionals.",
+    features: [
+      { label: "Unlimited coins & watchlists", available: true },
+      { label: "Customizable analytics", available: true },
+      { label: "Export data to CSV/Excel", available: true },
+      { label: "Early access to new features", available: true },
+      { label: "1-on-1 onboarding & support", available: true },
+    ],
+  },
+];
 
   return (
     <div className="pricing-page">
@@ -52,8 +59,14 @@ export default function Pricing() {
             <div className="desc">{plan.description}</div>
             <ul className="pricing-features">
               {plan.features.map((feature, i) => (
-                <li key={i}>✔ {feature}</li>
-              ))}
+  <li
+    key={i}
+    className={feature.available ? "feature-available" : "feature-unavailable"}
+  >
+    {feature.available ? "✔" : "✖"} {feature.label}
+  </li>
+))}
+
             </ul>
             <button class="pricing-button">
               {plan.name === "Free" ? "Start for Free" : "Get Started"}
