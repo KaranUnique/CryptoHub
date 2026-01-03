@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.11.0",
     "aos": "^2.3.4",
     "chart.js": "^4.5.1",
     "firebase": "^12.7.0",

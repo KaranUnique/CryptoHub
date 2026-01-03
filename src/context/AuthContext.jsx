@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
-import { auth, db, googleProvider } from "../firebase";
+import { auth, db, googleProvider, isFirebaseConfigured } from "../firebase";
 
 const AuthContext = createContext({});
 
@@ -18,6 +18,9 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     const signup = useCallback(async (email, password, fullName) => {
+        if (!isFirebaseConfigured() || !auth) {
+            throw new Error('Firebase is not configured. Please add Firebase credentials to use authentication.');
+        }
         const userCredential = await createUserWithEmailAndPassword(
             auth, email, password
         );
@@ -45,6 +48,9 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = useCallback(async (email, password) => {
+        if (!isFirebaseConfigured() || !auth) {
+            throw new Error('Firebase is not configured. Please add Firebase credentials to use authentication.');
+        }
         await setPersistence(auth, browserSessionPersistence);
         const userCredential = await signInWithEmailAndPassword(
             auth,
@@ -55,6 +61,9 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const loginWithGoogle = useCallback(async () => {
+        if (!isFirebaseConfigured() || !auth || !googleProvider) {
+            throw new Error('Firebase is not configured. Please add Firebase credentials to use authentication.');
+        }
         await setPersistence(auth, browserSessionPersistence);
         const userCredential = await signInWithPopup(auth, googleProvider);
         const user = userCredential.user;
@@ -86,10 +95,18 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const logout = useCallback(async () => {
+        if (!isFirebaseConfigured() || !auth) {
+            return;
+        }
         await signOut(auth);
     }, []);
 
     useEffect(() => {
+        if (!isFirebaseConfigured() || !auth) {
+            setLoading(false);
+            return;
+        }
+        
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 try {

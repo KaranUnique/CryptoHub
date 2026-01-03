@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { collection, query, orderBy, limit, onSnapshot, doc, setDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, isFirebaseConfigured } from "../firebase";
 import { useAuth } from "./AuthContext";
 
 const LeaderboardContext = createContext({});
@@ -21,6 +21,11 @@ export const LeaderboardProvider = ({ children }) => {
 
     // Fetch leaderboard data
     useEffect(() => {
+        if (!isFirebaseConfigured() || !db) {
+            setLoading(false);
+            return;
+        }
+        
         const q = query(
             collection(db, "leaderboard"),
             orderBy("score", "desc"),
@@ -50,6 +55,9 @@ export const LeaderboardProvider = ({ children }) => {
 
     // Initialize user leaderboard entry
     const initializeUserLeaderboard = useCallback(async (uid, displayName, photoURL) => {
+        if (!isFirebaseConfigured() || !db) {
+            return;
+        }
         try {
             const leaderboardRef = doc(db, "leaderboard", uid);
             const leaderboardDoc = await getDoc(leaderboardRef);
@@ -71,7 +79,7 @@ export const LeaderboardProvider = ({ children }) => {
 
     // Update user score
     const updateUserScore = useCallback(async (uid, points) => {
-        if (!uid) return;
+        if (!uid || !isFirebaseConfigured() || !db) return;
 
         try {
             const leaderboardRef = doc(db, "leaderboard", uid);
