@@ -2,239 +2,442 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 7vw 18px 2vw;
-  color: #ddd;
-  border-bottom: 2px solid #3c3c3c;
-  background: rgba(30, 30, 60, 0.85);
-  box-shadow: 0 4px 24px 0 rgba(121, 39, 255, 0.07);
-  backdrop-filter: blur(8px);
+  padding: 16px 5vw;
+  color: #e0e0e0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(18, 18, 28, 0.95);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
+  height: 80px;
+  transition: all 0.3s ease;
 }
 
+/* Logo Styling */
 .navbar-logo {
-  height: 45px;
-  width: 45px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(121, 39, 255, 0.5);
-  box-shadow: 0 2px 8px rgba(121, 39, 255, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.navbar-logo:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(121, 39, 255, 0.5);
+  border: 2px solid rgba(121, 39, 255, 0.3);
+  transition: transform 0.3s ease;
 }
 
 .logo-text {
-  font-size: 2.2rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: opacity 0.2s;
+  margin-left: -5px;
+  /* Adjusting for gap in flex container */
 }
 
 .logo-text:hover {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
-.navbar ul {
+/* Desktop Navigation */
+.nav-links.desktop-only {
   display: flex;
-  gap: 36px;
+  gap: 32px;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.navbar li {
-  cursor: pointer;
-  font-size: 1.08rem;
-  font-weight: 500;
-  color: #e0e0e0;
-  padding: 6px 14px;
-  border-radius: 8px;
-  transition: background 0.18s, color 0.18s;
-}
-
-.navbar li:hover {
-  background: rgba(121, 39, 255, 0.13);
-  color: #fff;
-}
-
-.nav-right {
+.nav-item {
   display: flex;
   align-items: center;
-  gap: max(1vw, 16px);
-}
-
-.navbar select {
-  padding: 6px 12px;
   border-radius: 8px;
-  border: 2px solid #7927ff;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
-  outline: none;
-  transition: border 0.2s;
+  transition: all 0.2s ease;
 }
 
-.navbar select:focus {
-  border: 2px solid #2193b0;
-}
-
-.navbar option {
-  background-color: #09005c;
-  color: #fff;
-}
-
-.cryptohub-logo {
-  width: 38px;
-  height: 38px;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 2px;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px #7927ff33;
-  background: #fff2;
-}
-
-@media (max-width: 900px) {
-  .navbar {
-    padding: 18px 3vw;
-  }
-
-  .logo-text {
-    font-size: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .navbar {
-    padding: 16px 2vw;
-  }
-
-  .navbar ul {
-    display: none;
-  }
-
-  .logo-text {
-    font-size: 1.1rem;
-  }
-}
-
-.theme-toggle {
-  cursor: pointer;
-  padding: 10px;
-}
-
-.toggle-track {
-  width: 50px;
-  height: 26px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  position: relative;
-  transition: background 0.3s;
-  border: 2px solid #7927ff;
-}
-
-.toggle-track.light {
-  background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
-}
-
-.toggle-thumb {
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border-radius: 50%;
-  position: absolute;
-  top: 1px;
-  left: 2px;
-  transition: transform 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.toggle-track.light .toggle-thumb {
-  transform: translateX(24px);
-}
-
-@media (max-width: 768px) {
-  .theme-toggle {
-    display: none;
-  }
-}
-
-.login-btn {
-  padding: 10px 28px;
-  border-radius: 22px;
-  font-size: 1.08rem;
-  font-weight: 600;
-  color: #fff;
-  background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 2px 8px #7927ff33;
-  transition: background 0.18s, transform 0.18s;
-}
-
-.login-btn:hover {
-  background: linear-gradient(90deg, #2193b0 0%, #7927ff 100%);
-  transform: translateY(-2px) scale(1.04);
-}
-
-.user-info {
+.nav-link {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  background: rgba(121, 39, 255, 0.1);
-  border-radius: 20px;
-  border: 1px solid rgba(121, 39, 255, 0.3);
-}
-
-.user-email {
-  color: #e0e0e0;
+  text-decoration: none;
+  color: #cbd5e1;
+  padding: 8px 12px;
   font-size: 0.95rem;
   font-weight: 500;
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  width: 100%;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item:hover .nav-link,
+.nav-item.active .nav-link {
+  color: #fff;
+}
+
+.nav-item.active .nav-link {
+  color: #a78bfa;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+/* Nav Right Section */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Currency Select */
+.currency-select {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+
+.currency-select:hover {
+  border-color: rgba(167, 139, 250, 0.5);
+}
+
+.currency-select option {
+  background-color: #1e1e2e;
+  color: #fff;
+}
+
+/* Auth Buttons */
+.desktop-auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-btn,
+.signup-btn,
+.logout-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-btn {
+  background: transparent;
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-btn:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.signup-btn {
+  background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+  /* Slightly toned down purple-blue */
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.2);
+}
+
+.signup-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 .logout-btn {
-  padding: 10px 24px;
-  border-radius: 22px;
-  font-size: 1.08rem;
-  font-weight: 600;
-  color: #fff;
-  background: linear-gradient(90deg, #ff4646 0%, #ff6b6b 100%);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(255, 70, 70, 0.3);
-  transition: all 0.18s;
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .logout-btn:hover {
-  background: linear-gradient(90deg, #ff6b6b 0%, #ff4646 100%);
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 4px 12px rgba(255, 70, 70, 0.4);
+  background: rgba(239, 68, 68, 0.2);
 }
 
+/* Theme Toggle */
+.theme-toggle {
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-track {
+  width: 44px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  position: relative;
+  transition: background 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.toggle-track.light {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.toggle-thumb {
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-track.light .toggle-thumb {
+  transform: translateX(20px);
+}
+
+/* Mobile Toggle */
+.mobile-toggle {
+  display: none;
+  /* Hidden by default on desktop */
+  cursor: pointer;
+  color: #e0e0e0;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.mobile-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: absolute;
+  top: 80px;
+  /* Navbar height */
+  left: 0;
+  width: 100%;
+  background: rgba(18, 18, 28, 0.98);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-menu.open {
+  max-height: 500px;
+  opacity: 1;
+  padding: 20px 0;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.mobile-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.mobile-nav-item:hover,
+.mobile-nav-item.active {
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
+  border-left-color: #a78bfa;
+}
+
+.mobile-nav-icon {
+  font-size: 1.25rem;
+  color: #8b5cf6;
+}
+
+.mobile-auth {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 10px;
+}
+
+.mobile-auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Responsive Breakpoints */
 @media (max-width: 900px) {
-  .user-email {
-    max-width: 120px;
+  .navbar {
+    padding: 16px 4vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links.desktop-only {
+    display: none;
   }
 
-  .logout-btn {
-    padding: 8px 16px;
-    font-size: 0.98rem;
+  .desktop-auth {
+    display: none;
   }
+
+  .mobile-toggle {
+    display: block;
+  }
+
+  .navbar {
+    padding: 16px 20px;
+  }
+}
+
+/* Light Mode - Base Changes */
+body[data-theme='light'] .navbar {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  color: #1e1e2e;
+}
+
+body[data-theme='light'] .navbar-logo {
+  border-color: rgba(121, 39, 255, 0.2);
+}
+
+body[data-theme='light'] .logo-text {
+  background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Light Mode Navigation Items */
+body[data-theme='light'] .nav-link,
+body[data-theme='light'] .mobile-nav-item {
+  color: #475569;
+}
+
+body[data-theme='light'] .nav-item:hover,
+body[data-theme='light'] .nav-item.active {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+body[data-theme='light'] .nav-item:hover .nav-link,
+body[data-theme='light'] .nav-item.active .nav-link,
+body[data-theme='light'] .mobile-nav-item:hover,
+body[data-theme='light'] .mobile-nav-item.active {
+  color: #1e1e2e;
+}
+
+body[data-theme='light'] .nav-item.active .nav-link,
+body[data-theme='light'] .mobile-nav-item.active {
+  color: #7c3aed;
+}
+
+/* Light Mode Buttons & Inputs */
+body[data-theme='light'] .currency-select {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1e1e2e;
+}
+
+body[data-theme='light'] .currency-select:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+body[data-theme='light'] .currency-select option {
+  background-color: #ffffff;
+  color: #1e1e2e;
+}
+
+body[data-theme='light'] .login-btn {
+  color: #475569;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+body[data-theme='light'] .login-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #1e1e2e;
+  color: #1e1e2e;
+}
+
+body[data-theme='light'] .signup-btn {
+  /* Using same gradient but ensure text is white (already set) */
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+body[data-theme='light'] .logout-btn {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+body[data-theme='light'] .logout-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+/* Light Mode Mobile Menu */
+body[data-theme='light'] .mobile-toggle {
+  color: #1e1e2e;
+}
+
+body[data-theme='light'] .mobile-toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body[data-theme='light'] .mobile-menu {
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+body[data-theme='light'] .mobile-auth {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Ensure Theme Toggle is visible in light mode */
+body[data-theme='light'] .toggle-track {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+body[data-theme='light'] .toggle-track.light {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+body[data-theme='light'] .toggle-thumb {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
