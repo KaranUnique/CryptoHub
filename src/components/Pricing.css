@@ -37,7 +37,7 @@
 .pricing-card {
   background: linear-gradient(120deg, #7927ff22 0%, #2193b022 100%);
   border-radius: 18px;
-  box-shadow: 0 4px 24px 0 rgba(33,147,176,0.10);
+  box-shadow: 0 4px 24px 0 rgba(33, 147, 176, 0.1);
   padding: 32px 28px 28px 28px;
   min-width: 260px;
   max-width: 320px;

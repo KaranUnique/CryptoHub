@@ -54,12 +54,6 @@ function Navbar() {
     { to: "/features", label: "Features" },
   ];
 
-  const authenticatedNavLinks = [
-    ...navLinks,
-    { to: "/dashboard", label: "Dashboard" },
-    { to: "/leaderboard", label: "Leaderboard" },
-  ];
-
   return (
     <div className="navbar">
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -83,11 +77,16 @@ function Navbar() {
 
       {!isDashboardPage && (
         <ul>
-          {(currentUser ? authenticatedNavLinks : navLinks).map((link) => (
+          {navLinks.map((link) => (
             <Link key={link.to} to={link.to}>
               <li>{link.label}</li>
             </Link>
           ))}
+          {currentUser && (
+            <Link to="/dashboard">
+              <li>Dashboard</li>
+            </Link>
+          )}
         </ul>
       )}
 

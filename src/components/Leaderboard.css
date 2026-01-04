@@ -1,301 +1,317 @@
 .leaderboard-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .leaderboard-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 400px;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
 }
 
 .spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid rgba(121, 39, 255, 0.1);
-    border-top-color: #7927ff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(121, 39, 255, 0.1);
+  border-top-color: #7927ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .leaderboard-header {
-    text-align: center;
-    margin-bottom: 32px;
+  text-align: center;
+  margin-bottom: 32px;
 }
 
 .leaderboard-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 8px;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
 }
 
 .leaderboard-subtitle {
-    color: #b8b8b8;
-    font-size: 1rem;
-    margin-bottom: 16px;
+  color: #b8b8b8;
+  font-size: 1rem;
+  margin-bottom: 16px;
 }
 
 .user-rank-badge {
-    display: inline-block;
-    padding: 8px 20px;
-    background: linear-gradient(135deg, #7927ff 0%, #2193b0 100%);
-    border-radius: 20px;
-    color: white;
-    font-weight: 600;
-    font-size: 0.9rem;
+  display: inline-block;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #7927ff 0%, #2193b0 100%);
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .leaderboard-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
 }
 
 .leaderboard-item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: rgba(30, 30, 60, 0.6);
-    backdrop-filter: blur(8px);
-    border-radius: 12px;
-    border: 1px solid rgba(121, 39, 255, 0.1);
-    transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(30, 30, 60, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  border: 1px solid rgba(121, 39, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
 .leaderboard-item:hover {
-    transform: translateY(-2px);
-    border-color: rgba(121, 39, 255, 0.3);
-    box-shadow: 0 4px 12px rgba(121, 39, 255, 0.2);
+  transform: translateY(-2px);
+  border-color: rgba(121, 39, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(121, 39, 255, 0.2);
 }
 
 .leaderboard-item.current-user {
-    background: linear-gradient(135deg, rgba(121, 39, 255, 0.2) 0%, rgba(33, 147, 176, 0.2) 100%);
-    border-color: rgba(121, 39, 255, 0.5);
+  background: linear-gradient(
+    135deg,
+    rgba(121, 39, 255, 0.2) 0%,
+    rgba(33, 147, 176, 0.2) 100%
+  );
+  border-color: rgba(121, 39, 255, 0.5);
 }
 
 .leaderboard-item.rank-1 {
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
-    border-color: rgba(255, 215, 0, 0.4);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.1) 0%,
+    rgba(255, 193, 7, 0.1) 100%
+  );
+  border-color: rgba(255, 215, 0, 0.4);
 }
 
 .leaderboard-item.rank-2 {
-    background: linear-gradient(135deg, rgba(192, 192, 192, 0.1) 0%, rgba(169, 169, 169, 0.1) 100%);
-    border-color: rgba(192, 192, 192, 0.4);
+  background: linear-gradient(
+    135deg,
+    rgba(192, 192, 192, 0.1) 0%,
+    rgba(169, 169, 169, 0.1) 100%
+  );
+  border-color: rgba(192, 192, 192, 0.4);
 }
 
 .leaderboard-item.rank-3 {
-    background: linear-gradient(135deg, rgba(205, 127, 50, 0.1) 0%, rgba(184, 115, 51, 0.1) 100%);
-    border-color: rgba(205, 127, 50, 0.4);
+  background: linear-gradient(
+    135deg,
+    rgba(205, 127, 50, 0.1) 0%,
+    rgba(184, 115, 51, 0.1) 100%
+  );
+  border-color: rgba(205, 127, 50, 0.4);
 }
 
 .rank-badge {
-    font-size: 1.5rem;
-    font-weight: 800;
-    min-width: 50px;
-    text-align: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  min-width: 50px;
+  text-align: center;
 }
 
 .user-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
 }
 
 .user-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(121, 39, 255, 0.3);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(121, 39, 255, 0.3);
 }
 
 .user-avatar-placeholder {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #7927ff 0%, #2193b0 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: white;
-    border: 2px solid rgba(121, 39, 255, 0.3);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7927ff 0%, #2193b0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  border: 2px solid rgba(121, 39, 255, 0.3);
 }
 
 .user-details {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .user-name {
-    font-weight: 600;
-    font-size: 1rem;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .you-badge {
-    background: rgba(121, 39, 255, 0.3);
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 500;
+  background: rgba(121, 39, 255, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .user-activities {
-    font-size: 0.85rem;
-    color: #b8b8b8;
+  font-size: 0.85rem;
+  color: #b8b8b8;
 }
 
 .score-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
 }
 
 .score-value {
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .score-label {
-    font-size: 0.75rem;
-    color: #b8b8b8;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  color: #b8b8b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .no-data {
-    text-align: center;
-    padding: 60px 20px;
-    color: #b8b8b8;
+  text-align: center;
+  padding: 60px 20px;
+  color: #b8b8b8;
 }
 
 .leaderboard-footer {
-    margin-top: 40px;
-    padding: 24px;
-    background: rgba(30, 30, 60, 0.4);
-    border-radius: 12px;
-    border: 1px solid rgba(121, 39, 255, 0.1);
+  margin-top: 40px;
+  padding: 24px;
+  background: rgba(30, 30, 60, 0.4);
+  border-radius: 12px;
+  border: 1px solid rgba(121, 39, 255, 0.1);
 }
 
 .points-guide h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 16px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 16px;
 }
 
 .points-guide ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
 }
 
 .points-guide li {
-    color: #b8b8b8;
-    font-size: 0.95rem;
-    padding: 8px 12px;
-    background: rgba(121, 39, 255, 0.05);
-    border-radius: 6px;
-    border-left: 3px solid #7927ff;
+  color: #b8b8b8;
+  font-size: 0.95rem;
+  padding: 8px 12px;
+  background: rgba(121, 39, 255, 0.05);
+  border-radius: 6px;
+  border-left: 3px solid #7927ff;
 }
 
 .points-guide li strong {
-    color: #7927ff;
-    font-weight: 700;
+  color: #7927ff;
+  font-weight: 700;
 }
 
 /* Light Theme */
 body[data-theme="light"] .leaderboard-item {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(121, 39, 255, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(121, 39, 255, 0.2);
 }
 
 body[data-theme="light"] .leaderboard-item:hover {
-    border-color: rgba(121, 39, 255, 0.4);
+  border-color: rgba(121, 39, 255, 0.4);
 }
 
 body[data-theme="light"] .user-name {
-    color: #2d3748;
+  color: #2d3748;
 }
 
 body[data-theme="light"] .user-activities {
-    color: #718096;
+  color: #718096;
 }
 
 body[data-theme="light"] .no-data {
-    color: #718096;
+  color: #718096;
 }
 
 body[data-theme="light"] .leaderboard-footer {
-    background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 body[data-theme="light"] .points-guide h3 {
-    color: #2d3748;
+  color: #2d3748;
 }
 
 body[data-theme="light"] .points-guide li {
-    color: #4a5568;
-    background: rgba(121, 39, 255, 0.05);
+  color: #4a5568;
+  background: rgba(121, 39, 255, 0.05);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .leaderboard-container {
-        padding: 16px;
-    }
+  .leaderboard-container {
+    padding: 16px;
+  }
 
-    .leaderboard-title {
-        font-size: 2rem;
-    }
+  .leaderboard-title {
+    font-size: 2rem;
+  }
 
-    .leaderboard-item {
-        padding: 12px;
-    }
+  .leaderboard-item {
+    padding: 12px;
+  }
 
-    .user-avatar,
-    .user-avatar-placeholder {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
+  .user-avatar,
+  .user-avatar-placeholder {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
 
-    .rank-badge {
-        font-size: 1.25rem;
-        min-width: 40px;
-    }
+  .rank-badge {
+    font-size: 1.25rem;
+    min-width: 40px;
+  }
 
-    .score-value {
-        font-size: 1.25rem;
-    }
+  .score-value {
+    font-size: 1.25rem;
+  }
 }

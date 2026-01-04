@@ -88,7 +88,7 @@ const Home = () => {
 
           {showFilters && (
             <div className="filter-panel right">
-              
+
 
               <div className="filter-group">
                 <label>Min Price</label>

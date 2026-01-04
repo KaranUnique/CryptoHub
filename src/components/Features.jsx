@@ -49,7 +49,7 @@ const Features = () => {
 
   const chartData = {
     labels: prices.map((price) =>
-      days === 1 
+      days === 1
         ? new Date(price[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         : new Date(price[0]).toLocaleDateString()
     ),
@@ -84,8 +84,8 @@ const Features = () => {
         <div className="features-controls">
           {/* Coin Selector */}
           <div className="select-wrapper">
-            <select 
-              value={selectedCoin} 
+            <select
+              value={selectedCoin}
               onChange={(e) => setSelectedCoin(e.target.value)}
             >
               {topCoins.map((coin) => (
@@ -123,7 +123,7 @@ const Features = () => {
           </div>
         ) : (
           <div className="chart-wrapper">
-            <Line 
+            <Line
               data={chartData}
               options={{
                 responsive: true,
@@ -157,7 +157,7 @@ const Features = () => {
         <h3 className="top-coins-title">Top 5 Coins</h3>
         <div className="coins-grid">
           {topCoins.map((coin) => (
-            <div 
+            <div
               key={coin.id}
               className={`coin-item ${selectedCoin === coin.id ? 'active' : ''}`}
               onClick={() => setSelectedCoin(coin.id)}
@@ -178,5 +178,3 @@ const Features = () => {
 };
 
 export default Features;
-
-

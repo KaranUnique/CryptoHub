@@ -16,9 +16,18 @@ import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 const App = () => {
   const location = useLocation();
   const isDashboard = location.pathname === "/dashboard";
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+    });
+  }, []);
 
   return (
     <ThemeProvider>
