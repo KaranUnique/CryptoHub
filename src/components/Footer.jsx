@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import { FaFacebook, FaTwitter, FaInstagram, FaGithub } from 'react-icons/fa';
 
 const Footer = () => {
+
+  const currentYear = new Date().getFullYear(); // dynamically fetch current year
+  
   return (
     <footer className="footer-container">
       <div className="footer-content">
@@ -48,7 +51,9 @@ const Footer = () => {
 
         {/* Copyright Line */}
         <div className="footer-bottom">
-          <p>Copyright © 2025, CryptoHub - All Rights Reserved.</p>
+          <p>
+            Copyright © {currentYear}, CryptoHub - All Rights Reserved.
+          </p>
         </div>
         
       </div>

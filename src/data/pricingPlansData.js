@@ -1,88 +1,76 @@
+// SAMPLE DATA - REQUIRED FOR WORKING CODE
 export const plans = [
   {
-    name: "Free",
-    price: "₹0",
-    yearlyPrice: "₹0",
-    description: "Perfect for getting started with crypto tracking",
+    name: "Explorer",
+    price: "$0",
+    period: "/month",
+    description: "Perfect for beginners",
+    highlight: false,
     features: [
-      "Track top 50 cryptocurrencies",
-      "Real-time price updates",
-      "Basic charts & analytics",
-      "Coin detail pages",
-      "Responsive dashboard",
-    ],
-    limitations: [
-      "Portfolio tracking",
-      "Price alerts & notifications",
-      "Ad-free experience",
-      "Advanced charting tools",
-    ],
+      { label: "Basic Market Data", available: true },
+      { label: "5 Signals/Day", available: true },
+      { label: "Email Alerts", available: true },
+      { label: "Mobile App", available: true },
+      { label: "Real-time Charts", available: false },
+      { label: "Priority Support", available: false },
+    ]
+  },
+  {
+    name: "Trader",
+    price: "$29",
+    period: "",
+    description: "For active traders",
+    highlight: true,
+    features: [
+      { label: "Basic Market Data", available: true },
+      { label: "Unlimited Signals", available: true },
+      { label: "SMS + Email Alerts", available: true },
+      { label: "Mobile App Pro", available: true },
+      { label: "Real-time Charts", available: true },
+      { label: "24/7 Priority Support", available: true },
+    ]
   },
   {
     name: "Pro",
-    price: "₹399",
-    yearlyPrice: "₹3,990",
-    description: "Advanced tools for serious crypto traders",
-    popular: true,
+    price: "$99",
+    period: "",
+    description: "Enterprise features",
+    highlight: false,
     features: [
-      "Track up to 500 coins",
-      "Advanced charting tools",
-      "Portfolio tracking with analytics",
-      "Real-time price alerts",
-      "Ad-free experience",
-      "Priority customer support",
-      "Market insights & reports",
-    ],
-    limitations: [
-      "Unlimited coins & watchlists",
-      "Export data to CSV/Excel",
-      "Early access to new features",
-    ],
-  },
-  {
-    name: "Premium",
-    price: "₹999",
-    yearlyPrice: "₹9,990",
-    description: "Everything you need for professional trading",
-    features: [
-      "Unlimited coins & watchlists",
-      "Advanced portfolio analytics",
-      "Export data to CSV/Excel",
-      "Early access to new features",
-      "Dedicated account manager",
-      "Custom alerts & automations",
-      "Tax reporting assistance",
-    ],
-    limitations: [],
-  },
+      { label: "Everything in Trader", available: true },
+      { label: "Advanced Analytics", available: true },
+      { label: "API Access", available: true },
+      { label: "Custom Alerts", available: true },
+      { label: "Dedicated Manager", available: true },
+      { label: "White-label App", available: true },
+    ]
+  }
 ];
 
 export const comparisonFeatures = [
-  { feature: "Tracked Cryptocurrencies", values: ["50", "500", "Unlimited"] },
-  { feature: "Real-time Updates", values: [true, true, true] },
-  { feature: "Portfolio Tracking", values: [false, true, true] },
-  { feature: "Price Alerts", values: [false, true, true] },
-  { feature: "Advanced Charts", values: [false, true, true] },
-  { feature: "Data Export", values: [false, false, true] },
-  { feature: "API Access", values: [false, false, true] },
-  { feature: "Priority Support", values: [false, true, true] },
+  { name: "Market Data" },
+  { name: "Signals" },
+  { name: "Alerts" },
+  { name: "Charts" },
+  { name: "Support" },
+  { name: "API Access" }
 ];
 
 export const faqs = [
   {
-    q: "Can I change plans later?",
-    a: "Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately.",
+    question: "What payment methods do you accept?",
+    answer: "We accept all major credit cards, PayPal, Apple Pay, Google Pay, and cryptocurrency payments through our secure gateway."
   },
   {
-    q: "Is there a free trial?",
-    a: "All paid plans come with a 14-day free trial. No credit card required to start.",
+    question: "Can I cancel anytime?",
+    answer: "Yes! Cancel anytime with no questions asked. Your subscription will continue until the end of the billing period."
   },
   {
-    q: "What payment methods do you accept?",
-    a: "We accept all major credit cards, debit cards, UPI, and net banking.",
+    question: "Is there a free trial?",
+    answer: "The Explorer plan is completely free forever. All paid plans come with a 14-day money-back guarantee."
   },
   {
-    q: "Can I cancel anytime?",
-    a: "Absolutely. Cancel your subscription anytime with no questions asked.",
-  },
+    question: "How secure is my data?",
+    answer: "We use enterprise-grade encryption (AES-256) and comply with GDPR, SOC 2 Type II standards. Your data is safe."
+  }
 ];

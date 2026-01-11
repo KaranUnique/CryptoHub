@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth} from "../context/AuthContext";
 import "./Login.css";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { notifyError, notifySuccess } from "../utils/notify";
 
 function Login() {
   const navigate = useNavigate();
@@ -64,8 +65,8 @@ function Login() {
 
       try {
         await login(formData.email, formData.password);
-
-        navigate("/dashboard");
+        notifySuccess("Logged in successfully");
+        setTimeout(() => navigate("/dashboard"), 1500);
       } catch (error) {
         console.error("Login error:", error);
 
@@ -83,7 +84,7 @@ function Login() {
           errorMessage = "Network error. Please check your connection";
         }
 
-        setErrors({ general: errorMessage });
+        notifyError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -96,7 +97,8 @@ function Login() {
 
     try {
       await loginWithGoogle();
-      navigate("/dashboard");
+      notifySuccess("Logged in successfully with Google");
+     setTimeout(() => navigate("/dashboard"), 1500);
     } catch (error) {
       console.error("Google login error:", error);
       let errorMessage = "Failed to login with Google. Please try again.";
@@ -107,7 +109,7 @@ function Login() {
         errorMessage = "Network error. Please check your connection";
       }
 
-      setErrors({ general: errorMessage });
+      notifyError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -130,15 +132,6 @@ function Login() {
           <p className="auth-subtitle">
             Access your <span className="text-gradient-cyan">CryptoHub</span> Dashboard
           </p>
-          {errors.general && (
-            <motion.div
-              className="general-error"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-            >
-              {errors.general}
-            </motion.div>
-          )}
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>

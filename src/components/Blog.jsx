@@ -33,7 +33,7 @@ export default function Blog() {
         {blogPosts.map((post, idx) => (
           <motion.div
             key={idx}
-            className="blog-card glass-panel"
+            className="blog-card glass-panel p-4"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: idx * 0.1 }}
@@ -49,7 +49,7 @@ export default function Blog() {
             <h3 className="blog-title-card">{post.title}</h3>
             <p className="blog-excerpt">{post.excerpt}</p>
 
-            <div className="read-more">
+            <div className="read-more cursor-pointer">
               Read Article <span className="arrow">→</span>
             </div>
           </motion.div>

@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import "./ChangePassword.css";
+import { notifyError, notifySuccess } from "../utils/notify";
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -18,7 +19,6 @@ const ChangePassword = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   // auth functions
   const { ChangePassword, isEmailProvider } = useAuth();
@@ -80,7 +80,7 @@ const ChangePassword = () => {
 
     // clear previous messages
     setError("");
-    setSuccess("");
+    
 
     // validate form before API Call
     if (!validateForm()) {
@@ -90,25 +90,32 @@ const ChangePassword = () => {
     setLoading(true);
     try {
       await ChangePassword(currentPassword, newPassword);
-      setSuccess("Password changed successfully.");
+      notifySuccess("Password changed successfully.");
+      setTimeout(() => navigate("/dashboard"), 1500);
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
     } catch (err) {
-      setError("Failed to change password. ", err);
+      console.error("Failed to change password. ", err);
+      let message="failed to change password .please try again.";
 
       // Handle specific Firebase errors
       if (err.code === "auth/wrong-password") {
-        setError("Current password is incorrect.");
+        message="Current password is incorrect.";
       } else if (err.code === "auth/weak-password") {
-        setError("New password is too weak. Please use a stronger password.");
+        message="New password is too weak. Please use a stronger password.";
       } else if (err.code === "auth/requires-recent-login") {
-        setError("Session expired. Please log out and log in again.");
+        message="Session expired. Please log out and log in again.";
       } else if (err.code === "auth/too-many-requests") {
-        setError("Too many attempts. Please try again later.");
-      } else {
-        setError(err.message || "Failed to change password. Please try again.");
+        message="Too many attempts. Please try again later.";
+      } 
+      else if (err.code ==="auth/invalid-credential"){
+        message="Invalid credentials provided.";
       }
+      else {
+        message=err.message || "Failed to change password. Please try again.";
+      }
+      notifyError(message);
     } finally {
       setLoading(false);
     }
@@ -120,8 +127,6 @@ const ChangePassword = () => {
         <h2>Change Password</h2>
         <p className="subtitle">Update your account password</p>
 
-        {/* Success Message */}
-        {success && <div className="success-message">{success}</div>}
 
         {/* Error Message */}
         {error && <div className="error-message">{error}</div>}

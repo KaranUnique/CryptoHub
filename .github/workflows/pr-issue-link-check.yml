@@ -1,0 +1,53 @@
+name: PR issue link checker
+
+on:
+  pull_request_target:
+    types: [opened, reopened, edited, synchronize]
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  check-issue-link:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR for linked issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issue_number = pr.number;
+            const author = pr.user.login;
+
+            // Skip draft PRs
+            if (pr.draft) {
+              core.info("Draft PR detected. Skipping.");
+              return;
+            }
+
+            const body = pr.body || "";
+            const issueRegex = /(fixes|closes|resolves)\s+#\d+/i;
+
+            if (issueRegex.test(body)) {
+              core.info("Issue is properly linked.");
+              return;
+            }
+
+            // Post reminder comment
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number,
+              body: `👋 Hi @${author},
+              This pull request does not seem to be linked to an issue.
+
+              Please link an issue using one of the following formats:
+              - Fixes #123
+              - Closes #123
+              - Resolves #123
+
+              Linking issues helps us track work and close issues automatically. Thanks! 🙌`});

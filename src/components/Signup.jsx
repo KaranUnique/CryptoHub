@@ -5,6 +5,7 @@ import "./Signup.css";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { notifyError, notifySuccess } from "../utils/notify";
 
 function Signup() {
   const navigate = useNavigate();
@@ -84,7 +85,8 @@ function Signup() {
 
       try {
         await signup(formData.email, formData.password, formData.fullName);
-        navigate("/dashboard");
+          notifySuccess("Signed up successfully");
+       setTimeout(() => navigate("/dashboard"), 1500);
       } catch (error) {
         console.error("Signup error:", error);
 
@@ -101,7 +103,7 @@ function Signup() {
           errorMessage = "Network error. Please check your connection.";
         }
 
-        setErrors({ general: errorMessage });
+        notifyError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -114,7 +116,8 @@ function Signup() {
 
     try {
       await loginWithGoogle();
-      navigate("/dashboard");
+        notifySuccess("Signed up successfully with Google");
+     setTimeout(() => navigate("/dashboard"), 1500);
     } catch (error) {
       console.error("Google signup error:", error);
       let errorMessage = "Failed to sign up with Google. Please try again.";
@@ -125,7 +128,7 @@ function Signup() {
         errorMessage = "Network error. Please check your connection";
       }
 
-      setErrors({ general: errorMessage });
+     notifyError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -147,15 +150,6 @@ function Signup() {
           <p className="auth-subtitle">
             Join <span className="text-gradient-purple">CryptoHub</span> and start tracking today
           </p>
-          {errors.general && (
-            <motion.div
-              className="general-error"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              {errors.general}
-            </motion.div>
-          )}
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>

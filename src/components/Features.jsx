@@ -258,23 +258,6 @@ const Features = () => {
           ))}
         </div>
       </div>
-
-      {/* TOP 5 COINS DISPLAY */}
-      <div className="top-coins-display">
-        <h3 className="top-coins-title">Top 5 Coins</h3>
-        <div className="coins-grid">
-          {topCoins.map((coin) => (
-            <div 
-              key={coin.id}
-              className={`coin-item ${selectedCoin === coin.id ? 'active' : ''}`}
-              onClick={() => setSelectedCoin(coin.id)}
-            >
-              <span className="coin-symbol">{coin.symbol}</span>
-              <span className="coin-name">{coin.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
       </motion.div>
 
       <div className="features-note">
