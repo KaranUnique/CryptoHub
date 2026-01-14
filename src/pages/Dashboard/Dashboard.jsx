@@ -57,11 +57,11 @@ const Dashboard = () => {
     {
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
         </svg>
       ),
-      label: "Pricing",
-      path: "/pricing"
+      label: "Leaderboard",
+      path: "/leaderboard"
     },
     {
       icon: (
@@ -71,15 +71,6 @@ const Dashboard = () => {
       ),
       label: "Blog",
       path: "/blog"
-    },
-    {
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-        </svg>
-      ),
-      label: "Features",
-      path: "/features"
     },
   ];
 
@@ -275,58 +266,58 @@ const Dashboard = () => {
               </div>
             </div>
 
-                        <div className={`xl:col-span-1 rounded-2xl p-8 border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${isDark
-                            ? 'bg-[rgba(15,8,40,0.6)] backdrop-blur-xl border-[rgba(121,39,255,0.15)] shadow-[0_8px_32px_0_rgba(121,39,255,0.12)]'
-                            : 'bg-white border-gray-200 shadow-xl'
-                            }`}>
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#7927ff] to-[#2193b0] flex items-center justify-center shadow-lg">
-                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
-                                </div>
-                                <h2 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                                    Account
-                                </h2>
-                            </div>
-                            <div className="space-y-4">
-                                <div className={`pb-4 border-b ${isDark ? 'border-[rgba(255,255,255,0.06)]' : 'border-gray-200'}`}>
-                                    <p className={`text-sm mb-1 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Email</p>
-                                    <p className={`font-semibold truncate ${isDark ? 'text-gray-300' : 'text-gray-900'}`}>
-                                        {currentUser?.email}
-                                    </p>
-                                </div>
-                                <div className={`pb-4 border-b ${isDark ? 'border-[rgba(255,255,255,0.06)]' : 'border-gray-200'}`}>
-                                    <p className={`text-sm mb-1 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Status</p>
-                                    <span className="inline-flex items-center gap-2 text-green-400 bg-green-400/10 px-3 py-1.5 rounded-lg text-sm font-medium">
-                                        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                                        Active
-                                    </span>
-                                </div>
-                                <div className={`pb-4 border-b ${isDark ? 'border-[rgba(255,255,255,0.06)]' : 'border-gray-200'}`}>
-                                    <p className={`text-sm mb-1 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Member Since</p>
-                                    <p className={`font-semibold ${isDark ? 'text-gray-300' : 'text-gray-900'}`}>
-                                        {currentUser?.metadata?.creationTime
-                                            ? new Date(currentUser.metadata.creationTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-                                            : "N/A"}
-                                    </p>
-                                </div>
-                                <div className="pt-2">
-                                    <button
-                                        onClick={() => navigate('/change-password')}
-                                        className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 font-medium border ${isDark
-                                            ? 'bg-[rgba(121,39,255,0.1)] hover:bg-[rgba(121,39,255,0.2)] text-purple-400 border-purple-600/30 hover:border-purple-500/50'
-                                            : 'bg-purple-50 hover:bg-purple-100 text-purple-600 border-purple-200 hover:border-purple-300'
-                                            }`}
-                                    >
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-                                        </svg>
-                                        <span>Change Password</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+            <div className={`xl:col-span-1 rounded-2xl p-8 border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${isDark
+              ? 'bg-[rgba(15,8,40,0.6)] backdrop-blur-xl border-[rgba(121,39,255,0.15)] shadow-[0_8px_32px_0_rgba(121,39,255,0.12)]'
+              : 'bg-white border-gray-200 shadow-xl'
+              }`}>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#7927ff] to-[#2193b0] flex items-center justify-center shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <h2 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  Account
+                </h2>
+              </div>
+              <div className="space-y-4">
+                <div className={`pb-4 border-b ${isDark ? 'border-[rgba(255,255,255,0.06)]' : 'border-gray-200'}`}>
+                  <p className={`text-sm mb-1 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Email</p>
+                  <p className={`font-semibold truncate ${isDark ? 'text-gray-300' : 'text-gray-900'}`}>
+                    {currentUser?.email}
+                  </p>
+                </div>
+                <div className={`pb-4 border-b ${isDark ? 'border-[rgba(255,255,255,0.06)]' : 'border-gray-200'}`}>
+                  <p className={`text-sm mb-1 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Status</p>
+                  <span className="inline-flex items-center gap-2 text-green-400 bg-green-400/10 px-3 py-1.5 rounded-lg text-sm font-medium">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    Active
+                  </span>
+                </div>
+                <div className={`pb-4 border-b ${isDark ? 'border-[rgba(255,255,255,0.06)]' : 'border-gray-200'}`}>
+                  <p className={`text-sm mb-1 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Member Since</p>
+                  <p className={`font-semibold ${isDark ? 'text-gray-300' : 'text-gray-900'}`}>
+                    {currentUser?.metadata?.creationTime
+                      ? new Date(currentUser.metadata.creationTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                      : "N/A"}
+                  </p>
+                </div>
+                <div className="pt-2">
+                  <button
+                    onClick={() => navigate('/change-password')}
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 font-medium border ${isDark
+                      ? 'bg-[rgba(121,39,255,0.1)] hover:bg-[rgba(121,39,255,0.2)] text-purple-400 border-purple-600/30 hover:border-purple-500/50'
+                      : 'bg-purple-50 hover:bg-purple-100 text-purple-600 border-purple-200 hover:border-purple-300'
+                      }`}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                    </svg>
+                    <span>Change Password</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>

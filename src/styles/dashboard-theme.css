@@ -1,0 +1,86 @@
+:root {
+    /* Dark Theme Colors (Landing Page Match) */
+    --bg-dark: #0a0a1a;
+    --bg-darker: #060610;
+    --cyan-primary: #00d9ff;
+    --cyan-secondary: #00a8cc;
+    --cyan-light: #00c4e6;
+
+    /* Card backgrounds */
+    --card-dark-bg: rgba(255, 255, 255, 0.03);
+    --card-dark-border: rgba(0, 217, 255, 0.15);
+    --card-dark-hover: rgba(0, 217, 255, 0.2);
+
+    /* Sidebar */
+    --sidebar-bg: rgba(10, 10, 26, 0.95);
+    --sidebar-border: rgba(0, 217, 255, 0.1);
+
+    /* Accents */
+    --accent-hover: rgba(0, 217, 255, 0.1);
+    --accent-active: linear-gradient(135deg, var(--cyan-primary) 0%, var(--cyan-secondary) 100%);
+
+    /* Text */
+    --text-cyan: #00d9ff;
+    --text-dark: #0a0a1a;
+}
+
+/* Dashboard Background */
+.dashboard-bg-dark {
+    background-color: var(--bg-dark);
+}
+
+/* Sidebar Styles */
+.sidebar-dark {
+    background-color: var(--sidebar-bg);
+    border-color: var(--sidebar-border);
+}
+
+/* Card Styles */
+.card-dark {
+    background-color: var(--card-dark-bg);
+    border-color: var(--card-dark-border);
+}
+
+.card-dark:hover {
+    border-color: var(--card-dark-hover);
+    box-shadow: 0 8px 32px 0 rgba(0, 217, 255, 0.12);
+}
+
+/* Cyan Gradient Text */
+.text-gradient-cyan {
+    background: linear-gradient(135deg, var(--cyan-primary) 0%, var(--cyan-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Active Nav Item */
+.nav-active-cyan {
+    background: linear-gradient(135deg, var(--cyan-primary) 0%, var(--cyan-secondary) 100%);
+    color: var(--text-dark);
+    font-weight: 700;
+    box-shadow: 0 4px 16px 0 rgba(0, 217, 255, 0.25);
+}
+
+/* Hover Effects */
+.hover-cyan:hover {
+    background-color: var(--accent-hover);
+    color: var(--text-cyan);
+}
+
+/* Avatar/Icon Backgrounds */
+.bg-cyan-gradient {
+    background: linear-gradient(135deg, var(--cyan-primary) 0%, var(--cyan-secondary) 100%);
+}
+
+/* Button Styles */
+.btn-cyan {
+    background: rgba(0, 217, 255, 0.1);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    color: var(--text-cyan);
+}
+
+.btn-cyan:hover {
+    background: rgba(0, 217, 255, 0.2);
+    border-color: rgba(0, 217, 255, 0.5);
+}

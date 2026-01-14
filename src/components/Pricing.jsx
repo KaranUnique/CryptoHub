@@ -159,15 +159,21 @@ export default function Pricing() {
               </span>
 
               <motion.button
-                className="relative w-28 h-14 rounded-full p-2 bg-white/30 dark:bg-white/20 backdrop-blur-xl border-2 border-white/40 shadow-xl flex items-center justify-between"
+                className="relative w-28 h-14 rounded-full p-2 bg-white/30 dark:bg-white/20 backdrop-blur-xl border-2 border-white/40 shadow-xl"
                 onClick={toggleBillingCycle}
                 whileTap={{ scale: 0.95 }}
                 whileHover={{ scale: 1.05 }}
               >
                 <motion.div
-                  className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg flex items-center justify-center shadow-purple-500/50"
-                  layout
-                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="absolute top-2 w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg flex items-center justify-center shadow-purple-500/50"
+                  animate={{ 
+                    x: billingCycle === 'yearly' ? 56 : 0 
+                  }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 300, 
+                    damping: 25 
+                  }}
                 >
                   <FiZap className="text-white w-5 h-5" />
                 </motion.div>

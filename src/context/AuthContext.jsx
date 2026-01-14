@@ -15,9 +15,10 @@ import {
   onAuthStateChanged,
   setPersistence,
   browserSessionPersistence,
-  reauthenticateWithCredential, // NEW
-  EmailAuthProvider, // NEW
-  updatePassword, // new
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db, googleProvider, isFirebaseConfigured } from "../firebase";
@@ -37,23 +38,23 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
 
-   //   verify recent authentication 
-   const reauthenticateUser= useCallback(async(currentPassword)=>{
+  //   verify recent authentication 
+  const reauthenticateUser = useCallback(async (currentPassword) => {
     if (!isFirebaseConfigured() || !auth || !currentUser) {
       throw new Error(
         "Firebase is not configured. Please add Firebase credentials to use authentication."
       );
     }
-    const user=auth.currentUser;
+    const user = auth.currentUser;
     // create credential with email and current password
-    const credentials= EmailAuthProvider.credential(user.email,currentPassword);
+    const credentials = EmailAuthProvider.credential(user.email, currentPassword);
 
-     // Re-authenticate the user
-    await reauthenticateWithCredential(user,credentials);
-   })
+    // Re-authenticate the user
+    await reauthenticateWithCredential(user, credentials);
+  })
 
 
-//    signup function
+  // signup function
   const signup = useCallback(async (email, password, fullName) => {
     if (!isFirebaseConfigured() || !auth) {
       throw new Error(
@@ -88,7 +89,7 @@ export const AuthProvider = ({ children }) => {
     return userCredential;
   }, []);
 
-//   login function
+  //   login function
   const login = useCallback(async (email, password) => {
     if (!isFirebaseConfigured() || !auth) {
       throw new Error(
@@ -104,7 +105,7 @@ export const AuthProvider = ({ children }) => {
     return userCredential;
   }, []);
 
-//   login with google function
+  //   login with google function
   const loginWithGoogle = useCallback(async () => {
     if (!isFirebaseConfigured() || !auth || !googleProvider) {
       throw new Error(
@@ -141,39 +142,49 @@ export const AuthProvider = ({ children }) => {
     return userCredential;
   }, []);
 
-//   logout function
+  //   logout function
   const logout = useCallback(async () => {
     if (!isFirebaseConfigured() || !auth) {
       return;
     }
     await signOut(auth);
   }, []);
-  
-//   change Password function
-  const ChangePassword=useCallback(async(currentPassword,newPassword)=>{
-    if (!isFirebaseConfigured() || !auth || ! auth.currentUser ){
-        throw new Error('User  is Not Authenticated');
+
+  //   change Password function
+  const ChangePassword = useCallback(async (currentPassword, newPassword) => {
+    if (!isFirebaseConfigured() || !auth || !auth.currentUser) {
+      throw new Error('User  is Not Authenticated');
     }
-    const user=auth.currentUser;
+    const user = auth.currentUser;
 
     // re-authenticate user
     await reauthenticateUser(currentPassword);
 
     // update Password
-    await updatePassword(user,newPassword);
+    await updatePassword(user, newPassword);
 
-  },[reauthenticateUser]);
+  }, [reauthenticateUser]);
 
-//   check if user signed in with email/password
-  const isEmailProvider=useCallback(()=>{
+  //   reset Password function
+  const resetPassword = useCallback(async (email) => {
+    if (!isFirebaseConfigured() || !auth) {
+      throw new Error(
+        "Firebase is not configured. Please add Firebase credentials to use authentication."
+      );
+    }
+    await sendPasswordResetEmail(auth, email);
+  }, []);
+
+  //   check if user signed in with email/password
+  const isEmailProvider = useCallback(() => {
     if (!auth?.currentUser) return false;
 
     // check if user has email/password as a  provider
     return auth.currentUser.providerData.some(
-        (provider)=>provider.providerId==='password');
-  },[]);
+      (provider) => provider.providerId === 'password');
+  }, []);
 
-//   Monitor auth state changes
+  //   Monitor auth state changes
   useEffect(() => {
     if (!isFirebaseConfigured() || !auth) {
       setLoading(false);
@@ -235,9 +246,10 @@ export const AuthProvider = ({ children }) => {
       loginWithGoogle,
       logout,
       ChangePassword,
+      resetPassword,
       isEmailProvider,
     }),
-    [currentUser, loading, signup, login, loginWithGoogle, logout, ChangePassword, isEmailProvider]
+    [currentUser, loading, signup, login, loginWithGoogle, logout, ChangePassword, resetPassword, isEmailProvider]
   );
 
   return (

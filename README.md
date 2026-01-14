@@ -200,9 +200,11 @@ flowchart TD
 ### 🔐 Authentication
 
 - 🔑 **Email/Password Login** - Traditional authentication method
-- 🔒 **Secure Sessions** - JWT-based session management
-- 👥 **User Profiles** - Personalized user experience
-- 🔐 **Password Recovery** - Easy password reset functionality
+- 🌐 **Google OAuth** - One-click sign-in with Google account
+- 🔒 **Secure Sessions** - JWT-based session management with Firebase
+- 👥 **User Profiles** - Personalized user experience with full name display
+- 🔐 **Password Management** - Change password securely from dashboard
+- 🔓 **Password Reset** - Forgot password recovery via email link
 
 ### 📊 Market Data
 
@@ -410,6 +412,7 @@ CryptoHub/
 │   │   ├── Features.jsx                   # Features showcase
 │   │   ├── Signup.jsx                     # User registration
 │   │   ├── Login.jsx                      # User login
+│   │   ├── ForgotPassword.jsx             # Password reset via email
 │   │   ├── Contributors.jsx               # Contributors page
 │   │   ├── Leaderboard.jsx                # Crypto leaderboard
 │   │   ├── ChangePassword.jsx             # Password management
@@ -579,13 +582,19 @@ Click on any cryptocurrency in the coin list table. You'll be redirected to a de
 </details>
 
 <details>
-<summary><b>Q9: Can I change my password?</b></summary>
+<summary><b>Q10: What if I forget my password?</b></summary>
+<br/>
+No worries! Click "Forgot password?" on the login page, enter your email address, and you'll receive a password reset link. Click the link in your email to create a new password securely.
+</details>
+
+<details>
+<summary><b>Q11: Can I change my password?</b></summary>
 <br/>
 Yes! If you signed up with email/password, navigate to Dashboard and click the lock icon, or go to `/change-password` to update your password securely.
 </details>
 
 <details>
-<summary><b>Q10: How can I contribute to this project?</b></summary>
+<summary><b>Q12: How can I contribute to this project?</b></summary>
 <br/>
 We welcome contributions! Here's how:
 1. Fork the repository
@@ -597,19 +606,19 @@ Check the [Contributing Guidelines](#contributing) for detailed steps.
 </details>
 
 <details>
-<summary><b>Q11: What happens if the CoinGecko API rate limit is exceeded?</b></summary>
+<summary><b>Q13: What happens if the CoinGecko API rate limit is exceeded?</b></summary>
 <br/>
 The free CoinGecko API has rate limits. If exceeded, you may see delayed data updates. For production use, consider upgrading to a paid CoinGecko API plan for higher limits.
 </details>
 
 <details>
-<summary><b>Q12: Is my data secure?</b></summary>
+<summary><b>Q14: Is my data secure?</b></summary>
 <br/>
 Yes! We use Firebase Authentication for secure user management. Passwords are encrypted and never stored in plain text. We follow industry-standard security practices.
 </details>
 
 <details>
-<summary><b>Q13: Can I deploy CryptoHub to my own server?</b></summary>
+<summary><b>Q15: Can I deploy CryptoHub to my own server?</b></summary>
 <br/>
 Yes! CryptoHub can be deployed to:
 - Vercel (recommended)
@@ -621,7 +630,7 @@ Check the [Installation Setup](#installation-and-setup) section for deployment i
 </details>
 
 <details>
-<summary><b>Q14: What should I do if I find a bug?</b></summary>
+<summary><b>Q16: What should I do if I find a bug?</b></summary>
 <br/>
 Please report bugs by:
 1. Opening an [Issue](https://github.com/KaranUnique/CryptoHub/issues)
@@ -631,7 +640,7 @@ Please report bugs by:
 </details>
 
 <details>
-<summary><b>Q15: How can I request a new feature?</b></summary>
+<summary><b>Q17: How can I request a new feature?</b></summary>
 <br/>
 Create a [Feature Request](https://github.com/KaranUnique/CryptoHub/issues) issue with:
 - Clear description of the feature
