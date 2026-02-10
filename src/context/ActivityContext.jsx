@@ -1,8 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
+import React, { useContext, useState, useEffect, useMemo, useCallback } from "react";
+import { ActivityContext } from "./contexts";
 
-const ActivityContext = createContext({});
-
-// eslint-disable-next-line react-refresh/only-export-components
 export const useActivity = () => {
   const context = useContext(ActivityContext);
   if (!context) {
@@ -63,4 +61,4 @@ export const ActivityProvider = ({ children }) => {
   );
 };
 
-export default ActivityContext;
+// ActivityContext object is exported from `src/context/contexts.js`.

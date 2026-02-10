@@ -1,7 +1,5 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
-
-const ThemeContext = createContext();
+import React, { useContext, useState, useEffect, useMemo, useCallback } from "react";
+import { ThemeContext } from "./contexts";
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
@@ -41,5 +39,4 @@ export const ThemeProvider = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
-
-export default ThemeContext;
+// ThemeContext object exported from `src/context/contexts.js`.

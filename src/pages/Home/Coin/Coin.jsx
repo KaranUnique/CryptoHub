@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Coin.css";
-import { CoinContext } from "../../../context/CoinContext";
+import { CoinContext } from "../../../context/contexts";
 import LineChart from "../../../components/LineChart";
 import NewsPanel from "../../../components/NewsPanel";
 

@@ -1,8 +1,6 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createContext, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
+import { CoinContext } from "./contexts";
 import { useQuery } from "@tanstack/react-query";
-
-export const CoinContext = createContext();
 
 export const CoinContextProvider = (props) => {
   const [selectedFilters, setSelectedFilters] = useState(["all"]);
@@ -116,4 +114,4 @@ export const CoinContextProvider = (props) => {
   );
 };
 
-export default CoinContextProvider;
+// Provider exported as named export. Context object is exported from `src/context/contexts.js`.

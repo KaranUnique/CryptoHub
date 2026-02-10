@@ -1,10 +1,8 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
+import React, { useContext, useState, useEffect, useMemo, useCallback } from "react";
+import { LeaderboardContext } from "./contexts";
 import { collection, query, orderBy, limit, onSnapshot, doc, setDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
 import { db, isFirebaseConfigured } from "../firebase";
 import { useAuth } from "./AuthContext";
-
-const LeaderboardContext = createContext({});
 
 export const useLeaderboard = () => {
   const context = useContext(LeaderboardContext);
@@ -128,4 +126,4 @@ export const LeaderboardProvider = ({ children }) => {
   );
 };
 
-export default LeaderboardContext;
+// LeaderboardContext object exported from `src/context/contexts.js` to satisfy fast-refresh rule.

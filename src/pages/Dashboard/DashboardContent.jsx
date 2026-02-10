@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
-import { CoinContext } from "../../context/CoinContext";
+import { CoinContext } from "../../context/contexts";
 
 const DashboardContent = () => {
     const { currentUser } = useAuth();

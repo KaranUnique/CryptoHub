@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Home.css";
-import { CoinContext } from "../../context/CoinContext";
+import { CoinContext } from "../../context/contexts";
 import { Link } from "react-router-dom";
 import { FiSearch, FiArrowUpRight, FiArrowDownRight, FiFilter } from "react-icons/fi";
 import { motion } from "framer-motion";

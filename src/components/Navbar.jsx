@@ -15,28 +15,14 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
- 
 
   const isDashboardPage = location.pathname === "/dashboard";
 
   /* -------------------- Handlers -------------------- */
-
-  const handleDropdownEnter = (label) => {
-    setOpenDropdown(label);
-  };
-
-  const handleDropdownLeave = () => {
-    setOpenDropdown(null);
-    };
-
-  const handleDropdownClick = (label) => {
-    setOpenDropdown(openDropdown === label ? null : label);
-  };
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen((prev) => !prev);
-  };
-
+  const handleDropdownEnter = (label) => setOpenDropdown(label);
+  const handleDropdownLeave = () => setOpenDropdown(null);
+  const handleDropdownClick = (label) => setOpenDropdown((prev) => (prev === label ? null : label));
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
     setOpenDropdown(null);
@@ -53,7 +39,6 @@ function Navbar() {
   }, [logout, navigate]);
 
   /* -------------------- Effects -------------------- */
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
@@ -62,32 +47,35 @@ function Navbar() {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (openDropdown && !e.target.closest(".dropdown-container")) {
-        setOpenDropdown(null);
-      }
-      if (isProfileOpen && !event.target.closest('.profile-menu-container')) {
-        setIsProfileOpen(false);
+      try {
+        if (openDropdown && !e.target.closest(".dropdown-container") && !e.target.closest(".dropdown-trigger")) {
+          setOpenDropdown(null);
+        }
+        if (isProfileOpen && !e.target.closest('.profile-menu-container')) {
+          setIsProfileOpen(false);
+        }
+      } catch (err) {
+        // ignore
       }
     };
 
-    const handleEscapeKey = (event) => {
-      if (event.key === 'Escape') {
+    const handleEscapeKey = (ev) => {
+      if (ev.key === 'Escape') {
         if (openDropdown) setOpenDropdown(null);
         if (isProfileOpen) setIsProfileOpen(false);
       }
     };
 
     document.addEventListener("click", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleEscapeKey);
 
     return () => {
       document.removeEventListener("click", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [openDropdown, isProfileOpen]);
 
   /* -------------------- Nav Links -------------------- */
-
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/pricing", label: "Pricing" },
@@ -111,13 +99,10 @@ function Navbar() {
 
   const linksToRender = currentUser ? authenticatedNavLinks : navLinks;
 
-  /* -------------------- JSX -------------------- */
-
   return (
     <nav
-      className={`navbar ${scrolled ? "scrolled" : ""} ${
-        isMobileMenuOpen ? "has-mobile-menu" : ""
-      } ${isDashboardPage ? "is-dashboard" : ""}`}
+      data-theme={theme}
+      className={`navbar ${scrolled ? "scrolled" : ""} ${isMobileMenuOpen ? "has-mobile-menu" : ""} ${isDashboardPage ? "is-dashboard" : ""}`}
     >
       <div className="navbar-content">
         {/* Logo */}
@@ -128,57 +113,22 @@ function Navbar() {
 
         {/* Desktop Menu */}
         {!isDashboardPage && (
-    <ul className="navbar-menu">
-      {(currentUser ? authenticatedNavLinks : navLinks).map((link) => (
-        <li
-          key={link.label}
-          className="navbar-item"
-          onMouseEnter={() => link.dropdown && handleDropdownEnter(link.label)}
-          onMouseLeave={handleDropdownLeave}
-        >
-          {link.dropdown ? (
-            <>
-              <span 
-                className="navbar-link dropdown-trigger"
-                onClick={() => handleDropdownClick(link.label)}
-                role="button"
-                aria-expanded={openDropdown === link.label}
-                aria-haspopup="true"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleDropdownClick(link.label);
-                  }
-                }}
+          <ul className="navbar-menu">
+            {linksToRender.map((link) => (
+              <li
+                key={link.label}
+                className="navbar-item"
+                onMouseEnter={() => link.dropdown && handleDropdownEnter(link.label)}
+                onMouseLeave={handleDropdownLeave}
               >
-                {link.label}
-              </span>
-
-              <ul 
-                className={`dropdown-menu ${openDropdown === link.label ? 'show' : ''}`}
-                role="menu"
-                aria-label={`${link.label} submenu`}
-              >
-                {!link.dropdown ? (
-                  <Link
-                    to={link.to}
-                    className={`navbar-link ${
-                      location.pathname === link.to ? "active" : ""
-                    }`}
-                    onClick={closeMobileMenu}
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
+                {link.dropdown ? (
                   <>
-                    <span
+                    <button
+                      type="button"
                       className="navbar-link dropdown-trigger"
-                      role="button"
-                      tabIndex={0}
-                      aria-haspopup="true"
-                      aria-expanded={openDropdown === link.label}
                       onClick={() => handleDropdownClick(link.label)}
+                      aria-expanded={openDropdown === link.label}
+                      aria-haspopup="true"
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
@@ -187,28 +137,22 @@ function Navbar() {
                       }}
                     >
                       {link.label}
-                    </span>
+                    </button>
 
-                    <ul
-                      className={`dropdown-menu ${
-                        openDropdown === link.label ? "show" : ""
-                      }`}
-                      role="menu"
-                    >
+                    <ul className={`dropdown-menu ${openDropdown === link.label ? "show" : ""}`} role="menu" aria-label={`${link.label} submenu`}>
                       {link.dropdown.map((item) => (
                         <li key={item.to} role="none">
-                          <Link
-                            to={item.to}
-                            className="dropdown-link"
-                            role="menuitem"
-                            onClick={closeMobileMenu}
-                          >
+                          <Link to={item.to} className="dropdown-link" role="menuitem" onClick={closeMobileMenu}>
                             {item.label}
                           </Link>
                         </li>
                       ))}
                     </ul>
                   </>
+                ) : (
+                  <Link to={link.to} className={`navbar-link ${location.pathname === link.to ? "active" : ""}`} onClick={closeMobileMenu}>
+                    {link.label}
+                  </Link>
                 )}
               </li>
             ))}
@@ -220,42 +164,32 @@ function Navbar() {
           <div className="desktop-auth">
             {currentUser ? (
               <div className="profile-menu-container">
-                <button 
+                <button
                   className="profile-icon-btn"
-                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  onClick={() => setIsProfileOpen((s) => !s)}
                   aria-label="User profile menu"
                   aria-expanded={isProfileOpen}
                 >
                   <FiUser />
                 </button>
-                
+
                 <div className={`profile-dropdown ${isProfileOpen ? 'show' : ''}`}>
                   <div className="profile-dropdown-header">
                     <FiMail className="profile-icon" />
                     <span className="profile-email">{currentUser.email}</span>
                   </div>
-                  
-                  <div className="profile-dropdown-divider"></div>
-                  
+
+                  <div className="profile-dropdown-divider" />
+
                   <div className="profile-dropdown-items">
                     {isEmailProvider() && (
-                      <Link
-                        to="/change-password"
-                        className="profile-dropdown-item"
-                        onClick={() => setIsProfileOpen(false)}
-                      >
+                      <Link to="/change-password" className="profile-dropdown-item" onClick={() => setIsProfileOpen(false)}>
                         <FiLock />
                         <span>Change Password</span>
                       </Link>
                     )}
-                    
-                    <button 
-                      onClick={() => {
-                        setIsProfileOpen(false);
-                        handleLogout();
-                      }} 
-                      className="profile-dropdown-item logout-item"
-                    >
+
+                    <button onClick={() => { setIsProfileOpen(false); handleLogout(); }} className="profile-dropdown-item logout-item">
                       <FiLogOut />
                       <span>Logout</span>
                     </button>
@@ -264,94 +198,53 @@ function Navbar() {
               </div>
             ) : (
               <>
-                <Link to="/login" className="navbar-btn navbar-btn-login">
-                  LOGIN
-                </Link>
-                <Link to="/signup" className="navbar-btn navbar-btn-signup">
-                  Get Started
-                </Link>
+                <Link to="/login" className="navbar-btn navbar-btn-login">LOGIN</Link>
+                <Link to="/signup" className="navbar-btn navbar-btn-signup">Get Started</Link>
               </>
             )}
           </div>
 
           {/* Mobile Toggle */}
-          <button
-            className={`navbar-toggle ${
-              isMobileMenuOpen ? "active" : ""
-            }`}
-            onClick={toggleMobileMenu}
-            aria-label="Toggle navigation"
-          >
+          <button className={`navbar-toggle ${isMobileMenuOpen ? "active" : ""}`} onClick={toggleMobileMenu} aria-label="Toggle navigation">
             <span />
             <span />
             <span />
           </button>
         </div>
-
       </div>
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && !isDashboardPage && (
         <div className="mobile-menu">
           <ul className="mobile-menu-list">
-            {(currentUser ? authenticatedNavLinks : navLinks).map((link) => (
+            {linksToRender.map((link) => (
               <li key={link.label} className="mobile-menu-item">
                 {link.dropdown ? (
                   <>
-                    <span 
-                      className="mobile-menu-link"
-                      onClick={() => handleDropdownClick(link.label)}
-                    >
+                    <button className="mobile-menu-link" onClick={() => handleDropdownClick(link.label)}>
                       {link.label}
-                    </span>
+                    </button>
                     {openDropdown === link.label && (
                       <ul className="mobile-dropdown-menu">
                         {link.dropdown.map((item) => (
                           <li key={item.to}>
-                            <Link
-                              to={item.to}
-                              className="mobile-dropdown-link"
-                              onClick={closeMobileMenu}
-                            >
-                              {item.label}
-                            </Link>
+                            <Link to={item.to} className="mobile-dropdown-link" onClick={closeMobileMenu}>{item.label}</Link>
                           </li>
                         ))}
                       </ul>
                     )}
                   </>
                 ) : (
-                  <Link
-                    to={link.to}
-                    className={`mobile-menu-link ${
-                      location.pathname === link.to ? "active" : ""
-                    }`}
-                    onClick={closeMobileMenu}
-                  >
-                    {link.label}
-                  </Link>
+                  <Link to={link.to} className={`mobile-menu-link ${location.pathname === link.to ? "active" : ""}`} onClick={closeMobileMenu}>{link.label}</Link>
                 )}
               </li>
             ))}
           </ul>
 
-          {/* Mobile Auth Buttons */}
           {!currentUser && (
             <div className="mobile-auth">
-              <Link
-                to="/login"
-                className="navbar-btn navbar-btn-login"
-                onClick={closeMobileMenu}
-              >
-                LOGIN
-              </Link>
-              <Link
-                to="/signup"
-                className="navbar-btn navbar-btn-signup"
-                onClick={closeMobileMenu}
-              >
-                Get Started
-              </Link>
+              <Link to="/login" className="navbar-btn navbar-btn-login" onClick={closeMobileMenu}>LOGIN</Link>
+              <Link to="/signup" className="navbar-btn navbar-btn-signup" onClick={closeMobileMenu}>Get Started</Link>
             </div>
           )}
         </div>

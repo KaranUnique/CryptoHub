@@ -23,7 +23,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import Contributors from "@/components/Contributors";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { CoinContext } from "@/context/CoinContext";
+import { CoinContext } from "@/context/contexts";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "@/components/ScrollToTop";

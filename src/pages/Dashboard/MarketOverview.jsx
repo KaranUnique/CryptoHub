@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
-import { CoinContext } from "../../context/CoinContext";
+import { CoinContext } from "../../context/contexts";
 import "./MarketOverview.css";
 
 const MarketOverview = () => {
