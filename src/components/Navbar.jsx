@@ -61,8 +61,8 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (openDropdown && !e.target.closest(".dropdown-container")) {
+    const handleClickOutside = (event) => {
+      if (openDropdown && !event.target.closest(".dropdown-container")) {
         setOpenDropdown(null);
       }
       if (isProfileOpen && !event.target.closest('.profile-menu-container')) {
@@ -78,11 +78,11 @@ function Navbar() {
     };
 
     document.addEventListener("click", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleEscapeKey);
 
     return () => {
       document.removeEventListener("click", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [openDropdown, isProfileOpen]);
 
@@ -115,6 +115,7 @@ function Navbar() {
 
   return (
     <nav
+      data-theme={theme}
       className={`navbar ${scrolled ? "scrolled" : ""} ${
         isMobileMenuOpen ? "has-mobile-menu" : ""
       } ${isDashboardPage ? "is-dashboard" : ""}`}
@@ -128,57 +129,24 @@ function Navbar() {
 
         {/* Desktop Menu */}
         {!isDashboardPage && (
-    <ul className="navbar-menu">
-      {(currentUser ? authenticatedNavLinks : navLinks).map((link) => (
-        <li
-          key={link.label}
-          className="navbar-item"
-          onMouseEnter={() => link.dropdown && handleDropdownEnter(link.label)}
-          onMouseLeave={handleDropdownLeave}
-        >
-          {link.dropdown ? (
-            <>
-              <span 
-                className="navbar-link dropdown-trigger"
-                onClick={() => handleDropdownClick(link.label)}
-                role="button"
-                aria-expanded={openDropdown === link.label}
-                aria-haspopup="true"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleDropdownClick(link.label);
-                  }
-                }}
+          <ul className="navbar-menu">
+            {linksToRender.map((link) => (
+              <li
+                key={link.label}
+                className="navbar-item"
+                onMouseEnter={() => link.dropdown && handleDropdownEnter(link.label)}
+                onMouseLeave={handleDropdownLeave}
               >
-                {link.label}
-              </span>
-
-              <ul 
-                className={`dropdown-menu ${openDropdown === link.label ? 'show' : ''}`}
-                role="menu"
-                aria-label={`${link.label} submenu`}
-              >
-                {!link.dropdown ? (
-                  <Link
-                    to={link.to}
-                    className={`navbar-link ${
-                      location.pathname === link.to ? "active" : ""
-                    }`}
-                    onClick={closeMobileMenu}
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
+                {link.dropdown ? (
                   <>
-                    <span
+                    <button
+                      type="button"
                       className="navbar-link dropdown-trigger"
-                      role="button"
-                      tabIndex={0}
-                      aria-haspopup="true"
-                      aria-expanded={openDropdown === link.label}
                       onClick={() => handleDropdownClick(link.label)}
+                      role="button"
+                      aria-expanded={openDropdown === link.label}
+                      aria-haspopup="true"
+                      tabIndex={0}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
@@ -187,13 +155,12 @@ function Navbar() {
                       }}
                     >
                       {link.label}
-                    </span>
+                    </button>
 
                     <ul
-                      className={`dropdown-menu ${
-                        openDropdown === link.label ? "show" : ""
-                      }`}
+                      className={`dropdown-menu ${openDropdown === link.label ? "show" : ""}`}
                       role="menu"
+                      aria-label={`${link.label} submenu`}
                     >
                       {link.dropdown.map((item) => (
                         <li key={item.to} role="none">
@@ -209,6 +176,14 @@ function Navbar() {
                       ))}
                     </ul>
                   </>
+                ) : (
+                  <Link
+                    to={link.to}
+                    className={`navbar-link ${location.pathname === link.to ? "active" : ""}`}
+                    onClick={closeMobileMenu}
+                  >
+                    {link.label}
+                  </Link>
                 )}
               </li>
             ))}

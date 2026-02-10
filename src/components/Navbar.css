@@ -1546,13 +1546,18 @@
     display: none;
   }
 
+  /* On small screens the desktop auth controls should be hidden
+     and mobile menu auth buttons used instead. Don't hide the
+     button classes globally because mobile menu re-uses them. */
   .desktop-auth {
-    display: flex !important;
+    display: none !important;
   }
-  
-  .navbar-btn-login,
-  .navbar-btn-signup {
-    display: none;
+
+  /* Ensure auth buttons inside the mobile menu are visible */
+  .mobile-menu .mobile-auth .navbar-btn,
+  .mobile-menu .mobile-auth .navbar-btn-login,
+  .mobile-menu .mobile-auth .navbar-btn-signup {
+    display: block;
   }
   
   .navbar-logo {
@@ -1620,13 +1625,17 @@
     display: none;
   }
   
+  /* On tablet narrow view hide the desktop auth controls so the
+     mobile toggle/menu provides the auth actions. Mobile auth
+     buttons inside the menu are handled separately. */
   .desktop-auth {
-    display: flex !important;
+    display: none !important;
   }
-  
-  .navbar-btn-login,
-  .navbar-btn-signup {
-    display: none;
+
+  .mobile-menu .mobile-auth .navbar-btn,
+  .mobile-menu .mobile-auth .navbar-btn-login,
+  .mobile-menu .mobile-auth .navbar-btn-signup {
+    display: block;
   }
   
   .navbar-logo {
