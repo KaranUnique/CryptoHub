@@ -101,10 +101,15 @@ const CoinWrapper = () => {
                     </div>
 
                     {sidebarOpen && (
-                        <div className={`mb-6 p-4 rounded-xl border transition-all duration-200 ${isDark
-                            ? 'bg-[rgba(255,255,255,0.03)] border-[rgba(0,217,255,0.2)] hover:border-[rgba(0,217,255,0.4)]'
-                            : 'bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200 hover:border-purple-300'
-                            }`}>
+                        <button
+                            type="button"
+                            onClick={() => navigate("/profile")}
+                            className={`mb-6 p-4 rounded-xl border transition-all duration-200 w-full text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00d9ff]/40 ${isDark
+                                ? 'bg-[rgba(255,255,255,0.03)] border-[rgba(0,217,255,0.2)] hover:border-[rgba(0,217,255,0.4)]'
+                                : 'bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200 hover:border-purple-300'
+                                }`}
+                            aria-label="View profile"
+                        >
                             <div className="flex items-center gap-3">
                                 <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#00d9ff] to-[#00a8cc] flex items-center justify-center text-2xl font-bold shadow-lg ring-4 ring-[rgba(0,217,255,0.12)] text-[#0a0a1a]">
                                     {getFirstName().charAt(0).toUpperCase()}
@@ -118,7 +123,7 @@ const CoinWrapper = () => {
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </button>
                     )}
 
                     <nav className="flex-1 space-y-1.5">

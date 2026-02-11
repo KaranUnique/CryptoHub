@@ -14,6 +14,7 @@ import BlogDetail from "@/components/BlogDetail";
 import DashboardLayout from "@/pages/Dashboard/DashboardLayout";
 import DashboardContent from "@/pages/Dashboard/DashboardContent";
 import MarketOverview from "@/pages/Dashboard/MarketOverview";
+import Profile from "@/pages/Dashboard/Profile";
 import Leaderboard from "@/components/Leaderboard";
 import ChangePassword from "@/components/ChangePassword";
 import ForgotPassword from "@/components/ForgotPassword";
@@ -67,6 +68,7 @@ const App = () => {
     location.pathname === "/dashboard" ||
     location.pathname === "/leaderboard" ||
     location.pathname === "/market-overview" ||
+    location.pathname === "/profile" ||
     location.pathname === "/change-password" ;
 
   const authRoutes = ["/login", "/signup", "/forgot-password"];
@@ -142,6 +144,7 @@ const App = () => {
                   <Route path="/dashboard" element={<DashboardContent />} />
                   <Route path="/market-overview" element={<MarketOverview />} />
                   <Route path="/leaderboard" element={<Leaderboard />} />
+                  <Route path="/profile" element={<Profile />} />
                   <Route path="/change-password" element={<ChangePassword />} />
                 </Route>
 

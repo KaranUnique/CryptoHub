@@ -65,7 +65,7 @@ function Navbar() {
       if (openDropdown && !e.target.closest(".dropdown-container")) {
         setOpenDropdown(null);
       }
-      if (isProfileOpen && !event.target.closest('.profile-menu-container')) {
+      if (isProfileOpen && !e.target.closest('.profile-menu-container')) {
         setIsProfileOpen(false);
       }
     };
@@ -78,11 +78,11 @@ function Navbar() {
     };
 
     document.addEventListener("click", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleEscapeKey);
 
     return () => {
       document.removeEventListener("click", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [openDropdown, isProfileOpen]);
 
@@ -160,59 +160,34 @@ function Navbar() {
                 role="menu"
                 aria-label={`${link.label} submenu`}
               >
-                {!link.dropdown ? (
-                  <Link
-                    to={link.to}
-                    className={`navbar-link ${
-                      location.pathname === link.to ? "active" : ""
-                    }`}
-                    onClick={closeMobileMenu}
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <>
-                    <span
-                      className="navbar-link dropdown-trigger"
-                      role="button"
-                      tabIndex={0}
-                      aria-haspopup="true"
-                      aria-expanded={openDropdown === link.label}
-                      onClick={() => handleDropdownClick(link.label)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          handleDropdownClick(link.label);
-                        }
-                      }}
+                {link.dropdown.map((item) => (
+                  <li key={item.to} role="none">
+                    <Link
+                      to={item.to}
+                      className="dropdown-link"
+                      role="menuitem"
+                      onClick={closeMobileMenu}
                     >
-                      {link.label}
-                    </span>
-
-                    <ul
-                      className={`dropdown-menu ${
-                        openDropdown === link.label ? "show" : ""
-                      }`}
-                      role="menu"
-                    >
-                      {link.dropdown.map((item) => (
-                        <li key={item.to} role="none">
-                          <Link
-                            to={item.to}
-                            className="dropdown-link"
-                            role="menuitem"
-                            onClick={closeMobileMenu}
-                          >
-                            {item.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <Link
+              to={link.to}
+              className={`navbar-link ${
+                location.pathname === link.to ? "active" : ""
+              }`}
+              onClick={closeMobileMenu}
+            >
+              {link.label}
+            </Link>
+          )}
+        </li>
+      ))}
+    </ul>
         )}
 
         {/* Right Actions */}
