@@ -130,9 +130,9 @@ const Footer = () => {
         <div className="footer-bottom-section">
 
           <div className="social-links">
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebook /></a>
+            <a href="https://twitter.com/CryptoHub" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
+            <a href="https://instagram.com/CryptoHub" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+            <a href="https://facebook.com/CryptoHub" target="_blank" rel="noopener noreferrer"><FaFacebook /></a>
             <a href="https://github.com/KaranUnique/CryptoHub" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
             <a href="https://discord.gg" target="_blank" rel="noopener noreferrer"><FaDiscord /></a>
           </div>
