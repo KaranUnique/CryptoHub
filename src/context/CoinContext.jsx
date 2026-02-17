@@ -1,8 +1,7 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createContext, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-
-export const CoinContext = createContext();
+import { CoinContext } from "./CoinContextInstance";
+export { CoinContext };
 
 export const CoinContextProvider = (props) => {
   const [selectedFilters, setSelectedFilters] = useState(["all"]);
@@ -14,7 +13,7 @@ export const CoinContextProvider = (props) => {
   // ---------------------------------------------------------
   // 1. DATA FETCHING (Replaced manual fetch with TanStack Query)
   // ---------------------------------------------------------
-  
+
   const fetchCoinData = async (curr) => {
     const apiKey = import.meta.env.VITE_CG_API_KEY;
     const options = {
@@ -30,11 +29,11 @@ export const CoinContextProvider = (props) => {
       : `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${curr.name}&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h`;
 
     const response = await fetch(url, options);
-    
+
     if (!response.ok) {
       throw new Error(`API Error: ${response.status}`);
     }
-    
+
     return response.json();
   };
 

@@ -13,7 +13,7 @@ import {
   FiExternalLink,
 } from "react-icons/fi";
 import "./Blog.css";
-import { generateBlogPosts } from "./Blog";
+import { generateBlogPosts } from "../data/blogData";
 import { useAuth } from "../context/AuthContext";
 import { toggleBookmark, getBookmarks } from "../services/bookmarkService";
 
@@ -25,7 +25,7 @@ const BlogDetail = () => {
 
   // State for interactions
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [loadingBookmark, setLoadingBookmark] = useState(true);
+  const [_loadingBookmark, setLoadingBookmark] = useState(true);
 
   // 🔒 SAFELY find blog - handle both slug and id params
   const blogId = id || slug;
@@ -275,6 +275,7 @@ const Action = ({ icon, title, onClick, active }) => (
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}
     title={title}
+    aria-label={title}
     onClick={onClick}
   >
     {icon}

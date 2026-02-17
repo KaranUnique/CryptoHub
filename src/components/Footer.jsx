@@ -90,9 +90,9 @@ const Footer = () => {
               <li><Link to="/pricing">Pricing</Link></li>
               <li><Link to="/portfolio">Portfolio</Link></li>
               <li><Link to="/api">API Access</Link></li>
+              <li><Link to="/feedback">Feedback</Link></li>
             </ul>
           </div>
-          
 
           {/* Newsletter */}
           <div className="footer-newsletter">
@@ -130,11 +130,14 @@ const Footer = () => {
         <div className="footer-bottom-section">
 
           <div className="social-links">
+
             <a href="https://twitter.com/CryptoHub" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
             <a href="https://instagram.com/CryptoHub" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
             <a href="https://facebook.com/CryptoHub" target="_blank" rel="noopener noreferrer"><FaFacebook /></a>
             <a href="https://github.com/KaranUnique/CryptoHub" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
             <a href="https://discord.gg" target="_blank" rel="noopener noreferrer"><FaDiscord /></a>
+
+           
           </div>
 
           <div className="footer-bottom">

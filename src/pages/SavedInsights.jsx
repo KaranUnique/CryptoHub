@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { getBookmarks, toggleBookmark } from "../services/bookmarkService";
-import { generateBlogPosts } from "../components/Blog";
+import { generateBlogPosts } from "../data/blogData";
 import { FiBookmark, FiArrowLeft, FiLoader } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 
@@ -125,6 +125,7 @@ const SavedInsights = () => {
                                             onClick={(e) => handleRemoveBookmark(e, post.id)}
                                             className="p-2 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-red-500/80 transition-colors"
                                             title="Remove from saved"
+                                            aria-label="Remove from saved"
                                         >
                                             <FiBookmark className="fill-current" />
                                         </button>

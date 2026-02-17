@@ -1059,7 +1059,7 @@ const BlogArticle = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [views, setViews] = useState(Math.floor(Math.random() * 1000) + 500);
+  const [views] = useState(Math.floor(Math.random() * 1000) + 500);
   
   const post = blogPosts[slug];
   

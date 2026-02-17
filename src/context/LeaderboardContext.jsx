@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { collection, query, orderBy, limit, onSnapshot, doc, setDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
 import { db, isFirebaseConfigured } from "../firebase";
@@ -20,18 +20,18 @@ export const LeaderboardProvider = ({ children }) => {
   const [userRank, setUserRank] = useState(null);
   const [loading, setLoading] = useState(true);
 
-    // Fetch leaderboard data
-    useEffect(() => {
-        if (!isFirebaseConfigured() || !db) {
-            setLoading(false);
-            return;
-        }
+  // Fetch leaderboard data
+  useEffect(() => {
+    if (!isFirebaseConfigured() || !db) {
+      setLoading(false);
+      return;
+    }
 
-        const q = query(
-            collection(db, "leaderboard"),
-            orderBy("score", "desc"),
-            limit(100)
-        );
+    const q = query(
+      collection(db, "leaderboard"),
+      orderBy("score", "desc"),
+      limit(100)
+    );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const leaderboardData = [];
@@ -128,4 +128,4 @@ export const LeaderboardProvider = ({ children }) => {
   );
 };
 
-export default LeaderboardContext;
+

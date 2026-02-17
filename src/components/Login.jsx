@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Login.css";
-// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { notifyError, notifySuccess } from "../utils/notify";
@@ -64,7 +63,16 @@ function Login() {
       setErrors({});
 
       try {
-        await login(formData.email, formData.password);
+        const userCredential = await login(formData.email, formData.password);
+        const user = userCredential.user;
+
+        // Check if email is verified
+        if (!user.emailVerified) {
+          notifyInfo("Please verify your email address to continue.");
+          setTimeout(() => navigate("/verify-email"), 1500);
+          return;
+        }
+
         notifySuccess("Logged in successfully");
         setTimeout(() => navigate("/dashboard"), 1500);
       } catch (error) {
@@ -98,7 +106,7 @@ function Login() {
     try {
       await loginWithGoogle();
       notifySuccess("Logged in successfully with Google");
-     setTimeout(() => navigate("/dashboard"), 1500);
+      setTimeout(() => navigate("/dashboard"), 1500);
     } catch (error) {
       console.error("Google login error:", error);
       let errorMessage = "Failed to login with Google. Please try again.";
@@ -176,6 +184,7 @@ function Login() {
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
                 disabled={loading}
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <FiEyeOff /> : <FiEye />}
               </button>

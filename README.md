@@ -323,6 +323,14 @@ npm run dev
 http://localhost:5173
 ```
 
+<h3 id="running-tests">🧪 Running Tests</h3>
+
+This project uses **Vitest** for testing. To execute the test suite:
+
+```bash
+npm test
+```
+
 ## 🐳 Docker Setup (Alternative)
 
 For a containerized development environment:

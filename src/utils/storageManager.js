@@ -82,7 +82,7 @@ class StorageManager {
       this.storage.setItem(testKey, testKey);
       this.storage.removeItem(testKey);
       return true;
-    } catch (e) {
+    } catch {
       return false;
     }
   }

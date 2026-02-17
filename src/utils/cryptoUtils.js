@@ -42,7 +42,7 @@ export const formatPrice = (price, currency = 'USD', options = {}) => {
     });
 
     return formatter.format(price);
-  } catch (error) {
+  } catch {
     // Fallback for unsupported currencies
     const prefix = showSign && price > 0 ? '+' : '';
     return `${prefix}${currency} ${price.toFixed(maximumFractionDigits)}`;
@@ -783,11 +783,12 @@ export const checkAlertCondition = (alert, marketData) => {
       message = `${symbol} price is now below ${formatPrice(value)}`;
       break;
 
-    case AlertConditions.PERCENTAGE_CHANGE:
+    case AlertConditions.PERCENTAGE_CHANGE: {
       const change = calculatePercentageChange(price24hAgo, price);
       triggered = Math.abs(change) >= value;
       message = `${symbol} changed ${formatPercentage(change)} in 24h`;
       break;
+    }
 
     case AlertConditions.RSI_OVERSOLD:
       triggered = rsi <= (value || 30);
@@ -799,11 +800,12 @@ export const checkAlertCondition = (alert, marketData) => {
       message = `${symbol} RSI is overbought at ${rsi?.toFixed(2)}`;
       break;
 
-    case AlertConditions.VOLUME_SPIKE:
+    case AlertConditions.VOLUME_SPIKE: {
       const volumeChange = calculatePercentageChange(volume24hAgo, volume);
       triggered = volumeChange >= (value || 100);
       message = `${symbol} volume spiked ${formatPercentage(volumeChange)}`;
       break;
+    }
 
     default:
       message = 'Unknown alert condition';

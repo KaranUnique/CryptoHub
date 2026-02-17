@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
-import { CoinContext } from "../../context/CoinContext";
+import { CoinContext } from "../../context/CoinContextInstance";
 
 const DashboardContent = () => {
     const { currentUser } = useAuth();
@@ -154,10 +154,10 @@ const MarketOverviewWidget = ({ isDark, navigate }) => {
     const [topCoins, setTopCoins] = useState([]);
 
     useEffect(() => {
-        if (allCoin && allCoin.length > 0) {
+        if (Array.isArray(allCoin) && allCoin.length > 0) {
             // Get top 3 gainers
             const gainers = [...allCoin]
-                .sort((a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h)
+                .sort((a, b) => (b.price_change_percentage_24h || 0) - (a.price_change_percentage_24h || 0))
                 .slice(0, 3);
             setTopGainers(gainers);
 
@@ -226,7 +226,7 @@ const MarketOverviewWidget = ({ isDark, navigate }) => {
                                 </div>
                             </div>
                             <p className="text-green-400 text-xl font-bold">
-                                +{coin.price_change_percentage_24h.toFixed(2)}%
+                                +{coin.price_change_percentage_24h?.toFixed(2)}%
                             </p>
                         </div>
                     ))}
@@ -269,10 +269,10 @@ const MarketOverviewWidget = ({ isDark, navigate }) => {
                             </div>
                             <div className="text-right">
                                 <p className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                                    {currency.Symbol}{coin.current_price.toLocaleString()}
+                                    {currency.Symbol}{coin.current_price?.toLocaleString()}
                                 </p>
-                                <p className={`text-sm ${coin.price_change_percentage_24h > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                    {coin.price_change_percentage_24h > 0 ? '+' : ''}{coin.price_change_percentage_24h.toFixed(2)}%
+                                <p className={`text-sm ${(coin.price_change_percentage_24h || 0) > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                    {(coin.price_change_percentage_24h || 0) > 0 ? '+' : ''}{coin.price_change_percentage_24h?.toFixed(2)}%
                                 </p>
                             </div>
                         </div>
@@ -284,3 +284,4 @@ const MarketOverviewWidget = ({ isDark, navigate }) => {
 };
 
 export default DashboardContent;
+

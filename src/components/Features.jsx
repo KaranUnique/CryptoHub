@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import "./Features.css";
-// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
 import {

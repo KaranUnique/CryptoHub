@@ -1,28 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Home.css";
-import { CoinContext } from "../../context/CoinContext";
+import { CoinContext } from "../../context/CoinContextInstance";
 import { Link } from "react-router-dom";
-import { FiSearch, FiArrowUpRight, FiArrowDownRight, FiFilter } from "react-icons/fi";
+import { FiSearch, FiArrowUpRight, FiArrowDownRight, FiFilter, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import MarketFilters from "../../components/MarketFilters";
-import { Virtuoso } from 'react-virtuoso';
 
 const Home = () => {
   const { allCoin, filteredCoins, currency } = useContext(CoinContext);
   const [displayCoin, setDisplayCoin] = useState([]);
   const [input, setInput] = useState("");
-  // Removed visibleCount state as Virtual Scrolling handles this now
   const [showFilters, setShowFilters] = useState(false);
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+
+  // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
-  const coinPerPage =5;
-  const totalPages = Math.ceil(displayCoin.length / coinPerPage);
-  const paginatedCoins = displayCoin.slice((currentPage - 1 ) *coinPerPage, currentPage* coinPerPage);
+  const itemsPerPage = 10;
 
   const inputHandler = (e) => {
     setInput(e.target.value);
-    if (e.target.value === "") setDisplayCoin(filteredCoins);
+    if (e.target.value === "") {
+      setDisplayCoin(filteredCoins);
+    }
+    setCurrentPage(1); // Reset to first page on search
   };
 
   const searchHandler = (e) => {
@@ -36,6 +37,7 @@ const Home = () => {
     } else {
       setDisplayCoin(filteredCoins);
     }
+    setCurrentPage(1); // Reset to first page on search
   };
 
   const applyFilters = () => {
@@ -44,12 +46,29 @@ const Home = () => {
     if (maxPrice) filtered = filtered.filter((coin) => coin.current_price <= Number(maxPrice));
     setDisplayCoin(filtered);
     setShowFilters(false);
+    setCurrentPage(1); // Reset to first page on filter
   };
 
   useEffect(() => {
-    setCurrentPage(1)
     setDisplayCoin(filteredCoins);
   }, [filteredCoins]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil((displayCoin.length || 0) / itemsPerPage);
+  const currentCoins = displayCoin.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+      const section = document.querySelector('.market-section');
+      if (section) {
+        window.scrollTo({ top: section.offsetTop - 100, behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <div className="home-container">
@@ -141,7 +160,7 @@ const Home = () => {
                 list="coinlist"
                 placeholder="Search Tokens..."
               />
-              <button type="button" className="filter-trigger" onClick={() => setShowFilters(!showFilters)}>
+              <button type="button" className="filter-trigger" onClick={() => setShowFilters(!showFilters)} aria-label="Filter markets">
                 <FiFilter />
               </button>
             </form>
@@ -162,7 +181,7 @@ const Home = () => {
       </section>
 
       {/* -------------------------------------------
-        MARKET DATA SECTION (Virtualized)
+        MARKET DATA SECTION
         -------------------------------------------
       */}
       <section className="market-section">
@@ -187,34 +206,29 @@ const Home = () => {
           </div>
 
           <div className="table-body">
-            {displayCoin && displayCoin.length > 0 ? (
-              /* VIRTUAL SCROLLER IMPLEMENTATION */
-              <Virtuoso
-                useWindowScroll
-                data={paginatedCoins}  
-                itemContent={(index, item) => (
-                  <Link to={`/coin/${item.id}`} className="table-row" key={index}>
-                    <div className="col-rank">{item.market_cap_rank}</div>
-                    <div className="col-name">
-                      <img src={item.image} alt={item.name} className="coin-icon" />
-                      <div className="coin-info">
-                        <span className="coin-symbol">{item.symbol.toUpperCase()}</span>
-                        <span className="coin-fullname">{item.name}</span>
-                      </div>
+            {currentCoins && currentCoins.length > 0 ? (
+              currentCoins.map((item, index) => (
+                <Link to={`/coin/${item.id}`} className="table-row" key={item.id}>
+                  <div className="col-rank">{item.market_cap_rank}</div>
+                  <div className="col-name">
+                    <img src={item.image} alt={item.name} className="coin-icon" />
+                    <div className="coin-info">
+                      <span className="coin-symbol">{item.symbol.toUpperCase()}</span>
+                      <span className="coin-fullname">{item.name}</span>
                     </div>
-                    <div className="col-price">
-                      {currency.Symbol || currency.symbol}{item.current_price.toLocaleString()}
-                    </div>
-                    <div className={`col-change ${item.price_change_percentage_24h > 0 ? "positive" : "negative"}`}>
-                      {item.price_change_percentage_24h > 0 ? <FiArrowUpRight /> : <FiArrowDownRight />}
-                      {Math.abs(item.price_change_percentage_24h).toFixed(2)}%
-                    </div>
-                    <div className="col-mcap">
-                      {currency.Symbol || currency.symbol}{item.market_cap.toLocaleString()}
-                    </div>
-                  </Link>
-                )}
-              />
+                  </div>
+                  <div className="col-price">
+                    {currency.Symbol || currency.symbol}{item.current_price.toLocaleString()}
+                  </div>
+                  <div className={`col-change ${item.price_change_percentage_24h > 0 ? "positive" : "negative"}`}>
+                    {item.price_change_percentage_24h > 0 ? <FiArrowUpRight /> : <FiArrowDownRight />}
+                    {Math.abs(item.price_change_percentage_24h).toFixed(2)}%
+                  </div>
+                  <div className="col-mcap">
+                    {currency.Symbol || currency.symbol}{item.market_cap.toLocaleString()}
+                  </div>
+                </Link>
+              ))
             ) : (
               <div style={{
                 padding: '40px',
@@ -226,24 +240,64 @@ const Home = () => {
               </div>
             )}
           </div>
-          <div className="pagination">
-            <button className="btn-neon-purple"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => p - 1)} >
-              Prev
-            </button>
-            <span>
-              Page {currentPage} / {totalPages}
-            </span>
-            <button className="btn-neon-purple"
-              disabled={currentPage === totalPages || totalPages === 0}
-              onClick={() => setCurrentPage((p) => p + 1)}>
-              Next
-            </button>
-          </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="pagination-container">
+              <button
+                className="pagination-btn"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <FiChevronLeft /> Previous
+              </button>
+
+              <div className="pagination-numbers">
+                {totalPages <= 5 ? (
+                  // Show all pages if 5 or fewer
+                  Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNum => (
+                    <button
+                      key={pageNum}
+                      className={`page-number ${currentPage === pageNum ? 'active' : ''}`}
+                      onClick={() => handlePageChange(pageNum)}
+                    >
+                      {pageNum}
+                    </button>
+                  ))
+                ) : (
+                  // Logic to show a window of pages
+                  (() => {
+                    const pages = [];
+                    if (currentPage <= 3) {
+                      for (let i = 1; i <= 5; i++) pages.push(i);
+                    } else if (currentPage >= totalPages - 2) {
+                      for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
+                    } else {
+                      for (let i = currentPage - 2; i <= currentPage + 2; i++) pages.push(i);
+                    }
+                    return pages.map(pageNum => (
+                      <button
+                        key={pageNum}
+                        className={`page-number ${currentPage === pageNum ? 'active' : ''}`}
+                        onClick={() => handlePageChange(pageNum)}
+                      >
+                        {pageNum}
+                      </button>
+                    ));
+                  })()
+                )}
+              </div>
+
+              <button
+                className="pagination-btn"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next <FiChevronRight />
+              </button>
+            </div>
+          )}
         </div>
-        
-        {/* Load More Button removed because Virtual Scrolling handles infinite lists automatically */}
       </section>
 
       <datalist id="coinlist">

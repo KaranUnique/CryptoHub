@@ -4,10 +4,16 @@ import { getFirestore } from "firebase/firestore";
 
 // Check if Firebase credentials are configured
 const isFirebaseConfigured = () => {
-  return !!import.meta.env.VITE_FIREBASE_API_KEY && 
-         import.meta.env.VITE_FIREBASE_API_KEY !== 'your-firebase-api-key' &&
-         import.meta.env.VITE_FIREBASE_API_KEY !== 'your-actual-firebase-api-key';
+  return (
+    import.meta.env.VITE_FIREBASE_API_KEY &&
+    import.meta.env.VITE_FIREBASE_AUTH_DOMAIN &&
+    import.meta.env.VITE_FIREBASE_PROJECT_ID &&
+    import.meta.env.VITE_FIREBASE_STORAGE_BUCKET &&
+    import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID &&
+    import.meta.env.VITE_FIREBASE_APP_ID
+  );
 };
+
 
 let app = null;
 let auth = null;
@@ -27,12 +33,12 @@ if (isFirebaseConfigured()) {
   try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
-    
+
     // Set default persistence to local storage for login persistence across page refreshes
     setPersistence(auth, browserLocalPersistence).catch((error) => {
       console.warn('Failed to set auth persistence:', error);
     });
-    
+
     db = getFirestore(app);
     googleProvider = new GoogleAuthProvider();
   } catch (error) {

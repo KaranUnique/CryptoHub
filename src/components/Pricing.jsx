@@ -15,7 +15,6 @@ export default function Pricing() {
   const navigate = useNavigate();
   const [billingCycle, setBillingCycle] = useState("monthly");
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const [hoveredPlan, setHoveredPlan] = useState(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   // FIXED: Proper scroll handler with cleanup
@@ -163,16 +162,17 @@ export default function Pricing() {
                 onClick={toggleBillingCycle}
                 whileTap={{ scale: 0.95 }}
                 whileHover={{ scale: 1.05 }}
+                aria-label="Toggle billing cycle"
               >
                 <motion.div
                   className="absolute top-2 w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg flex items-center justify-center shadow-purple-500/50"
-                  animate={{ 
-                    x: billingCycle === 'yearly' ? 56 : 0 
+                  animate={{
+                    x: billingCycle === 'yearly' ? 56 : 0
                   }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 25 
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 25
                   }}
                 >
                   <FiZap className="text-white w-5 h-5" />
@@ -213,7 +213,7 @@ export default function Pricing() {
       >
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 lg:gap-12">
           {plans.map((plan) => {
-            const isHovered = hoveredPlan === plan?.name;
+
             const currentPrice = getPrice(plan?.price, billingCycle);
 
             return (
@@ -226,8 +226,6 @@ export default function Pricing() {
                 whileInView="visible"
                 whileHover="hover"
                 viewport={{ once: true }}
-                onHoverStart={() => setHoveredPlan(plan.name)}
-                onHoverEnd={() => setHoveredPlan(null)}
               >
                 {/* Card Background */}
                 <div className="h-full w-full bg-linear-to-br bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-[1.75rem] p-8 flex flex-col relative z-10 border border-white/30 dark:border-gray-700/50">

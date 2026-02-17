@@ -36,11 +36,9 @@
 @keyframes navItemFadeIn {
   0% {
     opacity: 0;
-    transform: translateY(-20px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -125,7 +123,10 @@
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border-color);
-  padding: 0.875rem 2%;
+  height: 86px;          
+  padding: 0 2%;         
+  display: flex;
+  align-items: center;   
   z-index: 1000;
   transition: all 0.4s var(--transition-smooth);
   /* Entrance animation */
@@ -157,7 +158,8 @@
 }
 
 .navbar.scrolled {
-  padding: 0.65rem 2%;
+  height: 60px;
+  padding: 0 2%;
   background: rgba(10, 10, 15, 0.98);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
@@ -171,7 +173,6 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  min-height: 56px;
 }
 
 /* Desktop layout - grid for logo, menu, actions */
@@ -200,6 +201,7 @@
 .navbar-logo {
   display: flex;
   align-items: center;
+  height: 100%;
   gap: 0.875rem;
   text-decoration: none;
   margin-left: -50px;
@@ -211,30 +213,24 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  transition: all 0.4s var(--transition-elastic);
+  transition:
+    transform 0.4s var(--transition-elastic),
+    background-position 0.6s ease;
   position: relative;
   padding: 0;
-  animation: navItemFadeIn 0.5s var(--transition-smooth) 0.1s both;
+  animation: navItemFadeIn 0.5s var(--transition-smooth) 0.1s forwards;
 }
 
 .navbar-logo:hover {
   transform: translateY(-3px) scale(1.02);
-  animation:
-    gradientShift 2s ease infinite,
-    float 2s ease-in-out infinite;
+  background-position: 100% 50%;
   filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.4));
 }
 
 .navbar-logo::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #00f3ff, #b026ff);
-  transition: width 0.4s var(--transition-smooth);
-  border-radius: 2px;
+  height: 6px;
+  filter: blur(6px);
+  opacity: 0.6;
 }
 
 .navbar-logo:hover::after {
@@ -289,8 +285,8 @@
 }
 
 .logo-img {
-  width: 70%;
-  height: 70%;
+  height: 60%;
+  width: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 6px rgba(0, 243, 255, 0.8))
     drop-shadow(0 0 12px rgba(176, 38, 255, 0.4));
@@ -395,16 +391,18 @@
 .navbar-item:hover .navbar-link {
   color: #ffffff;
   transform: translateY(-3px) scale(1.05);
-  text-shadow: 0 0 10px rgba(0, 243, 255, 0.5),
-                0 0 20px rgba(176, 38, 255, 0.3);
+  text-shadow:
+    0 0 10px rgba(0, 243, 255, 0.5),
+    0 0 20px rgba(176, 38, 255, 0.3);
 }
 
 .navbar-link:focus-visible,
 .navbar-link:active {
   color: #ffffff;
   transform: translateY(-3px) scale(1.05);
-  text-shadow: 0 0 10px rgba(0, 243, 255, 0.5),
-                0 0 20px rgba(176, 38, 255, 0.3);
+  text-shadow:
+    0 0 10px rgba(0, 243, 255, 0.5),
+    0 0 20px rgba(176, 38, 255, 0.3);
 }
 
 .navbar-link:hover::before {
@@ -565,8 +563,10 @@
   padding: 0.75rem 1.8rem;
   position: relative;
   overflow: hidden;
-  animation: navItemFadeIn 0.5s var(--transition-smooth) 0.4s both;
-  transition: all 0.3s var(--transition-elastic);
+  animation: navItemFadeIn 0.5s var(--transition-smooth) 0.4s forwards;
+  transition:
+    border-color 0.3s var(--transition-elastic),
+    box-shadow 0.3s var(--transition-elastic);
 }
 
 .navbar-btn-login::after {
@@ -635,8 +635,10 @@
   box-shadow:
     0 4px 20px rgba(0, 243, 255, 0.3),
     0 0 0 1px rgba(176, 38, 255, 0.2);
-  animation: navItemFadeIn 0.5s var(--transition-smooth) 0.5s both;
-  transition: all 0.3s var(--transition-elastic);
+  animation: navItemFadeIn 0.5s var(--transition-smooth) 0.5s forwards;
+  transition:
+    border-color 0.3s var(--transition-elastic),
+    box-shadow 0.3s var(--transition-elastic);
   position: relative;
   z-index: 1;
 }
@@ -846,34 +848,38 @@
 }
 
 .profile-icon-btn {
-  width: 52px;
-  height: 52px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, 
-    rgba(176, 38, 255, 0.2) 0%, 
-    rgba(0, 243, 255, 0.15) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(176, 38, 255, 0.2) 0%,
+    rgba(0, 243, 255, 0.15) 100%
+  );
   border: 2px solid rgba(176, 38, 255, 0.3);
   color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
   transition: all 0.3s var(--transition-smooth);
   position: relative;
   overflow: hidden;
 }
 
 .profile-icon-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, 
-    rgba(0, 243, 255, 0.2) 0%, 
-    rgba(176, 38, 255, 0.2) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 243, 255, 0.2) 0%,
+    rgba(176, 38, 255, 0.2) 100%
+  );
   opacity: 0;
   transition: opacity 0.3s var(--transition-smooth);
 }
@@ -881,8 +887,9 @@
 .profile-icon-btn:hover {
   transform: translateY(-3px) scale(1.08);
   border-color: rgba(0, 243, 255, 0.6);
-  box-shadow: 0 8px 24px rgba(0, 243, 255, 0.3),
-              0 0 20px rgba(176, 38, 255, 0.25);
+  box-shadow:
+    0 8px 24px rgba(0, 243, 255, 0.3),
+    0 0 20px rgba(176, 38, 255, 0.25);
 }
 
 .profile-icon-btn:hover::before {
@@ -902,9 +909,10 @@
   background: rgba(15, 15, 25, 0.98);
   border: 1px solid rgba(176, 38, 255, 0.3);
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
-              0 0 40px rgba(176, 38, 255, 0.2),
-              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(176, 38, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   overflow: hidden;
   opacity: 0;
@@ -921,7 +929,7 @@
 }
 
 .profile-dropdown::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -8px;
   right: 18px;
@@ -934,9 +942,11 @@
 
 .profile-dropdown-header {
   padding: 18px 20px;
-  background: linear-gradient(135deg, 
-    rgba(176, 38, 255, 0.15) 0%, 
-    rgba(0, 243, 255, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(176, 38, 255, 0.15) 0%,
+    rgba(0, 243, 255, 0.1) 100%
+  );
   display: flex;
   align-items: center;
   gap: 12px;
@@ -960,11 +970,13 @@
 
 .profile-dropdown-divider {
   height: 1px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(176, 38, 255, 0.3), 
-    rgba(0, 243, 255, 0.3), 
-    transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(176, 38, 255, 0.3),
+    rgba(0, 243, 255, 0.3),
+    transparent
+  );
 }
 
 .profile-dropdown-items {
@@ -992,16 +1004,18 @@
 }
 
 .profile-dropdown-item::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(176, 38, 255, 0.15), 
-    transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(176, 38, 255, 0.15),
+    transparent
+  );
   transition: left 0.4s var(--transition-smooth);
 }
 
@@ -1055,7 +1069,7 @@
 }
 
 .navbar-toggle::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -1159,15 +1173,17 @@
 }
 
 .mobile-menu-link::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, 
-    rgba(176, 38, 255, 0.1) 0%, 
-    rgba(0, 243, 255, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(176, 38, 255, 0.1) 0%,
+    rgba(0, 243, 255, 0.05) 100%
+  );
   border-radius: 10px;
   transform: scaleX(0);
   transform-origin: right;
@@ -1176,7 +1192,7 @@
 }
 
 .mobile-menu-link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 2px;
   left: 50%;
@@ -1194,8 +1210,9 @@
 .mobile-menu-link.active {
   color: #ffffff;
   transform: translateY(-2px) scale(1.02);
-  text-shadow: 0 0 10px rgba(0, 243, 255, 0.5),
-                0 0 20px rgba(176, 38, 255, 0.3);
+  text-shadow:
+    0 0 10px rgba(0, 243, 255, 0.5),
+    0 0 20px rgba(176, 38, 255, 0.3);
 }
 
 .mobile-menu-link:hover::before,
@@ -1214,8 +1231,9 @@
 .mobile-menu-item:hover .mobile-menu-link {
   color: #ffffff;
   transform: translateY(-2px) scale(1.02);
-  text-shadow: 0 0 10px rgba(0, 243, 255, 0.5),
-                0 0 20px rgba(176, 38, 255, 0.3);
+  text-shadow:
+    0 0 10px rgba(0, 243, 255, 0.5),
+    0 0 20px rgba(176, 38, 255, 0.3);
 }
 
 .mobile-menu-item:hover .mobile-menu-link::before {
@@ -1233,8 +1251,9 @@
 .mobile-menu-link:active {
   color: #ffffff;
   transform: translateY(-2px) scale(1.02);
-  text-shadow: 0 0 10px rgba(0, 243, 255, 0.5),
-                0 0 20px rgba(176, 38, 255, 0.3);
+  text-shadow:
+    0 0 10px rgba(0, 243, 255, 0.5),
+    0 0 20px rgba(176, 38, 255, 0.3);
 }
 
 .mobile-menu-link:focus-visible::before,
@@ -1270,7 +1289,7 @@
 }
 
 .mobile-dropdown-link::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -1384,7 +1403,7 @@
 .mobile-auth .navbar-btn {
   width: 100%;
   text-align: center;
-  padding: 0.875rem 1rem;
+  padding: 0.6rem 1.2rem;
   font-size: 0.95rem;
   font-weight: 600;
   display: block;
@@ -1508,7 +1527,7 @@
   .mobile-menu {
     display: none !important;
   }
-  
+
   .navbar-menu {
     display: flex;
   }
@@ -1519,16 +1538,16 @@
   .navbar {
     padding: 0.75rem 4%;
   }
-  
+
   .navbar.scrolled {
     padding: 0.65rem 4%;
   }
-  
+
   .navbar-content {
     gap: 1rem;
     grid-template-columns: auto 1fr;
   }
-  
+
   .mobile-only {
     display: flex;
   }
@@ -1551,45 +1570,45 @@
   .desktop-auth {
     display: flex !important;
   }
-  
+
   .navbar-btn-login,
   .navbar-btn-signup {
     display: none;
   }
-  
+
   .navbar-logo {
     font-size: 1.25rem;
   }
-  
+
   .navbar-logo-icon {
     width: 40px;
     height: 40px;
   }
-  
+
   .navbar-actions {
     gap: 0.875rem;
     justify-content: flex-end;
   }
-  
+
   .profile-icon-btn {
     width: 48px;
     height: 48px;
     font-size: 1.3rem;
   }
-  
+
   .profile-dropdown {
     min-width: 260px;
     right: -10px;
   }
-  
+
   .profile-dropdown-header {
     padding: 14px 16px;
   }
-  
+
   .profile-email {
     font-size: 0.85rem;
   }
-  
+
   .profile-dropdown-item {
     padding: 10px 14px;
     font-size: 0.9rem;
@@ -1601,68 +1620,68 @@
   .navbar {
     padding: 0.75rem 2%;
   }
-  
+
   .navbar.scrolled {
     padding: 0.6rem 2%;
   }
-  
+
   .navbar-content {
     gap: 1rem;
     grid-template-columns: auto 1fr;
   }
-  
+
   .navbar-toggle {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  
+
   .navbar-menu {
     display: none;
   }
-  
+
   .desktop-auth {
     display: flex !important;
   }
-  
+
   .navbar-btn-login,
   .navbar-btn-signup {
     display: none;
   }
-  
+
   .navbar-logo {
     font-size: 1.2rem;
   }
-  
+
   .navbar-logo-icon {
     width: 40px;
     height: 40px;
   }
-  
+
   .navbar-actions {
     gap: 1rem;
     justify-content: flex-end;
   }
-  
+
   .profile-icon-btn {
     width: 50px;
     height: 50px;
     font-size: 1.35rem;
   }
-  
+
   .profile-dropdown {
     min-width: 270px;
   }
-  
+
   .profile-dropdown-header {
     padding: 16px 18px;
   }
-  
+
   .profile-email {
     font-size: 0.875rem;
   }
-  
+
   .profile-dropdown-item {
     padding: 11px 15px;
     font-size: 0.925rem;
@@ -1674,11 +1693,11 @@
   .navbar {
     padding: 0.875rem 3%;
   }
-  
+
   .navbar.scrolled {
     padding: 0.65rem 3%;
   }
-  
+
   .navbar-toggle {
     display: none;
   }
@@ -1687,7 +1706,7 @@
     display: flex !important;
     gap: 0.5rem;
   }
-  
+
   .navbar-content {
     padding: 0;
     grid-template-columns: auto 1fr auto;
@@ -1702,7 +1721,7 @@
   .navbar-logo {
     font-size: 1.35rem;
   }
-  
+
   .navbar-logo-icon {
     width: 42px;
     height: 42px;
@@ -1724,13 +1743,13 @@
   .navbar-btn-signup {
     padding: 0.6rem 1.5rem;
   }
-  
+
   .profile-icon-btn {
     width: 50px;
     height: 50px;
     font-size: 1.35rem;
   }
-  
+
   .profile-dropdown {
     min-width: 275px;
   }
@@ -1741,11 +1760,11 @@
   .navbar {
     padding: 0.875rem 3%;
   }
-  
+
   .navbar.scrolled {
     padding: 0.65rem 3%;
   }
-  
+
   .navbar-content {
     padding: 0;
     max-width: 1400px;
@@ -1760,7 +1779,7 @@
   .navbar-logo {
     font-size: 1.5rem;
   }
-  
+
   .navbar-logo-icon {
     width: 44px;
     height: 44px;
@@ -1782,7 +1801,7 @@
   .navbar-btn-signup {
     padding: 0.75rem 2rem;
   }
-  
+
   .profile-icon-btn {
     width: 52px;
     height: 52px;

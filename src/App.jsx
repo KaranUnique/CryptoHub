@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useRef } from "react";
-import Lenis from "@studio-freight/lenis";
+import Lenis from "lenis";
 import Navbar from "@/components/Navbar";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "@/pages/Home/Home";
@@ -10,6 +10,7 @@ import Blog from "@/components/Blog";
 import Features from "@/components/Features";
 import Signup from "@/components/Signup";
 import Login from "@/components/Login";
+import EmailVerification from "@/components/EmailVerification";
 import BlogDetail from "@/components/BlogDetail";
 import DashboardLayout from "@/pages/Dashboard/DashboardLayout";
 import DashboardContent from "@/pages/Dashboard/DashboardContent";
@@ -17,6 +18,7 @@ import MarketOverview from "@/pages/Dashboard/MarketOverview";
 import Leaderboard from "@/components/Leaderboard";
 import ChangePassword from "@/components/ChangePassword";
 import SavedInsights from "@/pages/SavedInsights";
+import Profile from "@/pages/Dashboard/Profile";
 import ForgotPassword from "@/components/ForgotPassword";
 import PrivateRoute from "@/components/PrivateRoute";
 import { AuthProvider } from "@/context/AuthContext";
@@ -24,7 +26,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import Contributors from "@/components/Contributors";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { CoinContext } from "@/context/CoinContext";
+import { CoinContext } from "@/context/CoinContextInstance";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -36,6 +38,11 @@ import ContactUs from "./components/ContactUs";
 import FAQ from "./components/FAQ";
 import PageNotFound from "./components/PageNotFound";
 import About from "./components/About";
+import CryptoChatbot from "./CryptoChatbot/CryptoChatbot";
+import Feedback from "./pages/Feedback";
+import TrendingCoins from "@/pages/TrendingCoins";
+import NewListings from "@/pages/NewListings";
+
 
 const App = () => {
 
@@ -72,7 +79,7 @@ const App = () => {
     location.pathname === "/change-password" ||
     location.pathname === "/saved-insights";
 
-  const authRoutes = ["/login", "/signup", "/forgot-password"];
+  const authRoutes = ["/login", "/signup", "/forgot-password", "/verify-email"];
   const isAuthPage = authRoutes.includes(location.pathname);
 
   useEffect(() => {
@@ -127,11 +134,21 @@ const App = () => {
                 {/* Blog detail route supporting both slug and id patterns */}
                 <Route path="/blog/:slug" element={<BlogDetail />} />
                 <Route path="/blog/article/:id" element={<BlogDetail />} />
+                <Route path="/trending" element={<TrendingCoins />} />
+                <Route path="/new-listings" element={<NewListings />} />
 
                 <Route path="/features" element={<Features />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route
+                  path="/verify-email"
+                  element={
+                    <PrivateRoute>
+                      <EmailVerification />
+                    </PrivateRoute>
+                  }
+                />
                 <Route path="/contributors" element={<Contributors />} />
 
                 {/* Dashboard Layout with nested routes - all share the same sidebar */}
@@ -147,6 +164,7 @@ const App = () => {
                   <Route path="/leaderboard" element={<Leaderboard />} />
                   <Route path="/change-password" element={<ChangePassword />} />
                   <Route path="/saved-insights" element={<SavedInsights />} />
+                  <Route path="/profile" element={<Profile />} />
                 </Route>
 
                 {/* Coin route - accessible to all but shows sidebar if logged in */}
@@ -159,6 +177,7 @@ const App = () => {
                 <Route path="/terms" element={<TermsOfService />} />
                 <Route path="/contactus" element={<ContactUs />} />
                 <Route path="/faq" element={<FAQ />} />
+                <Route path="/feedback" element={<Feedback />} />
 
                 {/* About Section */}
                 <Route path="/about" element={<About />} />
@@ -174,6 +193,7 @@ const App = () => {
             {!isDashboard && !isAuthPage && <Footer />}
           </div>
           <ScrollToTop lenis={lenisRef.current} />
+          <CryptoChatbot />
         </AuthProvider>
       </ThemeProvider>
     </>

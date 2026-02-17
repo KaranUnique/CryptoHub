@@ -216,7 +216,7 @@ export const createAreaChartConfig = (data, options = {}) => {
   return createLineChartConfig(data, {
     ...options,
     fill: true,
-    datasets: options.datasets?.map((dataset, index) => ({
+    datasets: options.datasets?.map((dataset) => ({
       ...dataset,
       backgroundColor: (context) => {
         const chart = context.chart;
@@ -242,8 +242,7 @@ export const createAreaChartConfig = (data, options = {}) => {
 export const createCandlestickConfig = (candles, options = {}) => {
   const {
     theme = 'dark',
-    showVolume = true,
-    volumeOpacity = 0.3
+    showVolume = true
   } = options;
 
   const colors = getChartTheme(theme);

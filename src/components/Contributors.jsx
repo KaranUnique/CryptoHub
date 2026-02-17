@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import "./contributors.css"; 
+import "./contributors.css";
 
 const OWNER = "KaranUnique";
 const REPO = "CryptoHub";
 const GITHUB_API_BASE = `https://api.github.com/repos/${OWNER}/${REPO}`;
 const PER_PAGE = 100;
+const ITEMS_PER_PAGE_DISPLAY = 6;
 
 // Precompiled regex for level extraction (avoid re-creating per call)
 const LEVEL_REGEX = /level[\s-]*(1|2|3)/;
@@ -15,7 +16,7 @@ const PROJECT_ADMIN = {
   repo: "CryptoHub",
   repoUrl: `https://github.com/${OWNER}/${REPO}`,
   githubUrl: `https://github.com/${OWNER}`,
-  avatarUrl: `https://avatars.githubusercontent.com/${OWNER}?v=4&s=200`, 
+  avatarUrl: `https://avatars.githubusercontent.com/${OWNER}?v=4&s=200`,
   description: "Project Creator & Lead Maintainer"
 };
 
@@ -63,7 +64,7 @@ const getRankFromPoints = (points) => {
 const rankClassCache = new Map();
 const getRankClass = (rank) => {
   if (rankClassCache.has(rank)) return rankClassCache.get(rank);
-  const cls = rank.toLowerCase().replace(/ /g, "-").replace(/[🥇🥈🥉]/g, "").replace(/-$/, "");
+  const cls = rank.toLowerCase().replace(/ /g, "-").replace(/[🥇🥈🥉]/gu, "").replace(/-$/, "");
   rankClassCache.set(rank, cls);
   return cls;
 };
@@ -184,6 +185,7 @@ const Contributors = () => {
   const [selectedRankFilter, setSelectedRankFilter] = useState("all");
   const [selectedContributor, setSelectedContributor] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // AbortController ref for cleanup on unmount
   const abortRef = useRef(null);
@@ -279,17 +281,18 @@ const Contributors = () => {
     return result;
   }, [contributors, debouncedSearch, selectedRankFilter, sortBy]);
 
-  // Lock body scroll when modal is open
+  // Reset page when filters change
   useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [showModal]);
+    setCurrentPage(1);
+  }, [debouncedSearch, sortBy, selectedRankFilter]);
+
+  // Calculate pagination
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE_DISPLAY;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE_DISPLAY;
+  const currentContributors = filteredContributors.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredContributors.length / ITEMS_PER_PAGE_DISPLAY);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleOpenModal = useCallback((contributor) => {
     setSelectedContributor(contributor);
@@ -402,13 +405,13 @@ const Contributors = () => {
           </div>
 
           <div className="project-admin-actions">
-            <button 
+            <button
               className="btn btn-primary project-admin-btn"
               onClick={() => handleOpenGitHubProfile(PROJECT_ADMIN.githubUrl)}
             >
               View GitHub Profile →
             </button>
-            <button 
+            <button
               className="btn btn-outline project-admin-btn"
               onClick={handleOpenRepo}
             >
@@ -429,7 +432,7 @@ const Contributors = () => {
         {error && (
           <div className="error-container">
             <p className="contributors-error">{error}</p>
-            <p style={{fontSize: '0.85rem', color: '#9ca3af'}}>
+            <p style={{ fontSize: '0.85rem', color: '#9ca3af' }}>
               Stats will show "No contributors found" - normal if repo has no merged PRs yet.
             </p>
           </div>
@@ -438,24 +441,114 @@ const Contributors = () => {
         {!loading && !error && filteredContributors.length === 0 && (
           <div className="empty-state">
             <p className="contributors-empty">No contributors found.</p>
-            <p style={{fontSize: '0.9rem', color: '#9ca3af'}}>
-              No merged pull requests in KaranUnique/CryptoHub yet. 
-              <br/>Stats show 0 contributors, 0 PRs, 0 points ✅
+            <p style={{ fontSize: '0.9rem', color: '#9ca3af' }}>
+              No merged pull requests in KaranUnique/CryptoHub yet.
+              <br />Stats show 0 contributors, 0 PRs, 0 points ✅
             </p>
           </div>
         )}
 
         {!loading && !error && filteredContributors.length > 0 && (
-          <div className="contributors-grid">
-            {filteredContributors.map((c) => (
-              <ContributorCard
-                key={c.username}
-                contributor={c}
-                onOpenModal={handleOpenModal}
-                onOpenGitHub={handleOpenGitHubProfile}
-              />
-            ))}
-          </div>
+          <>
+            <div className="contributors-grid">
+              {currentContributors.map((c) => (
+                <ContributorCard
+                  key={c.username}
+                  contributor={c}
+                  onOpenModal={handleOpenModal}
+                  onOpenGitHub={handleOpenGitHubProfile}
+                />
+              ))}
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="contributors-pagination">
+                <button
+                  className="pagination-btn"
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  &laquo; Prev
+                </button>
+
+                {/* Windowed/ellipsis pagination to avoid rendering a button for every page */}
+                {(() => {
+                  const visiblePages = [];
+                  const maxVisible = 7; // show all pages if totalPages is small
+
+                  if (totalPages <= maxVisible) {
+                    // Small number of pages: render all
+                    for (let page = 1; page <= totalPages; page++) {
+                      visiblePages.push(page);
+                    }
+                  } else {
+                    const firstPage = 1;
+                    const lastPage = totalPages;
+                    const windowSize = 2; // number of pages to show on each side of current
+
+                    let start = Math.max(currentPage - windowSize, firstPage + 1);
+                    let end = Math.min(currentPage + windowSize, lastPage - 1);
+
+                    // Ensure window stays within bounds between first+1 and last-1
+                    start = Math.max(start, firstPage + 1);
+                    end = Math.min(end, lastPage - 1);
+
+                    visiblePages.push(firstPage);
+
+                    // Left ellipsis
+                    if (start > firstPage + 1) {
+                      visiblePages.push("ellipsis-left");
+                    }
+
+                    // Pages around current
+                    for (let page = start; page <= end; page++) {
+                      visiblePages.push(page);
+                    }
+
+                    // Right ellipsis
+                    if (end < lastPage - 1) {
+                      visiblePages.push("ellipsis-right");
+                    }
+
+                    visiblePages.push(lastPage);
+                  }
+
+                  return visiblePages.map((item, index) => {
+                    if (typeof item === "string") {
+                      // Ellipsis placeholder
+                      return (
+                        <span
+                          key={item + "-" + index}
+                          className="pagination-ellipsis"
+                        >
+                          &hellip;
+                        </span>
+                      );
+                    }
+
+                    const pageNumber = item;
+                    return (
+                      <button
+                        key={pageNumber}
+                        className={`pagination-btn ${currentPage === pageNumber ? "active" : ""}`}
+                        onClick={() => paginate(pageNumber)}
+                      >
+                        {pageNumber}
+                      </button>
+                    );
+                  });
+                })()}
+                <button
+                  className="pagination-btn"
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next &raquo;
+                </button>
+              </div>
+            )}
+          </>
         )}
       </section>
 

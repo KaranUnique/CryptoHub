@@ -55,8 +55,9 @@
   color: #b8bdd0;
   font-size: 15px;
   line-height: 1.6;
-  margin-bottom: 24px;
-  max-width: 320px;
+  margin: 0 auto 24px;
+  max-width: 400px;
+
 }
 
 /* Payment Methods */
@@ -251,28 +252,34 @@
 .footer-bottom a:hover {
   color: #7928ca;
 }
-.footer-newsletter{
-  max-width:100%;
+
+.footer-newsletter {
+  max-width: 100%;
 }
-.footer-newsletter form{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
+
+.footer-newsletter form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-.footer-newsletter form input{
+
+.footer-newsletter form input {
   border-radius: 5px;
-  flex:1;
-padding:5px 0px;
+  flex: 1;
+  padding: 5px 0px;
 }
-.footer-newsletter form input::placeholder{
-  padding-left:10px;
+
+.footer-newsletter form input::placeholder {
+  padding-left: 10px;
 }
-button{
+
+button {
   border-radius: 5px;
-  padding:5px 10px;
+  padding: 5px 10px;
   background-color: #666;
 }
-button:hover{
+
+button:hover {
   background-color: #7928ca;
 }
 
@@ -282,6 +289,7 @@ button:hover{
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -290,11 +298,22 @@ button:hover{
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+  .footer-brand {
+    grid-column: span 3;
+    text-align: center;
+  }
+
+  .footer-brand p {
+    margin: 0 auto 24px;
+    max-width: 400px;
+    text-align: center;
+  }
+
   .footer-main {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 32px;
   }
-  
+
   .footer-brand {
     grid-column: span 3;
   }
@@ -304,46 +323,134 @@ button:hover{
   .footer-content {
     padding: 40px 20px 20px;
   }
-  
+
   .footer-main {
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  
+
   .footer-brand {
     text-align: center;
   }
-  
+
   .payment-methods {
     justify-content: center;
   }
-  
+
   .footer-bottom-section {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .footer-bottom {
     text-align: center;
     order: -1;
   }
-  
+
   .newsletter-form {
     max-width: 100%;
   }
 }
 
 @media (max-width: 480px) {
+  .footer-content {
+    padding: 30px 16px;
+  }
+
+  .footer-main {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 16px;
+    /* Reduced specific gap for mobile compactness */
+  }
+
+  .footer-links ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-links h4,
+  .footer-newsletter h4,
+  .footer-newsletter p {
+    margin-bottom: 12px;
+    /* Reduced specific margins */
+  }
+
+  .footer-newsletter {
+    text-align: left;
+    /* Align text left as requested */
+    width: 100%;
+    margin: 0;
+    /* Remove centering margins */
+    padding: 0 10px;
+    /* Add slight padding to prevent edge clipping */
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .newsletter-form input {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .newsletter-form button {
+    width: 100%;
+    height: 48px;
+    /* Reset height from square to rectangle */
+    border-radius: 8px;
+    /* Match input radius */
+    box-sizing: border-box;
+  }
+
   .social-links {
-    justify-content: center;
+    justify-content: flex-start;
+    /* Align social icons left too */
+    padding-left: 10px;
   }
-  
+
   .payment-methods {
-    gap: 6px;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
   }
-  
+
   .payment-icon {
     width: 36px;
     height: 24px;
+  }
+
+  .footer-bottom-section {
+    padding-top: 24px;
+    gap: 20px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .footer-logo {
+    font-size: 28px;
+  }
+
+  .footer-links h4 {
+    font-size: 15px;
+  }
+
+  .footer-brand p {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+
+  .footer-bottom a {
+    display: block;
+    margin: 5px 0;
+    /* Stack links vertically */
   }
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 
-const ScrollToTop = ({lenis}) => {
+const ScrollToTop = ({ lenis }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const ScrollToTop = ({lenis}) => {
     if (lenis) {
       lenis.scrollTo(0);
     } else {
-      window.scrollTo({ top: 0,behavior:"smooth" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -28,7 +28,7 @@ const ScrollToTop = ({lenis}) => {
       onClick={scrollToTop}
       aria-label="Scroll to top"
       className="
-        fixed bottom-6 right-6 z-50
+        fixed bottom-4 sm:bottom-6 right-2 sm:right-6 z-50
         rounded-full bg-cyan-300 text-black
         p-3 shadow-lg
         hover:bg-gray-800

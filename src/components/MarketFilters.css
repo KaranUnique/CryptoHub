@@ -3,11 +3,14 @@
 }
 
 /* Desktop */
+/* Desktop */
 .market-filters {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 20px 0;
+  /* Removed large margins as it's inside a header */
+  margin: 0;
+  flex-wrap: wrap;
 }
 
 .filter-label {
@@ -15,7 +18,7 @@
   color: #aaa;
 }
 
-.filter-btn {
+.market-filter-btn {
   padding: 6px 14px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -23,15 +26,25 @@
   color: #fff;
   cursor: pointer;
   transition: background 0.2s ease, border 0.2s ease;
+  white-space: nowrap;
 }
 
-.filter-btn:hover {
+.market-filter-btn:hover {
   background: rgba(255, 255, 255, 0.08);
 }
 
-.filter-btn.active {
-  background: #7927ff;
-  border-color: #7927ff;
+.market-filter-btn.active {
+  background: #00f3ff;
+  border-color: #00f3ff;
+  color: #130032;
+  box-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
+  font-weight: 700;
+  transform: translateY(-1px);
+}
+
+.market-filter-btn.active:hover {
+  background: #33f6ff;
+  box-shadow: 0 0 16px rgba(0, 243, 255, 0.8);
 }
 
 /* Toggle button hidden on desktop */
@@ -45,7 +58,10 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-}
+    position: relative;
+    z-index: 50;
+  }
+
   .filter-toggle {
     display: block;
     background: #111;
@@ -54,16 +70,24 @@
     padding: 10px 14px;
     border-radius: 6px;
     font-size: 14px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .market-filters {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 8px;
-    margin-top: 10px;
     background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 10px;
     border-radius: 8px;
+    min-width: 160px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 
     /* Animation setup */
     opacity: 0;
@@ -81,7 +105,7 @@
   .market-filters.open {
     opacity: 1;
     transform: translateY(0);
-    max-height: 300px; /* safe height */
+    max-height: 300px;
     pointer-events: auto;
   }
 
@@ -89,8 +113,38 @@
     display: none;
   }
 
-  .filter-btn {
+  .market-filter-btn {
     width: 100%;
     text-align: left;
+    padding: 10px;
+  }
+}
+
+/* ================= SMALL MOBILE (up to 400px) ================= */
+@media (max-width: 400px) {
+  .filter-toggle {
+    padding: 8px 12px;
+    font-size: 13px;
+    width: 100%;
+    /* Make toggle full width for easier tapping */
+    text-align: center;
+  }
+
+  .market-filters-wrapper {
+    width: 100%;
+    /* Ensure it takes full available width */
+    align-items: center;
+    /* Center align on very small screens */
+  }
+
+  .market-filters {
+    width: 100%;
+    /* Dropdown takes full width */
+    right: auto;
+    /* Reset right positioning */
+    left: 0;
+    /* Align left */
+    min-width: auto;
+    /* Allow it to shrink if needed */
   }
 }

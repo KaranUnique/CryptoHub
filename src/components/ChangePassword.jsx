@@ -80,7 +80,7 @@ const ChangePassword = () => {
 
     // clear previous messages
     setError("");
-    
+
 
     // validate form before API Call
     if (!validateForm()) {
@@ -97,23 +97,23 @@ const ChangePassword = () => {
       setConfirmPassword("");
     } catch (err) {
       console.error("Failed to change password. ", err);
-      let message="failed to change password .please try again.";
+      let message = "failed to change password .please try again.";
 
       // Handle specific Firebase errors
       if (err.code === "auth/wrong-password") {
-        message="Current password is incorrect.";
+        message = "Current password is incorrect.";
       } else if (err.code === "auth/weak-password") {
-        message="New password is too weak. Please use a stronger password.";
+        message = "New password is too weak. Please use a stronger password.";
       } else if (err.code === "auth/requires-recent-login") {
-        message="Session expired. Please log out and log in again.";
+        message = "Session expired. Please log out and log in again.";
       } else if (err.code === "auth/too-many-requests") {
-        message="Too many attempts. Please try again later.";
-      } 
-      else if (err.code ==="auth/invalid-credential"){
-        message="Invalid credentials provided.";
+        message = "Too many attempts. Please try again later.";
+      }
+      else if (err.code === "auth/invalid-credential") {
+        message = "Invalid credentials provided.";
       }
       else {
-        message=err.message || "Failed to change password. Please try again.";
+        message = err.message || "Failed to change password. Please try again.";
       }
       notifyError(message);
     } finally {
@@ -150,6 +150,7 @@ const ChangePassword = () => {
                 className="toggle-password"
                 onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                 tabIndex={-1}
+                aria-label={showCurrentPassword ? "Hide password" : "Show password"}
               >
                 {showCurrentPassword ? <FiEyeOff /> : <FiEye />}
               </button>
@@ -174,6 +175,7 @@ const ChangePassword = () => {
                 className="toggle-password"
                 onClick={() => setShowNewPassword(!showNewPassword)}
                 tabIndex={-1}
+                aria-label={showNewPassword ? "Hide password" : "Show password"}
               >
                 {showNewPassword ? <FiEyeOff /> : <FiEye />}
               </button>
@@ -198,6 +200,7 @@ const ChangePassword = () => {
                 className="toggle-password"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 tabIndex={-1}
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
               >
                 {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
               </button>

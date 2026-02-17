@@ -1,99 +1,105 @@
-/* CookiePolicy.css - Scoped & Simple */
-.cookie-container {
+
+
+
+/* Background Wrapper */
+.cookie-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
-  padding: 2rem;
-  color: #e5e5e5;
-  font-family: system-ui, -apple-system, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #141e30, #243b55);
+  font-family: "Poppins", sans-serif;
 }
 
-.cookie-container h1 {
+/* Main Big Card */
+.main-card {
+  width: 100%;
+  max-width: 1100px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  border-radius: 25px;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+}
+
+/* Header Card */
+.header-card {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 25px;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-card h1 {
   font-size: 2.5rem;
-  background: linear-gradient(135deg, #fff, #ccc);
+  background: linear-gradient(90deg, #00f5a0, #00d9f5);
   -webkit-background-clip: text;
-  background-clip: text;
-  text-align: center;
-  margin-bottom: 1rem;
-  font-weight: 700;
+  -webkit-text-fill-color: transparent;
 }
 
-.cookie-container > p {
-  text-align: center;
-  color: #aaa;
-  margin-bottom: 2.5rem;
-  font-size: 1rem;
+.header-card p {
+  margin-top: 10px;
+  color: #d1d5db;
+  font-size: 0.9rem;
 }
 
-section {
-  max-width: 800px;
-  margin: 0 auto 2.5rem;
-  background: rgba(15, 15, 35, 0.7);
-  padding: 2rem;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.1);
+/* Section Cards */
+.sections {
+  display: grid;
+  gap: 25px;
 }
 
-section h2 {
-  font-size: 1.6rem;
-  color: #fff;
-  margin-bottom: 1.2rem;
-  padding-left: 1rem;
-  border-left: 3px solid #4ade80;
+.section-card {
+  padding: 25px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
-p {
-  line-height: 1.7;
-  font-size: 1.05rem;
-  margin-bottom: 1rem;
-  color: #d0d0d0;
+.section-card:hover {
+  border: 1px solid #00f5a0;
+  box-shadow: 0 10px 30px rgba(0, 245, 160, 0.3);
 }
 
-ul {
-  padding-left: 1.5rem;
-  list-style: none;
+.section-card h2 {
+  margin-bottom: 15px;
+  color: #00f5a0;
+  font-size: 1.3rem;
 }
 
-ul li {
-  position: relative;
-  margin-bottom: 0.8rem;
-  font-size: 1.05rem;
-  color: #d0d0d0;
+.section-card p {
+  color: #e5e7eb;
+  line-height: 1.6;
 }
 
-
-
-strong {
-  color: #fff;
-  font-weight: 600;
+.section-card ul {
+  padding-left: 20px;
 }
 
-a {
-  color: #4ade80;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
+.section-card li {
+  margin-bottom: 8px;
+  color: #e5e7eb;
+  transition: 0.3s ease;
 }
 
-a:hover {
-  color: #22c55e;
-  text-decoration: underline;
+.section-card li:hover {
+  color: #00d9f5;
+  transform: translateX(5px);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
-  .cookie-container { 
-    padding: 1rem; 
+  .main-card {
+    padding: 25px;
   }
-  
-  section { 
-    padding: 1.5rem; 
-    margin-bottom: 2rem; 
-  }
-  
-  .cookie-container h1 { 
-    font-size: 2rem; 
-  }
-  
-  section h2 { 
-    font-size: 1.4rem; 
+
+  .header-card h1 {
+    font-size: 2rem;
   }
 }
