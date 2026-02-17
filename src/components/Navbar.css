@@ -231,7 +231,7 @@
   background-position: 100% 50%;
   filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.4));
    color: #1088ff;
-  -webkit-text-fill-color: #1088ff
+  -webkit-text-fill-color: #1088ff;
 }
 
 .navbar-logo::after {
