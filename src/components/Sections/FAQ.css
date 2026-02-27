@@ -61,12 +61,13 @@
 }
 
 .faq-answer ul {
-  list-style-type: disc;   
-  padding-left: 20px;
-  margin-bottom: 10px;
+  list-style: disc !important;
+  list-style-position: inside;
+  padding-left: 20px !important;
+  margin: 10px 0;
 }
 
 .faq-answer li {
+  display: list-item !important;
   margin-bottom: 6px;
 }
-
