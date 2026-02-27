@@ -4,33 +4,99 @@ import './FAQ.css'
 const FAQ = () => {
 const [activeIndex, setActiveIndex] = useState(null);
 
- const faqData = [
+const faqData = [
   {
     question: "What is CryptoHub?",
-    answer:
-      "CryptoHub is a platform for real-time crypto tracking, market insights, and portfolio management."
+    answer: (
+      <>
+        <p>
+          CryptoHub is a comprehensive cryptocurrency tracking platform designed to help users monitor the crypto market in real time.
+        </p>
+        <ul>
+          <li>Track live cryptocurrency prices and trends</li>
+          <li>Analyze market insights and performance data</li>
+          <li>Manage and monitor your personal crypto portfolio</li>
+        </ul>
+        <p>
+          It is built to provide simple and user-friendly tools for both beginners and experienced traders.
+        </p>
+      </>
+    )
   },
   {
     question: "Is CryptoHub free to use?",
-    answer:
-      "Yes, CryptoHub offers a free plan. Premium features are available with paid plans."
+    answer: (
+      <>
+        <p>
+          Yes, CryptoHub offers a free plan that provides access to essential features.
+        </p>
+        <ul>
+          <li>Real-time crypto price tracking</li>
+          <li>Market overview and insights</li>
+          <li>Basic portfolio management</li>
+        </ul>
+        <p>
+          Premium features may be available for users who need advanced analytics and tools.
+        </p>
+      </>
+    )
   },
   {
     question: "Where does CryptoHub get its data?",
-    answer:
-      "We fetch data from trusted crypto market APIs to ensure accurate and real-time updates."
+    answer: (
+      <>
+        <p>
+          CryptoHub collects data from trusted cryptocurrency market APIs and exchange platforms.
+        </p>
+        <ul>
+          <li>Live price feeds</li>
+          <li>Market capitalization data</li>
+          <li>Trading volume statistics</li>
+        </ul>
+        <p>
+          The platform continuously updates its data to ensure accuracy and reliability.
+        </p>
+      </>
+    )
   },
   {
     question: "Can I track my portfolio?",
-    answer:
-      "Yes, you can create and manage your crypto portfolio directly on CryptoHub."
+    answer: (
+      <>
+        <p>
+          Yes, users can create and manage their crypto portfolio directly on CryptoHub.
+        </p>
+        <ul>
+          <li>Add cryptocurrencies you own</li>
+          <li>Track profit and loss</li>
+          <li>Monitor overall portfolio performance</li>
+        </ul>
+        <p>
+          This helps users make informed investment decisions.
+        </p>
+      </>
+    )
   },
   {
     question: "Is my data secure?",
-    answer:
-      "Yes. We use industry-standard security practices to protect user data."
+    answer: (
+      <>
+        <p>
+          Yes, we follow industry-standard security practices to protect user information.
+        </p>
+        <ul>
+          <li>Secure authentication systems</li>
+          <li>Encrypted data handling</li>
+          <li>Protected API integrations</li>
+        </ul>
+        <p>
+          User privacy and security are a top priority for CryptoHub.
+        </p>
+      </>
+    )
   }
 ];
+  
 const toogleFAQ=(idx)=>{
     setActiveIndex(activeIndex === idx ? null : idx);
 }
