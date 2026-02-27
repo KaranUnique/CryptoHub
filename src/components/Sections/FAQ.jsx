@@ -4,6 +4,7 @@ import './FAQ.css'
 const FAQ = () => {
 const [activeIndex, setActiveIndex] = useState(null);
 
+  
 const faqData = [
   {
     question: "What is CryptoHub?",
@@ -12,11 +13,13 @@ const faqData = [
         <p>
           CryptoHub is a comprehensive cryptocurrency tracking platform designed to help users monitor the crypto market in real time.
         </p>
-        <ul>
-          <li>Track live cryptocurrency prices and trends</li>
-          <li>Analyze market insights and performance data</li>
-          <li>Manage and monitor your personal crypto portfolio</li>
-        </ul>
+
+        <div>
+          <p>• Track live cryptocurrency prices and trends</p>
+          <p>• Analyze market insights and performance data</p>
+          <p>• Manage and monitor your personal crypto portfolio</p>
+        </div>
+
         <p>
           It is built to provide simple and user-friendly tools for both beginners and experienced traders.
         </p>
@@ -30,11 +33,13 @@ const faqData = [
         <p>
           Yes, CryptoHub offers a free plan that provides access to essential features.
         </p>
-        <ul>
-          <li>Real-time crypto price tracking</li>
-          <li>Market overview and insights</li>
-          <li>Basic portfolio management</li>
-        </ul>
+
+        <div>
+          <p>• Real-time crypto price tracking</p>
+          <p>• Market overview and insights</p>
+          <p>• Basic portfolio management</p>
+        </div>
+
         <p>
           Premium features may be available for users who need advanced analytics and tools.
         </p>
@@ -48,11 +53,13 @@ const faqData = [
         <p>
           CryptoHub collects data from trusted cryptocurrency market APIs and exchange platforms.
         </p>
-        <ul>
-          <li>Live price feeds</li>
-          <li>Market capitalization data</li>
-          <li>Trading volume statistics</li>
-        </ul>
+
+        <div>
+          <p>• Live price feeds</p>
+          <p>• Market capitalization data</p>
+          <p>• Trading volume statistics</p>
+        </div>
+
         <p>
           The platform continuously updates its data to ensure accuracy and reliability.
         </p>
@@ -66,11 +73,13 @@ const faqData = [
         <p>
           Yes, users can create and manage their crypto portfolio directly on CryptoHub.
         </p>
-        <ul>
-          <li>Add cryptocurrencies you own</li>
-          <li>Track profit and loss</li>
-          <li>Monitor overall portfolio performance</li>
-        </ul>
+
+        <div>
+          <p>• Add cryptocurrencies you own</p>
+          <p>• Track profit and loss</p>
+          <p>• Monitor overall portfolio performance</p>
+        </div>
+
         <p>
           This helps users make informed investment decisions.
         </p>
@@ -84,11 +93,13 @@ const faqData = [
         <p>
           Yes, we follow industry-standard security practices to protect user information.
         </p>
-        <ul>
-          <li>Secure authentication systems</li>
-          <li>Encrypted data handling</li>
-          <li>Protected API integrations</li>
-        </ul>
+
+        <div>
+          <p>• Secure authentication systems</p>
+          <p>• Encrypted data handling</p>
+          <p>• Protected API integrations</p>
+        </div>
+
         <p>
           User privacy and security are a top priority for CryptoHub.
         </p>
@@ -96,6 +107,8 @@ const faqData = [
     )
   }
 ];
+   
+  
   
 const toogleFAQ=(idx)=>{
     setActiveIndex(activeIndex === idx ? null : idx);
