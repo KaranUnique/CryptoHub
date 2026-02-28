@@ -134,11 +134,11 @@ const TopLosers = () => {
   const avgLoss =
     losers.length > 0
       ? (
-          losers
-            .filter((c) => (c.price_change_percentage_24h || 0) < 0)
-            .reduce((sum, c) => sum + (c.price_change_percentage_24h || 0), 0) /
-          (totalNegative || 1)
-        ).toFixed(2)
+        losers
+          .filter((c) => (c.price_change_percentage_24h || 0) < 0)
+          .reduce((sum, c) => sum + (c.price_change_percentage_24h || 0), 0) /
+        (totalNegative || 1)
+      ).toFixed(2)
       : "0.00";
 
   return (
@@ -344,9 +344,8 @@ const TopLosers = () => {
                           {Math.abs(change24h).toFixed(2)}%
                         </div>
                         <div
-                          className={`tl-col-change7d ${
-                            change7d >= 0 ? "positive" : "negative"
-                          }`}
+                          className={`tl-col-change7d ${change7d >= 0 ? "positive" : "negative"
+                            }`}
                         >
                           {Math.abs(change7d).toFixed(2)}%
                         </div>
@@ -383,45 +382,43 @@ const TopLosers = () => {
                 <div className="tl-page-numbers">
                   {totalPages <= 5
                     ? Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                        (num) => (
-                          <button
-                            key={num}
-                            className={`tl-page-num ${
-                              currentPage === num ? "active" : ""
+                      (num) => (
+                        <button
+                          key={num}
+                          className={`tl-page-num ${currentPage === num ? "active" : ""
                             }`}
-                            onClick={() => handlePageChange(num)}
-                          >
-                            {num}
-                          </button>
-                        ),
-                      )
+                          onClick={() => handlePageChange(num)}
+                        >
+                          {num}
+                        </button>
+                      ),
+                    )
                     : (() => {
-                        const pages = [];
-                        if (currentPage <= 3) {
-                          for (let i = 1; i <= 5; i++) pages.push(i);
-                        } else if (currentPage >= totalPages - 2) {
-                          for (let i = totalPages - 4; i <= totalPages; i++)
-                            pages.push(i);
-                        } else {
-                          for (
-                            let i = currentPage - 2;
-                            i <= currentPage + 2;
-                            i++
-                          )
-                            pages.push(i);
-                        }
-                        return pages.map((num) => (
-                          <button
-                            key={num}
-                            className={`tl-page-num ${
-                              currentPage === num ? "active" : ""
+                      const pages = [];
+                      if (currentPage <= 3) {
+                        for (let i = 1; i <= 5; i++) pages.push(i);
+                      } else if (currentPage >= totalPages - 2) {
+                        for (let i = totalPages - 4; i <= totalPages; i++)
+                          pages.push(i);
+                      } else {
+                        for (
+                          let i = currentPage - 2;
+                          i <= currentPage + 2;
+                          i++
+                        )
+                          pages.push(i);
+                      }
+                      return pages.map((num) => (
+                        <button
+                          key={num}
+                          className={`tl-page-num ${currentPage === num ? "active" : ""
                             }`}
-                            onClick={() => handlePageChange(num)}
-                          >
-                            {num}
-                          </button>
-                        ));
-                      })()}
+                          onClick={() => handlePageChange(num)}
+                        >
+                          {num}
+                        </button>
+                      ));
+                    })()}
                 </div>
 
                 <button

@@ -1,20 +1,23 @@
-.container{
-    text-align: center; 
-    height:70vh !important;
+.container {
+    text-align: center;
+    height: 70vh !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.container h1{
+
+.container h1 {
     font-size: 3.5rem;
     margin-bottom: 1rem;
 }
-.container h1:hover{
+
+.container h1:hover {
     color: #007bff;
     transition: color 0.3s ease;
 }
-.container h1::after{
+
+.container h1::after {
     content: '';
     display: block;
     width: 50px;
@@ -23,15 +26,17 @@
     margin: 0.5rem auto 0;
     border-radius: 2px;
 }
-.container h1::after:hover{
+
+.container h1::after:hover {
     background-color: #0056b3;
     transition: background-color 0.3s ease;
 }
 
-.container p{
+.container p {
     font-size: 1.5rem;
     margin-bottom: 2rem;
 }
-.back-home{
+
+.back-home {
     text-decoration: none !important;
 }

@@ -32,12 +32,10 @@
   transform: translate(-50%, -50%);
   width: 700px;
   height: 700px;
-  background: radial-gradient(
-    circle,
-    rgba(124, 58, 237, 0.15) 0%,
-    rgba(79, 70, 229, 0.08) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(circle,
+      rgba(124, 58, 237, 0.15) 0%,
+      rgba(79, 70, 229, 0.08) 40%,
+      transparent 70%);
   z-index: -1;
   filter: blur(80px);
   pointer-events: none;
@@ -49,11 +47,9 @@
   right: 10%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(
-    circle,
-    rgba(6, 182, 212, 0.1) 0%,
-    transparent 60%
-  );
+  background: radial-gradient(circle,
+      rgba(6, 182, 212, 0.1) 0%,
+      transparent 60%);
   z-index: -1;
   filter: blur(60px);
   pointer-events: none;
@@ -372,9 +368,11 @@
 .nl-table-row .nl-col-price.positive {
   color: #22c55e !important;
 }
+
 .nl-table-row .nl-col-price.negative {
   color: #ef4444 !important;
 }
+
 .nl-table-row .nl-col-price.neutral {
   color: #ffffff !important;
 }
@@ -383,9 +381,11 @@
 .nl-table-row .nl-col-change.positive {
   color: #22c55e !important;
 }
+
 .nl-table-row .nl-col-change.negative {
   color: #ef4444 !important;
 }
+
 .nl-table-row .nl-col-change.neutral {
   color: #ffffff !important;
 }
@@ -511,6 +511,7 @@
    RESPONSIVE DESIGN
    ------------------------- */
 @media (max-width: 1024px) {
+
   .nl-table-header,
   .nl-table-row {
     grid-template-columns: 50px 2fr 1.2fr 1fr 1fr;
@@ -607,6 +608,7 @@
 }
 
 @media (max-width: 480px) {
+
   .nl-table-header,
   .nl-table-row {
     grid-template-columns: 30px 1.5fr 1fr 1fr;

@@ -338,39 +338,39 @@ const Home = () => {
               <div className="pagination-numbers">
                 {totalPages <= 5
                   ? // Show all pages if 5 or fewer
-                    Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                      (pageNum) => (
-                        <button
-                          key={pageNum}
-                          className={`page-number ${currentPage === pageNum ? "active" : ""}`}
-                          onClick={() => handlePageChange(pageNum)}
-                        >
-                          {pageNum}
-                        </button>
-                      ),
-                    )
+                  Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (pageNum) => (
+                      <button
+                        key={pageNum}
+                        className={`page-number ${currentPage === pageNum ? "active" : ""}`}
+                        onClick={() => handlePageChange(pageNum)}
+                      >
+                        {pageNum}
+                      </button>
+                    ),
+                  )
                   : // Logic to show a window of pages
-                    (() => {
-                      const pages = [];
-                      if (currentPage <= 3) {
-                        for (let i = 1; i <= 5; i++) pages.push(i);
-                      } else if (currentPage >= totalPages - 2) {
-                        for (let i = totalPages - 4; i <= totalPages; i++)
-                          pages.push(i);
-                      } else {
-                        for (let i = currentPage - 2; i <= currentPage + 2; i++)
-                          pages.push(i);
-                      }
-                      return pages.map((pageNum) => (
-                        <button
-                          key={pageNum}
-                          className={`page-number ${currentPage === pageNum ? "active" : ""}`}
-                          onClick={() => handlePageChange(pageNum)}
-                        >
-                          {pageNum}
-                        </button>
-                      ));
-                    })()}
+                  (() => {
+                    const pages = [];
+                    if (currentPage <= 3) {
+                      for (let i = 1; i <= 5; i++) pages.push(i);
+                    } else if (currentPage >= totalPages - 2) {
+                      for (let i = totalPages - 4; i <= totalPages; i++)
+                        pages.push(i);
+                    } else {
+                      for (let i = currentPage - 2; i <= currentPage + 2; i++)
+                        pages.push(i);
+                    }
+                    return pages.map((pageNum) => (
+                      <button
+                        key={pageNum}
+                        className={`page-number ${currentPage === pageNum ? "active" : ""}`}
+                        onClick={() => handlePageChange(pageNum)}
+                      >
+                        {pageNum}
+                      </button>
+                    ));
+                  })()}
               </div>
 
               <button

@@ -138,7 +138,7 @@ function Navbar() {
         { to: "/faq", label: "FAQ" },
       ],
     },
- 
+
   ];
 
   const authenticatedNavLinks = [
@@ -160,9 +160,8 @@ function Navbar() {
       ref={navRef}
       role="navigation"
       aria-label="Main navigation"
-      className={`navbar ${scrolled ? "scrolled" : ""} ${
-        isMobileMenuOpen ? "has-mobile-menu" : ""
-      } ${isDashboardPage ? "is-dashboard" : ""}`}
+      className={`navbar ${scrolled ? "scrolled" : ""} ${isMobileMenuOpen ? "has-mobile-menu" : ""
+        } ${isDashboardPage ? "is-dashboard" : ""}`}
     >
       <div className="navbar-content">
         {/* Logo */}

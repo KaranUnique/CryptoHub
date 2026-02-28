@@ -334,45 +334,43 @@ const NewListings = () => {
                 <div className="nl-page-numbers">
                   {totalPages <= 5
                     ? Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                        (num) => (
-                          <button
-                            key={num}
-                            className={`nl-page-num ${
-                              currentPage === num ? "active" : ""
+                      (num) => (
+                        <button
+                          key={num}
+                          className={`nl-page-num ${currentPage === num ? "active" : ""
                             }`}
-                            onClick={() => handlePageChange(num)}
-                          >
-                            {num}
-                          </button>
-                        )
+                          onClick={() => handlePageChange(num)}
+                        >
+                          {num}
+                        </button>
                       )
+                    )
                     : (() => {
-                        const pages = [];
-                        if (currentPage <= 3) {
-                          for (let i = 1; i <= 5; i++) pages.push(i);
-                        } else if (currentPage >= totalPages - 2) {
-                          for (let i = totalPages - 4; i <= totalPages; i++)
-                            pages.push(i);
-                        } else {
-                          for (
-                            let i = currentPage - 2;
-                            i <= currentPage + 2;
-                            i++
-                          )
-                            pages.push(i);
-                        }
-                        return pages.map((num) => (
-                          <button
-                            key={num}
-                            className={`nl-page-num ${
-                              currentPage === num ? "active" : ""
+                      const pages = [];
+                      if (currentPage <= 3) {
+                        for (let i = 1; i <= 5; i++) pages.push(i);
+                      } else if (currentPage >= totalPages - 2) {
+                        for (let i = totalPages - 4; i <= totalPages; i++)
+                          pages.push(i);
+                      } else {
+                        for (
+                          let i = currentPage - 2;
+                          i <= currentPage + 2;
+                          i++
+                        )
+                          pages.push(i);
+                      }
+                      return pages.map((num) => (
+                        <button
+                          key={num}
+                          className={`nl-page-num ${currentPage === num ? "active" : ""
                             }`}
-                            onClick={() => handlePageChange(num)}
-                          >
-                            {num}
-                          </button>
-                        ));
-                      })()}
+                          onClick={() => handlePageChange(num)}
+                        >
+                          {num}
+                        </button>
+                      ));
+                    })()}
                 </div>
 
                 <button

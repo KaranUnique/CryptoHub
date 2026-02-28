@@ -31,10 +31,10 @@ const PrivacyPolicy = () => {
           <h2 className="text-xl font-semibold text-secondary">2. How Your Data Is Used</h2>
           <p>
             We use your data to:
-            <br />• Operate and maintain CryptoHub  
-            <br />• Improve UI, performance, and security  
-            <br />• Analyze crypto-market interest and usage trends  
-            <br />• Provide optional notifications and updates  
+            <br />• Operate and maintain CryptoHub
+            <br />• Improve UI, performance, and security
+            <br />• Analyze crypto-market interest and usage trends
+            <br />• Provide optional notifications and updates
           </p>
         </section>
 

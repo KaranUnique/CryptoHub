@@ -278,17 +278,15 @@ export default function Pricing() {
                     {plan.features.map((feature, i) => (
                       <motion.div
                         key={i}
-                        className={`flex items-center gap-4 py-1 rounded-xl transition-all duration-300 group/feature hover:bg-white/50 dark:hover:bg-gray-800/50 ${
-                          feature.available ? "" : "opacity-60"
-                        }`}
+                        className={`flex items-center gap-4 py-1 rounded-xl transition-all duration-300 group/feature hover:bg-white/50 dark:hover:bg-gray-800/50 ${feature.available ? "" : "opacity-60"
+                          }`}
                         whileHover={{ paddingLeft: "2.5rem" }}
                       >
                         <div
-                          className={`w-7 h-7 rounded-xl flex items-center justify-center shadow-lg shrink-0 ${
-                            feature.available
+                          className={`w-7 h-7 rounded-xl flex items-center justify-center shadow-lg shrink-0 ${feature.available
                               ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-emerald-500/40"
                               : "bg-gray-200/50 dark:bg-gray-700/50 text-gray-400 border-2 border-gray-300/50 dark:border-gray-600/50"
-                          }`}
+                            }`}
                         >
                           {feature.available ? (
                             <FiCheck className="w-6 h-6" />
@@ -305,11 +303,10 @@ export default function Pricing() {
 
                   {/* CTA Button */}
                   <motion.button
-                    className={`w-full py-6 px-8 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-2xl transition-all duration-300 overflow-hidden relative ${
-                      plan.highlight
+                    className={`w-full py-6 px-8 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-2xl transition-all duration-300 overflow-hidden relative ${plan.highlight
                         ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-purple-500/40 hover:shadow-purple-500/60 hover:-translate-y-1"
                         : "bg-gray-700 dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-200/50 dark:border-gray-600/50 hover:bg-gray-800 dark:hover:bg-gray-900"
-                    }`}
+                      }`}
                     onClick={() => handlePlanClick(plan.name)}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}

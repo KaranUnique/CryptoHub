@@ -135,8 +135,8 @@
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border-color);
-  height: 86px;          
-  padding: 0 1.5rem;         
+  height: 86px;
+  padding: 0 1.5rem;
   display: flex;
   margin-right: 5px;
   align-items: center;

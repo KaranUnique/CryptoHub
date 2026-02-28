@@ -181,8 +181,8 @@ export const createLineChartConfig = (data, options = {}) => {
     label: dataset.label || `Series ${index + 1}`,
     data: dataset.data,
     borderColor: dataset.color || colors.lineColors[index % colors.lineColors.length],
-    backgroundColor: fill 
-      ? `${dataset.color || colors.lineColors[index % colors.lineColors.length]}40` 
+    backgroundColor: fill
+      ? `${dataset.color || colors.lineColors[index % colors.lineColors.length]}40`
       : 'transparent',
     borderWidth: dataset.borderWidth || 2,
     fill,
@@ -221,9 +221,9 @@ export const createAreaChartConfig = (data, options = {}) => {
       backgroundColor: (context) => {
         const chart = context.chart;
         const { ctx, chartArea } = chart;
-        
+
         if (!chartArea) return 'transparent';
-        
+
         const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
         gradient.addColorStop(0, colors.areaGradient[0]);
         gradient.addColorStop(1, colors.areaGradient[1]);
@@ -260,8 +260,8 @@ export const createCandlestickConfig = (candles, options = {}) => {
   const volumeData = showVolume ? candles.map(candle => ({
     x: candle.timestamp || candle.time,
     y: candle.volume,
-    backgroundColor: candle.close >= candle.open 
-      ? colors.volumeUp 
+    backgroundColor: candle.close >= candle.open
+      ? colors.volumeUp
       : colors.volumeDown
   })) : [];
 

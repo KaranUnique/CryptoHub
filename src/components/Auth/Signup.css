@@ -4,7 +4,8 @@
 /* Signup specific overrides */
 .signup-card {
   max-width: 480px;
-  padding: 40px 35px !important; /* Override any existing padding */
+  padding: 40px 35px !important;
+  /* Override any existing padding */
 }
 
 /* Fix form spacing for signup  fields than login */
@@ -15,7 +16,8 @@
 /* Fix terms checkbox alignment */
 .terms-checkbox {
   display: flex;
-  align-items: flex-start; /* Changed from center */
+  align-items: flex-start;
+  /* Changed from center */
   gap: 10px;
   margin: 15px 0 20px;
   padding: 8px 0;
@@ -23,7 +25,8 @@
 }
 
 .terms-checkbox input[type="checkbox"] {
-  margin-top: 3px; /* Align with first line of text */
+  margin-top: 3px;
+  /* Align with first line of text */
   width: 18px;
   height: 18px;
   accent-color: var(--neon-cyan);
@@ -75,8 +78,10 @@
 
 /* Adjust padding for inputs with icons */
 .auth-input {
-  padding-left: 45px !important; /* Ensure space for icon */
-  padding-right: 45px !important; /* Ensure space for toggle button */
+  padding-left: 45px !important;
+  /* Ensure space for icon */
+  padding-right: 45px !important;
+  /* Ensure space for toggle button */
 }
 
 /* Fix toggle password button positioning */
@@ -109,7 +114,8 @@
   font-size: 0.8rem;
   margin-top: 5px !important;
   margin-left: 5px;
-  min-height: 20px; /* Reserve space to prevent layout shift */
+  min-height: 20px;
+  /* Reserve space to prevent layout shift */
 }
 
 /* Fix button spacing */
@@ -138,7 +144,7 @@
   .signup-card {
     padding: 30px 20px !important;
   }
-  
+
   .terms-checkbox label {
     font-size: 0.85rem;
   }

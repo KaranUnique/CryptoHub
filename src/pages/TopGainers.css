@@ -1,4 +1,3 @@
-
 /* ============================================
    TOP GAINERS PAGE STYLES (matches NewListings)
    ============================================ */
@@ -28,12 +27,10 @@
   transform: translate(-50%, -50%);
   width: 700px;
   height: 700px;
-  background: radial-gradient(
-    circle,
-    rgba(124, 58, 237, 0.15) 0%,
-    rgba(79, 70, 229, 0.08) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(circle,
+      rgba(124, 58, 237, 0.15) 0%,
+      rgba(79, 70, 229, 0.08) 40%,
+      transparent 70%);
   z-index: -1;
   filter: blur(80px);
   pointer-events: none;
@@ -45,11 +42,9 @@
   right: 10%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(
-    circle,
-    rgba(6, 182, 212, 0.1) 0%,
-    transparent 60%
-  );
+  background: radial-gradient(circle,
+      rgba(6, 182, 212, 0.1) 0%,
+      transparent 60%);
   z-index: -1;
   filter: blur(60px);
   pointer-events: none;
@@ -342,7 +337,8 @@
   color: #fff;
 }
 
-.tg-col-change, .tg-col-change7d {
+.tg-col-change,
+.tg-col-change7d {
   display: flex;
   align-items: center;
   gap: 4px;
@@ -350,11 +346,13 @@
   font-weight: 600;
 }
 
-.tg-col-change.positive, .tg-col-change7d.positive {
+.tg-col-change.positive,
+.tg-col-change7d.positive {
   color: #22c55e;
 }
 
-.tg-col-change.negative, .tg-col-change7d.negative {
+.tg-col-change.negative,
+.tg-col-change7d.negative {
   color: #ef4444;
 }
 
@@ -445,13 +443,20 @@
 
 /* Color Variables for consistency */
 :root {
-  --bg-dark: #0f172a;       /* Deep Navy */
-  --bg-card: #1e293b;       /* Lighter Navy */
-  --text-main: #f8fafc;     /* White-ish */
-  --text-muted: #94a3b8;    /* Grey */
-  --accent-green: #10b981;  /* Crypto Green */
-  --accent-red: #ef4444;    /* Crypto Red */
-  --hover-bg: #334155;      /* Row Hover */
+  --bg-dark: #0f172a;
+  /* Deep Navy */
+  --bg-card: #1e293b;
+  /* Lighter Navy */
+  --text-main: #f8fafc;
+  /* White-ish */
+  --text-muted: #94a3b8;
+  /* Grey */
+  --accent-green: #10b981;
+  /* Crypto Green */
+  --accent-red: #ef4444;
+  /* Crypto Red */
+  --hover-bg: #334155;
+  /* Row Hover */
   --border-color: #334155;
 }
 
@@ -515,7 +520,8 @@
 .gainers-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 10px; /* Spacing between rows */
+  border-spacing: 0 10px;
+  /* Spacing between rows */
 }
 
 .gainers-table th {
@@ -531,7 +537,8 @@
 .gainers-table td {
   padding: 15px;
   color: var(--text-main);
-  background-color: var(--bg-dark); /* Row background */
+  background-color: var(--bg-dark);
+  /* Row background */
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -559,7 +566,8 @@
   background-color: var(--hover-bg);
   transform: translateY(-3px) scale(1.01);
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.4);
-  border-color: var(--accent-green); /* Subtle green border on hover */
+  border-color: var(--accent-green);
+  /* Subtle green border on hover */
 }
 
 /* Cell Specifics */
@@ -574,22 +582,26 @@
   align-items: center;
   gap: 12px;
 }
+
 .coin-symbol {
   font-size: 1rem;
   font-weight: 700;
   color: #fff;
 }
+
 .coin-name {
   font-size: 0.85rem;
   font-weight: 600;
   color: #a3a3a3;
 }
+
 .coin-name a {
   color: #a3a3a3;
   text-decoration: underline;
   font-weight: 600;
   transition: color 0.2s;
 }
+
 .coin-name a:hover {
   color: #10b981;
 }
@@ -616,7 +628,8 @@
 }
 
 .price-cell {
-  font-family: 'Roboto Mono', monospace; /* Monospace for numbers */
+  font-family: 'Roboto Mono', monospace;
+  /* Monospace for numbers */
   font-weight: 500;
 }
 
@@ -644,7 +657,8 @@
 }
 
 /* Loading & Error */
-.loading-spinner, .error-message {
+.loading-spinner,
+.error-message {
   text-align: center;
   padding: 40px;
   color: var(--text-muted);
@@ -656,9 +670,20 @@
 
 /* Animation Keyframes */
 @keyframes pulse {
-  0% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  70% { opacity: 1; box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-  100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+
+  70% {
+    opacity: 1;
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
 }
 
 
@@ -696,6 +721,7 @@
 .hero-title span {
   background: linear-gradient(90deg, #ff4d4d, #ff9a3c);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -837,7 +863,7 @@
 .modern-table tbody tr:hover td {
   background: var(--hover-bg);
   border-color: var(--accent-green);
-  box-shadow: 0 8px 24px 0 rgba(16,185,129,0.08);
+  box-shadow: 0 8px 24px 0 rgba(16, 185, 129, 0.08);
 }
 
 .coin-cell {
@@ -851,7 +877,7 @@
   height: 36px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 2px 8px 0 rgba(80,80,160,0.07);
+  box-shadow: 0 2px 8px 0 rgba(80, 80, 160, 0.07);
 }
 
 .coin-name {
@@ -866,7 +892,8 @@
   margin-left: 2px;
 }
 
-.price-cell, .text-right {
+.price-cell,
+.text-right {
   text-align: right;
   font-family: 'Roboto Mono', monospace;
   font-weight: 500;
@@ -884,12 +911,12 @@
 
 .change-badge.positive {
   color: var(--accent-green);
-  background: rgba(16,185,129,0.15);
+  background: rgba(16, 185, 129, 0.15);
 }
 
 .change-badge.negative {
   color: var(--accent-red);
-  background: rgba(239,68,68,0.15);
+  background: rgba(239, 68, 68, 0.15);
 }
 
 /* PAGINATION */

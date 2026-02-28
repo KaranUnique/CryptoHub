@@ -32,49 +32,49 @@ const Feedback = () => {
   };
 
   return (
-  <div className="feedback-container">
-    <div className="feedback-card">
-      <h2 className="feedback-title">Share Your Feedback</h2>
+    <div className="feedback-container">
+      <div className="feedback-card">
+        <h2 className="feedback-title">Share Your Feedback</h2>
 
-      {submitted && (
-        <div className="feedback-success">
-          ✅ Thank you! Your feedback has been submitted.
-        </div>
-      )}
+        {submitted && (
+          <div className="feedback-success">
+            ✅ Thank you! Your feedback has been submitted.
+          </div>
+        )}
 
-      <form onSubmit={handleSubmit} className="feedback-form">
-        <input
-          type="text"
-          name="name"
-          placeholder="Your Name (Optional)"
-          value={formData.name}
-          onChange={handleChange}
-        />
+        <form onSubmit={handleSubmit} className="feedback-form">
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name (Optional)"
+            value={formData.name}
+            onChange={handleChange}
+          />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Your Email (Optional)"
-          value={formData.email}
-          onChange={handleChange}
-        />
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email (Optional)"
+            value={formData.email}
+            onChange={handleChange}
+          />
 
-        <textarea
-          name="message"
-          placeholder="Your Feedback *"
-          required
-          rows="5"
-          value={formData.message}
-          onChange={handleChange}
-        />
+          <textarea
+            name="message"
+            placeholder="Your Feedback *"
+            required
+            rows="5"
+            value={formData.message}
+            onChange={handleChange}
+          />
 
-        <button type="submit" className="feedback-button">
-          Submit Feedback
-        </button>
-      </form>
+          <button type="submit" className="feedback-button">
+            Submit Feedback
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Feedback;

@@ -54,9 +54,8 @@ function Leaderboard() {
           leaderboard.map((entry, index) => (
             <div
               key={entry.id}
-              className={`leaderboard-item ${
-                currentUser?.uid === entry.uid ? "current-user" : ""
-              } ${index < 3 ? `rank-${index + 1}` : ""}`}
+              className={`leaderboard-item ${currentUser?.uid === entry.uid ? "current-user" : ""
+                } ${index < 3 ? `rank-${index + 1}` : ""}`}
             >
               <div className="rank-badge">
                 {index === 0 && "🥇"}

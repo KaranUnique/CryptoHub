@@ -143,7 +143,7 @@ const TrendingCoins = () => {
         </div>
       </section>
 
-      
+
 
       {/* Table Section */}
       <section className="tl-market-section">
@@ -203,6 +203,24 @@ const TrendingCoins = () => {
                 <div className="tl-page-numbers">
                   {totalPages <= 5
                     ? Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+                      <button
+                        key={num}
+                        className={`tl-page-num ${page === num ? "active" : ""}`}
+                        onClick={() => setPage(num)}
+                      >
+                        {num}
+                      </button>
+                    ))
+                    : (() => {
+                      const pages = [];
+                      if (page <= 3) {
+                        for (let i = 1; i <= 5; i++) pages.push(i);
+                      } else if (page >= totalPages - 2) {
+                        for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
+                      } else {
+                        for (let i = page - 2; i <= page + 2; i++) pages.push(i);
+                      }
+                      return pages.map((num) => (
                         <button
                           key={num}
                           className={`tl-page-num ${page === num ? "active" : ""}`}
@@ -210,26 +228,8 @@ const TrendingCoins = () => {
                         >
                           {num}
                         </button>
-                      ))
-                    : (() => {
-                        const pages = [];
-                        if (page <= 3) {
-                          for (let i = 1; i <= 5; i++) pages.push(i);
-                        } else if (page >= totalPages - 2) {
-                          for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
-                        } else {
-                          for (let i = page - 2; i <= page + 2; i++) pages.push(i);
-                        }
-                        return pages.map((num) => (
-                          <button
-                            key={num}
-                            className={`tl-page-num ${page === num ? "active" : ""}`}
-                            onClick={() => setPage(num)}
-                          >
-                            {num}
-                          </button>
-                        ));
-                      })()}
+                      ));
+                    })()}
                 </div>
                 <button
                   className="tl-page-btn"

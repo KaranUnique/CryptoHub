@@ -11,7 +11,7 @@ const NewsPanel = ({ coinId, coinName }) => {
   useEffect(() => {
     const loadNews = async () => {
       if (!coinId) return;
-      
+
       setLoading(true);
       try {
         const newsData = await fetchCoinNews(coinId);
@@ -49,7 +49,7 @@ const NewsPanel = ({ coinId, coinName }) => {
     const now = new Date();
     const time = new Date(timestamp);
     const diffInHours = Math.floor((now - time) / (1000 * 60 * 60));
-    
+
     if (diffInHours < 1) return 'Just now';
     if (diffInHours < 24) return `${diffInHours}h ago`;
     return `${Math.floor(diffInHours / 24)}d ago`;
@@ -79,7 +79,7 @@ const NewsPanel = ({ coinId, coinName }) => {
         </div>
         <button className="expand-btn">{expanded ? '−' : '+'}</button>
       </div>
-      
+
       {expanded && (
         <div className="news-content">
           {news.length === 0 ? (
@@ -96,7 +96,7 @@ const NewsPanel = ({ coinId, coinName }) => {
                   </div>
                   <h4 className="news-title">{article.title}</h4>
                   <div className="news-sentiment">
-                    <span 
+                    <span
                       className="sentiment-indicator"
                       style={{ color: getSentimentColor(article.sentiment) }}
                     >

@@ -461,12 +461,11 @@ async function handleCompare(message) {
 | **Volume** | ${formatINR(coin1.total_volume)} | ${formatINR(coin2.total_volume)} |
 | **Rank** | #${coin1.market_cap_rank} | #${coin2.market_cap_rank} |
 
-${
-  (coin1.price_change_percentage_24h || 0) >
-  (coin2.price_change_percentage_24h || 0)
-    ? `📈 ${coin1.name} is outperforming ${coin2.name} today.`
-    : `📈 ${coin2.name} is outperforming ${coin1.name} today.`
-}`;
+${(coin1.price_change_percentage_24h || 0) >
+        (coin2.price_change_percentage_24h || 0)
+        ? `📈 ${coin1.name} is outperforming ${coin2.name} today.`
+        : `📈 ${coin2.name} is outperforming ${coin1.name} today.`
+      }`;
   } catch {
     return "Couldn't compare those coins right now. Try again shortly!";
   }
@@ -537,13 +536,12 @@ async function handleDominance() {
 Ξ Ethereum: **${global.ethDominance?.toFixed(1)}%**
 🪙 Others: **${(100 - (global.btcDominance || 0) - (global.ethDominance || 0)).toFixed(1)}%**
 
-${
-  global.btcDominance > 55
-    ? "BTC dominance is high — money is concentrated in Bitcoin. Altcoins may underperform until dominance drops."
-    : global.btcDominance < 45
-      ? "BTC dominance is low — could signal alt season! Altcoins might be gaining traction."
-      : "BTC dominance is moderate — the market is relatively balanced between BTC and alts."
-}`;
+${global.btcDominance > 55
+        ? "BTC dominance is high — money is concentrated in Bitcoin. Altcoins may underperform until dominance drops."
+        : global.btcDominance < 45
+          ? "BTC dominance is low — could signal alt season! Altcoins might be gaining traction."
+          : "BTC dominance is moderate — the market is relatively balanced between BTC and alts."
+      }`;
   } catch {
     return "Couldn't fetch dominance data right now.";
   }

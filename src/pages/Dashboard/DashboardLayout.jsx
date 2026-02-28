@@ -187,13 +187,11 @@ const DashboardLayout = () => {
       className={`min-h-screen flex ${isDark ? "bg-[#0a0a1a]" : "bg-gradient-to-br from-gray-50 to-gray-100"}`}
     >
       <aside
-        className={`fixed lg:sticky top-0 left-0 h-screen transition-all duration-300 z-50 ${
-          sidebarOpen ? "w-72" : "w-0 lg:w-20"
-        } overflow-hidden ${
-          isDark
+        className={`fixed lg:sticky top-0 left-0 h-screen transition-all duration-300 z-50 ${sidebarOpen ? "w-72" : "w-0 lg:w-20"
+          } overflow-hidden ${isDark
             ? "bg-[#0f0f1f] border-[rgba(255,255,255,0.08)]"
             : "bg-white border-gray-200"
-        } backdrop-blur-2xl border-r shadow-2xl`}
+          } backdrop-blur-2xl border-r shadow-2xl`}
       >
         <div className="flex flex-col h-full p-5">
           <div className="flex items-center justify-between mb-8">
@@ -218,9 +216,8 @@ const DashboardLayout = () => {
             )}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className={`p-2.5 rounded-lg transition-all duration-200 ${
-                isDark ? "hover:bg-[rgba(0,217,255,0.1)]" : "hover:bg-gray-100"
-              }`}
+              className={`p-2.5 rounded-lg transition-all duration-200 ${isDark ? "hover:bg-[rgba(0,217,255,0.1)]" : "hover:bg-gray-100"
+                }`}
             >
               <span
                 className={`text-lg ${isDark ? "text-gray-300" : "text-gray-600"}`}
@@ -233,13 +230,12 @@ const DashboardLayout = () => {
           {sidebarOpen && (
             <Link
               to="/profile"
-              className={`block mb-6 p-4 rounded-xl border transition-all duration-200 cursor-pointer ${
-                location.pathname === "/profile"
+              className={`block mb-6 p-4 rounded-xl border transition-all duration-200 cursor-pointer ${location.pathname === "/profile"
                   ? "bg-[rgba(0,217,255,0.1)] text-[#00d9ff] border border-[rgba(0,217,255,0.2)]"
                   : isDark
                     ? "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.08)] hover:border-[rgba(0,217,255,0.2)]"
                     : "bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200 hover:border-purple-300"
-              }`}
+                }`}
               style={{ textDecoration: "none" }}
             >
               <div className="flex items-center gap-3">
@@ -275,13 +271,12 @@ const DashboardLayout = () => {
               <button
                 key={index}
                 onClick={() => navigate(item.path)}
-                className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 font-medium ${
-                  location.pathname === item.path
+                className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 font-medium ${location.pathname === item.path
                     ? "bg-[rgba(0,217,255,0.1)] text-[#00d9ff] border border-[rgba(0,217,255,0.2)]"
                     : isDark
                       ? "text-gray-300 hover:bg-[rgba(0,217,255,0.05)] hover:text-[#00d9ff]"
                       : "text-gray-700 hover:bg-purple-50 hover:text-purple-700"
-                } ${!sidebarOpen && "justify-center"}`}
+                  } ${!sidebarOpen && "justify-center"}`}
               >
                 <span className={sidebarOpen ? "" : ""}>{item.icon}</span>
                 {sidebarOpen && <span>{item.label}</span>}
@@ -294,11 +289,10 @@ const DashboardLayout = () => {
               {/* Logout Button */}
               <button
                 onClick={handleLogout}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium border ${
-                  isDark
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium border ${isDark
                     ? "bg-red-900/20 hover:bg-red-900/30 text-red-400 border-red-600/30 hover:border-red-500/50"
                     : "bg-red-50 hover:bg-red-100 text-red-600 border-red-200 hover:border-red-300"
-                }`}
+                  }`}
               >
                 <svg
                   className="w-5 h-5"
@@ -322,11 +316,10 @@ const DashboardLayout = () => {
           {!sidebarOpen && (
             <button
               onClick={handleLogout}
-              className={`w-full flex items-center justify-center p-3 rounded-xl transition-all duration-200 border ${
-                isDark
+              className={`w-full flex items-center justify-center p-3 rounded-xl transition-all duration-200 border ${isDark
                   ? "bg-red-900/20 hover:bg-red-900/30 text-red-400 border-red-600/30 hover:border-red-500/50"
                   : "bg-red-50 hover:bg-red-100 text-red-600 border-red-200 hover:border-red-300"
-              }`}
+                }`}
             >
               <svg
                 className="w-5 h-5"
@@ -357,11 +350,10 @@ const DashboardLayout = () => {
         <div className="p-6 lg:p-10 max-w-[1600px] mx-auto">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className={`lg:hidden mb-6 p-3 rounded-xl transition-all duration-200 ${
-              isDark
+            className={`lg:hidden mb-6 p-3 rounded-xl transition-all duration-200 ${isDark
                 ? "bg-[rgba(0,217,255,0.1)] hover:bg-[rgba(0,217,255,0.2)]"
                 : "bg-white hover:bg-gray-100 border border-gray-200"
-            }`}
+              }`}
           >
             <span
               className={`text-2xl ${isDark ? "text-white" : "text-gray-900"}`}

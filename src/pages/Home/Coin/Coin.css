@@ -25,7 +25,7 @@
 
 .spin::before,
 .spin::after {
-    content: '';  
+    content: '';
     position: absolute;
     height: var(--uib-dot-size);
     width: var(--uib-dot-size);
@@ -39,6 +39,7 @@
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
@@ -98,43 +99,43 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin: 0;
-  max-width: 140px;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: none;
-  box-shadow: 0 0 0 rgba(121, 39, 255, 0);
-  margin-bottom: 0;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-              box-shadow 0.4s ease,
-              filter 0.4s ease;
+    max-width: 140px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: none;
+    box-shadow: 0 0 0 rgba(121, 39, 255, 0);
+    margin-bottom: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.4s ease,
+        filter 0.4s ease;
 }
 
 .coin-logo:hover {
-  transform: scale(1.08) rotate(5deg);
-  box-shadow: 0 8px 30px rgba(121, 39, 255, 0.35),
-              0 0 20px rgba(33, 147, 176, 0.25);
-  filter: brightness(1.1);
+    transform: scale(1.08) rotate(5deg);
+    box-shadow: 0 8px 30px rgba(121, 39, 255, 0.35),
+        0 0 20px rgba(33, 147, 176, 0.25);
+    filter: brightness(1.1);
 }
 
 .coin-name-below {
-  font-size: 2.2rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  margin-top: 18px;
-  margin-bottom: 0;
-  text-align: center;
-  transition: transform 0.3s ease,
-              filter 0.3s ease;
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin-top: 18px;
+    margin-bottom: 0;
+    text-align: center;
+    transition: transform 0.3s ease,
+        filter 0.3s ease;
 }
 
 .coin-name-below:hover {
-  transform: scale(1.03);
-  filter: brightness(1.15);
+    transform: scale(1.03);
+    filter: brightness(1.15);
 }
 
 .coin-symbol {
@@ -216,14 +217,14 @@
     padding: 24px 16px 16px 16px;
     border: 2px solid #7927ff22;
     transition: transform 0.35s ease,
-                box-shadow 0.35s ease,
-                border-color 0.35s ease;
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
 }
 
 .coin-chart:hover {
     transform: translateY(-6px);
     box-shadow: 0 12px 35px rgba(121, 39, 255, 0.2),
-                0 4px 20px rgba(33, 147, 176, 0.15);
+        0 4px 20px rgba(33, 147, 176, 0.15);
     border-color: #7927ff55;
 }
 
@@ -238,15 +239,15 @@
     margin-top: 38px;
     margin-bottom: 0;
     transition: transform 0.35s ease,
-                box-shadow 0.35s ease,
-                border-color 0.35s ease,
-                background 0.35s ease;
+        box-shadow 0.35s ease,
+        border-color 0.35s ease,
+        background 0.35s ease;
 }
 
 .coin-right:hover {
     transform: translateY(-6px);
     box-shadow: 0 15px 40px rgba(121, 39, 255, 0.18),
-                0 5px 25px rgba(33, 147, 176, 0.12);
+        0 5px 25px rgba(33, 147, 176, 0.12);
     border-color: #7927ff55;
     background: rgba(255, 255, 255, 0.09);
 }
@@ -256,6 +257,7 @@
     font-weight: 700;
     background: linear-gradient(90deg, #7927ff 0%, #2193b0 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 20px;
 }
@@ -437,30 +439,31 @@
 }
 
 .coin-info ul {
-  display: flex;
-  justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid #5f5d5f;
-  list-style: none;
-  font-size: 1.18rem;
-  border-radius: 8px;
-  margin: 0 -12px;
-  padding-left: 12px;
-  padding-right: 12px;
-  transition: background 0.3s ease,
-              transform 0.3s ease,
-              box-shadow 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #5f5d5f;
+    list-style: none;
+    font-size: 1.18rem;
+    border-radius: 8px;
+    margin: 0 -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    transition: background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .coin-info ul:hover {
-  background: rgba(121, 39, 255, 0.08);
-  transform: translateX(6px);
-  box-shadow: -4px 0 0 #7927ff;
+    background: rgba(121, 39, 255, 0.08);
+    transform: translateX(6px);
+    box-shadow: -4px 0 0 #7927ff;
 }
 
 .rank-badge {
     background: linear-gradient(135deg, #7927ff 0%, #2193b0 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: 1.5rem;
 }

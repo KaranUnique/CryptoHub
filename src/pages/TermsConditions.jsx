@@ -29,9 +29,9 @@ const TermsConditions = () => {
           <h2 className="text-xl font-semibold text-secondary">3. User Responsibilities</h2>
           <p>
             You agree not to:
-            <br />• Use CryptoHub for illegal activity  
-            <br />• Attempt to hack, scrape, or overload servers  
-            <br />• Use data for misleading or fraudulent trading  
+            <br />• Use CryptoHub for illegal activity
+            <br />• Attempt to hack, scrape, or overload servers
+            <br />• Use data for misleading or fraudulent trading
           </p>
         </section>
 

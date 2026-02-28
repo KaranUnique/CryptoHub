@@ -69,8 +69,13 @@
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .news-content {
@@ -82,6 +87,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -156,25 +162,25 @@
     padding: 16px;
     margin-top: 16px;
   }
-  
+
   .news-header {
     flex-wrap: wrap;
     gap: 8px;
   }
-  
+
   .news-header h3 {
     font-size: 1.1rem;
   }
-  
+
   .sentiment-badge {
     font-size: 0.75rem;
     padding: 3px 10px;
   }
-  
+
   .news-item {
     padding: 12px;
   }
-  
+
   .news-title {
     font-size: 0.9rem;
   }

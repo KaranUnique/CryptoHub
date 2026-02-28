@@ -1060,9 +1060,9 @@ const BlogArticle = () => {
   const navigate = useNavigate();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [views] = useState(Math.floor(Math.random() * 1000) + 500);
-  
+
   const post = blogPosts[slug];
-  
+
   if (!post) {
     return (
       <div className="blog-article-not-found">
@@ -1077,7 +1077,7 @@ const BlogArticle = () => {
       </div>
     );
   }
-  
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -1095,26 +1095,26 @@ const BlogArticle = () => {
     navigate(`/blog/${relatedSlug}`);
     window.scrollTo(0, 0);
   };
-  
+
   const relatedArticles = Object.entries(blogPosts)
     .filter(([key, value]) => key !== slug && value.category === post.category)
     .slice(0, 3)
     .map(([key, value]) => ({ slug: key, ...value }));
-  
+
   if (relatedArticles.length < 3) {
     const additionalArticles = Object.entries(blogPosts)
       .filter(([key, value]) => key !== slug && !relatedArticles.some(ra => ra.id === value.id))
       .slice(0, 3 - relatedArticles.length)
       .map(([key, value]) => ({ slug: key, ...value }));
-    
+
     relatedArticles.push(...additionalArticles);
   }
-  
+
   return (
     <div className="blog-article-container">
       {/* Floating Action Buttons */}
       <div className="floating-actions">
-        <button 
+        <button
           className={`fab ${isBookmarked ? 'active' : ''}`}
           onClick={() => setIsBookmarked(!isBookmarked)}
           title="Bookmark"
@@ -1128,7 +1128,7 @@ const BlogArticle = () => {
           <FiExternalLink />
         </button>
       </div>
-      
+
       {/* Hero Section with Gradient Background */}
       <div className="article-hero">
         <div className="hero-gradient"></div>
@@ -1141,7 +1141,7 @@ const BlogArticle = () => {
               <span className="breadcrumb-separator">/</span>
               <span className="breadcrumb-category">{post.category}</span>
             </div>
-            
+
             <div className="hero-badges">
               <span className={`category-badge ${post.category.toLowerCase().replace(' ', '-')}`}>
                 <FaTag /> {post.category}
@@ -1150,10 +1150,10 @@ const BlogArticle = () => {
                 {post.tag === 'Premium' ? '⭐ ' : ''}{post.tag}
               </span>
             </div>
-            
+
             <h1 className="article-title">{post.title}</h1>
             <p className="article-excerpt">{post.excerpt}</p>
-            
+
             <div className="article-meta-grid">
               <div className="meta-item">
                 <div className="meta-icon">
@@ -1164,7 +1164,7 @@ const BlogArticle = () => {
                   <span className="meta-value">{post.author}</span>
                 </div>
               </div>
-              
+
               <div className="meta-item">
                 <div className="meta-icon">
                   <FaCalendar />
@@ -1174,7 +1174,7 @@ const BlogArticle = () => {
                   <span className="meta-value">{post.date}</span>
                 </div>
               </div>
-              
+
               <div className="meta-item">
                 <div className="meta-icon">
                   <FaClock />
@@ -1184,7 +1184,7 @@ const BlogArticle = () => {
                   <span className="meta-value">{post.readTime}</span>
                 </div>
               </div>
-              
+
               <div className="meta-item">
                 <div className="meta-icon">
                   <FaEye />
@@ -1195,7 +1195,7 @@ const BlogArticle = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Quick Stats Bar */}
             <div className="quick-stats">
               <div className="stat">
@@ -1218,7 +1218,7 @@ const BlogArticle = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Main Content */}
       <div className="article-main">
         <div className="container">
@@ -1247,7 +1247,7 @@ const BlogArticle = () => {
                     <span className="toc-text">Investment Implications</span>
                   </a>
                 </nav>
-                
+
                 <div className="data-source">
                   <h4><FaDatabase /> Data Sources</h4>
                   <ul>
@@ -1258,7 +1258,7 @@ const BlogArticle = () => {
                   </ul>
                 </div>
               </div>
-              
+
               {/* Author Card */}
               <div className="author-card-sidebar">
                 <div className="author-avatar">
@@ -1275,14 +1275,14 @@ const BlogArticle = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Article Content */}
             <div className="article-content">
-              <div 
+              <div
                 className="article-body"
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
-              
+
               {/* Key Takeaways */}
               <div className="key-takeaways-card">
                 <div className="card-header">
@@ -1312,7 +1312,7 @@ const BlogArticle = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Data Disclaimer */}
               <div className="data-disclaimer">
                 <div className="disclaimer-header">
@@ -1320,8 +1320,8 @@ const BlogArticle = () => {
                   <h4>Data Methodology</h4>
                 </div>
                 <p>
-                  All data is sourced from Glassnode's proprietary on-chain analytics platform. 
-                  Metrics are updated in real-time and undergo rigorous validation. Past performance 
+                  All data is sourced from Glassnode's proprietary on-chain analytics platform.
+                  Metrics are updated in real-time and undergo rigorous validation. Past performance
                   is not indicative of future results.
                 </p>
               </div>
@@ -1329,7 +1329,7 @@ const BlogArticle = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Related Insights */}
       <div className="related-insights">
         <div className="container">
@@ -1339,11 +1339,11 @@ const BlogArticle = () => {
             </h2>
             <p className="section-subtitle">Continue your research with these related reports</p>
           </div>
-          
+
           <div className="related-grid">
             {relatedArticles.map(related => (
-              <div 
-                key={related.id} 
+              <div
+                key={related.id}
                 className="insight-card"
                 onClick={() => handleRelatedArticleClick(related.slug)}
               >
@@ -1373,7 +1373,7 @@ const BlogArticle = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Newsletter CTA */}
       <div className="newsletter-cta">
         <div className="container">

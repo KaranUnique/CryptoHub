@@ -26,7 +26,9 @@
 }
 
 @keyframes spinAnim {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ---------- Page wrapper ---------- */
@@ -314,8 +316,17 @@
   justify-content: space-between;
 }
 
-.range-low  { font-size: 0.8rem; font-weight: 600; color: #f87171; }
-.range-high { font-size: 0.8rem; font-weight: 600; color: #4ade80; }
+.range-low {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f87171;
+}
+
+.range-high {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4ade80;
+}
 
 /* ---------- Sentiment card ---------- */
 .sentiment-card-wrap {
@@ -369,17 +380,23 @@
   font-size: 0.75rem;
   font-weight: 600;
 }
-.sentiment-bar-labels .bear { color: #f87171; }
-.sentiment-bar-labels .bull { color: #4ade80; }
+
+.sentiment-bar-labels .bear {
+  color: #f87171;
+}
+
+.sentiment-bar-labels .bull {
+  color: #4ade80;
+}
 
 .sentiment-track {
   position: relative;
   height: 10px;
   border-radius: 5px;
   background: linear-gradient(90deg,
-    rgba(239, 68, 68, 0.3) 0%,
-    rgba(245, 158, 11, 0.25) 50%,
-    rgba(34, 197, 94, 0.3) 100%);
+      rgba(239, 68, 68, 0.3) 0%,
+      rgba(245, 158, 11, 0.25) 50%,
+      rgba(34, 197, 94, 0.3) 100%);
   margin-bottom: 14px;
 }
 
@@ -395,9 +412,17 @@
   transition: left 0.4s ease;
 }
 
-.sentiment-dot.bullish { background: #22c55e; }
-.sentiment-dot.bearish { background: #ef4444; }
-.sentiment-dot.neutral  { background: #9ca3af; }
+.sentiment-dot.bullish {
+  background: #22c55e;
+}
+
+.sentiment-dot.bearish {
+  background: #ef4444;
+}
+
+.sentiment-dot.neutral {
+  background: #9ca3af;
+}
 
 .sentiment-sub {
   font-size: 0.76rem;
@@ -534,8 +559,13 @@
   background-clip: text;
 }
 
-.metric-value.high { color: #4ade80; }
-.metric-value.low  { color: #f87171; }
+.metric-value.high {
+  color: #4ade80;
+}
+
+.metric-value.low {
+  color: #f87171;
+}
 
 .supply-symbol {
   font-size: 0.75rem;
