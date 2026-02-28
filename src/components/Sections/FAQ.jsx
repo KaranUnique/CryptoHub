@@ -129,6 +129,7 @@ const toogleFAQ=(idx)=>{
                     {item.answer}
                     </div>
 
+                  
                 </div>
             ))}
         </div>
