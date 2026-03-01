@@ -239,6 +239,17 @@ const apiClient = {
       import.meta.env.VITE_CG_API_KEY ||
       import.meta.env.CG_API_KEY;
 
+    // Debug logging for API key detection
+    if (typeof window !== "undefined") {
+      console.log("🔑 API Key Debug:", {
+        hasViteCoingecko: !!import.meta.env.VITE_COINGECKO_API_KEY,
+        hasViteCG: !!import.meta.env.VITE_CG_API_KEY,
+        hasCG: !!import.meta.env.CG_API_KEY,
+        apiKeyFound: !!apiKey,
+        apiKeyLength: apiKey ? apiKey.length : 0,
+      });
+    }
+
     if (apiKey) {
       headers["x-cg-demo-api-key"] = apiKey;
     }
