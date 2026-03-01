@@ -47,6 +47,7 @@ import PageNotFound from "@/components/Common/PageNotFound";
 import About from "@/components/Sections/About";
 import CryptoChatbot from "./CryptoChatbot/CryptoChatbot";
 import Feedback from "./pages/Feedback";
+import RateLimitIndicator from "@/components/Common/RateLimitIndicator";
 
 import TrendingCoins from "@/pages/TrendingCoins";
 import NewListings from "@/pages/NewListings";
@@ -218,6 +219,7 @@ const App = () => {
           </div>
           <ScrollToTop lenis={lenisRef.current} />
           <CryptoChatbot />
+          <RateLimitIndicator />
         </AuthProvider>
       </ThemeProvider>
     </>

@@ -1,6 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { CoinContext } from "./CoinContextInstance";
+import apiClient from "@/utils/apiClient";
+import { API_CONFIG } from "@/config/apiConfig";
 export { CoinContext };
 
 export const CoinContextProvider = (props) => {
@@ -9,39 +11,52 @@ export const CoinContextProvider = (props) => {
     name: "usd",
     Symbol: "$",
   });
+  // Tracks whether we are currently being rate-limited (shown in UI indicator)
+  const [isRateLimited, setIsRateLimited] = useState(false);
 
   // ---------------------------------------------------------
-  // 1. DATA FETCHING (Replaced manual fetch with TanStack Query)
+  // 1. DATA FETCHING — routes through apiClient for:
+  //    - Rate limiting  (25 req/min queue)
+  //    - Exponential backoff + Retry-After header support
+  //    - Two-tier caching (fresh 60s / stale 5min / offline 24hr)
+  //    - Request deduplication
   // ---------------------------------------------------------
 
-  const fetchCoinData = async (curr) => {
+  // Called by apiClient when a 429 response is received
+  const handleRateLimited = useCallback((retryDelayMs) => {
+    setIsRateLimited(true);
+    // Clear the rate-limit flag once the retry delay has elapsed
+    setTimeout(() => setIsRateLimited(false), retryDelayMs + 500);
+  }, []);
+
+  const fetchCoinData = useCallback(async (curr) => {
     const apiKey = import.meta.env.VITE_CG_API_KEY;
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-      },
-    };
 
-    // Add API key if available
+    // Build the proxied URL (/api/coingecko → https://api.coingecko.com/api/v3)
+    // Using the Vite proxy defined in vite.config.js keeps the API key
+    // server-side and routes through our rate limiter correctly.
+    const baseParams = `vs_currency=${curr.name}&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h`;
     const url = apiKey
-      ? `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${curr.name}&x_cg_demo_api_key=${apiKey}`
-      : `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${curr.name}&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h`;
+      ? `/api/coingecko/coins/markets?${baseParams}&x_cg_demo_api_key=${apiKey}`
+      : `/api/coingecko/coins/markets?${baseParams}`;
 
-    const response = await fetch(url, options);
-
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.status}`);
-    }
-
-    return response.json();
-  };
+    return apiClient.get(url, {
+      // High priority — this is the main data feed for the whole app
+      priority: 1,
+      // Notify context when rate-limited so UI can show an indicator
+      onRateLimited: handleRateLimited,
+    });
+  }, [handleRateLimited]);
 
   const { data: allCoin = [], isLoading, isError, error } = useQuery({
-    queryKey: ["coins", currency.name], // Unique key for caching
+    queryKey: ["coins", currency.name],
     queryFn: () => fetchCoinData(currency),
-    staleTime: 60000, // Cache data for 60 seconds
+    // These mirror the global defaults in main.jsx — kept here for
+    // explicitness so the CoinContext behaviour is self-documenting.
+    staleTime: API_CONFIG.QUERY.STALE_TIME,       // 60 seconds
+    gcTime:    API_CONFIG.QUERY.GC_TIME,          // 5 minutes
     refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   // ---------------------------------------------------------
@@ -105,8 +120,9 @@ export const CoinContextProvider = (props) => {
     setCurrency,
     isLoading,
     isError,
+    isRateLimited,                 // true when a 429 is being handled
     errorMessage: error?.message,
-  }), [allCoin, filteredCoins, selectedFilters, currency, isLoading, isError, error]);
+  }), [allCoin, filteredCoins, selectedFilters, currency, isLoading, isError, isRateLimited, error]);
 
   return (
     <CoinContext.Provider value={contextValue}>
