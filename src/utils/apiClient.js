@@ -233,9 +233,14 @@ const apiClient = {
       onRateLimited = null,
     } = options;
 
-    // Add API key to headers if available
-    if (import.meta.env.VITE_COINGECKO_API_KEY) {
-      headers["x-cg-demo-api-key"] = import.meta.env.VITE_COINGECKO_API_KEY;
+    // Add API key to headers if available (support multiple variable names)
+    const apiKey =
+      import.meta.env.VITE_COINGECKO_API_KEY ||
+      import.meta.env.VITE_CG_API_KEY ||
+      import.meta.env.CG_API_KEY;
+
+    if (apiKey) {
+      headers["x-cg-demo-api-key"] = apiKey;
     }
 
     metrics.totalRequests++;
