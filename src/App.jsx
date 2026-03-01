@@ -30,6 +30,7 @@ import ForgotPassword from "@/components/Auth/ForgotPassword";
 import PrivateRoute from "@/components/Auth/PrivateRoute";
 import { AuthProvider } from "@/context/AuthProvider";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { CoinContextProvider } from "@/context/CoinContext";
 import Contributors from "@/components/Sections/Contributors";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -142,84 +143,95 @@ const App = () => {
       />
       <ThemeProvider>
         <AuthProvider>
-          <div className="app">
-            {isLoading && !isDashboard && <LoadingSpinner />}
-            <div
-              className={
-                isDashboard ? "app-dashboard-container" : "app-container"
-              }
-            >
-              {!isDashboard && <Navbar />}
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogDetail />} />
-                <Route path="/blog/article/:id" element={<BlogDetail />} />
-                <Route
-                  path="/ai-blog"
-                  element={
-                    <Suspense
-                      fallback={
-                        <div
-                          style={{ minHeight: "100vh", background: "#0a0a0a" }}
-                        />
-                      }
-                    >
-                      <AIBlogPage />
-                    </Suspense>
-                  }
-                />
-                <Route path="/trending" element={<TrendingCoins />} />
-                <Route path="/new-listings" element={<NewListings />} />
-                <Route path="/top-losers" element={<TopLosers />} />
-                <Route path="/api-access" element={<ApiAccess />} />
+          <CoinContextProvider>
+            <div className="app">
+              {isLoading && !isDashboard && <LoadingSpinner />}
+              <div
+                className={
+                  isDashboard ? "app-dashboard-container" : "app-container"
+                }
+              >
+                {!isDashboard && <Navbar />}
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:slug" element={<BlogDetail />} />
+                  <Route path="/blog/article/:id" element={<BlogDetail />} />
+                  <Route
+                    path="/ai-blog"
+                    element={
+                      <Suspense
+                        fallback={
+                          <div
+                            style={{
+                              minHeight: "100vh",
+                              background: "#0a0a0a",
+                            }}
+                          />
+                        }
+                      >
+                        <AIBlogPage />
+                      </Suspense>
+                    }
+                  />
+                  <Route path="/trending" element={<TrendingCoins />} />
+                  <Route path="/new-listings" element={<NewListings />} />
+                  <Route path="/top-losers" element={<TopLosers />} />
+                  <Route path="/api-access" element={<ApiAccess />} />
 
-                <Route path="/gainers" element={<TopGainers />} />
+                  <Route path="/gainers" element={<TopGainers />} />
 
-                <Route path="/features" element={<Features />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route
-                  path="/verify-email"
-                  element={
-                    <PrivateRoute>
-                      <EmailVerification />
-                    </PrivateRoute>
-                  }
-                />
-                <Route path="/contributors" element={<Contributors />} />
-                <Route
-                  element={
-                    <PrivateRoute>
-                      <DashboardLayout />
-                    </PrivateRoute>
-                  }
-                >
-                  <Route path="/dashboard" element={<DashboardContent />} />
-                  <Route path="/market-overview" element={<MarketOverview />} />
-                  <Route path="/leaderboard" element={<Leaderboard />} />
-                  <Route path="/change-password" element={<ChangePassword />} />
-                  <Route path="/saved-insights" element={<SavedInsights />} />
-                  <Route path="/profile" element={<Profile />} />
-                </Route>
-                <Route path="/coin/:coinId" element={<CoinWrapper />} />
-                <Route path="/privacy" element={<PrivacyPolicy />} />
-                <Route path="/terms" element={<TermsOfService />} />
-                <Route path="/contactus" element={<ContactUs />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/feedback" element={<Feedback />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/cookies" element={<CookiePolicy />} />
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
+                  <Route path="/features" element={<Features />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route
+                    path="/verify-email"
+                    element={
+                      <PrivateRoute>
+                        <EmailVerification />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route path="/contributors" element={<Contributors />} />
+                  <Route
+                    element={
+                      <PrivateRoute>
+                        <DashboardLayout />
+                      </PrivateRoute>
+                    }
+                  >
+                    <Route path="/dashboard" element={<DashboardContent />} />
+                    <Route
+                      path="/market-overview"
+                      element={<MarketOverview />}
+                    />
+                    <Route path="/leaderboard" element={<Leaderboard />} />
+                    <Route
+                      path="/change-password"
+                      element={<ChangePassword />}
+                    />
+                    <Route path="/saved-insights" element={<SavedInsights />} />
+                    <Route path="/profile" element={<Profile />} />
+                  </Route>
+                  <Route path="/coin/:coinId" element={<CoinWrapper />} />
+                  <Route path="/privacy" element={<PrivacyPolicy />} />
+                  <Route path="/terms" element={<TermsOfService />} />
+                  <Route path="/contactus" element={<ContactUs />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/feedback" element={<Feedback />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/cookies" element={<CookiePolicy />} />
+                  <Route path="*" element={<PageNotFound />} />
+                </Routes>
+              </div>
+              {!isDashboard && !isAuthPage && <Footer />}
             </div>
-            {!isDashboard && !isAuthPage && <Footer />}
-          </div>
-          <ScrollToTop lenis={lenisRef.current} />
-          <CryptoChatbot />
-          <RateLimitIndicator />
+            <ScrollToTop lenis={lenisRef.current} />
+            <CryptoChatbot />
+            <RateLimitIndicator />
+          </CoinContextProvider>
         </AuthProvider>
       </ThemeProvider>
     </>
