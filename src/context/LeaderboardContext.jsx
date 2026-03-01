@@ -20,6 +20,8 @@ import {
 } from "firebase/firestore";
 import { db, isFirebaseConfigured } from "../firebase";
 import { useAuth } from "./useAuth";
+import { getFirebaseErrorInfo } from "../utils/firebaseValidation";
+import { notifyError, notifySuccess } from "../utils/notify";
 
 const LeaderboardContext = createContext({});
 
@@ -28,11 +30,13 @@ export const LeaderboardProvider = ({ children }) => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [userRank, setUserRank] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Fetch leaderboard data
   useEffect(() => {
     if (!isFirebaseConfigured() || !db) {
       setLoading(false);
+      setError(null); // Not an error if Firebase is not configured
       return;
     }
 
@@ -51,6 +55,7 @@ export const LeaderboardProvider = ({ children }) => {
         });
         setLeaderboard(leaderboardData);
         setLoading(false);
+        setError(null);
 
         // Find current user's rank
         if (currentUser) {
@@ -61,8 +66,13 @@ export const LeaderboardProvider = ({ children }) => {
         }
       },
       (error) => {
-        console.error("Error fetching leaderboard:", error);
+        const errorInfo = getFirebaseErrorInfo(error, "Leaderboard Fetch");
+        if (import.meta.env.DEV) {
+          console.error("Error fetching leaderboard:", errorInfo);
+        }
+        setError(errorInfo);
         setLoading(false);
+        // Don't show toast for leaderboard fetch errors as they're non-critical
       },
     );
 
@@ -90,7 +100,11 @@ export const LeaderboardProvider = ({ children }) => {
           });
         }
       } catch (error) {
-        console.error("Error initializing leaderboard:", error);
+        const errorInfo = getFirebaseErrorInfo(error, "Leaderboard Initialization");
+        if (import.meta.env.DEV) {
+          console.error("Error initializing leaderboard:", errorInfo);
+        }
+        // Silent failure - leaderboard is not critical for app functionality
       }
     },
     [],
@@ -108,7 +122,11 @@ export const LeaderboardProvider = ({ children }) => {
         lastUpdated: serverTimestamp(),
       });
     } catch (error) {
-      console.error("Error updating score:", error);
+      const errorInfo = getFirebaseErrorInfo(error, "Score Update");
+      if (import.meta.env.DEV) {
+        console.error("Error updating score:", errorInfo);
+      }
+      // Silent failure - score updates are not critical
     }
   }, []);
 
@@ -138,6 +156,7 @@ export const LeaderboardProvider = ({ children }) => {
       leaderboard,
       userRank,
       loading,
+      error,
       initializeUserLeaderboard,
       updateUserScore,
       awardPoints,
@@ -146,6 +165,7 @@ export const LeaderboardProvider = ({ children }) => {
       leaderboard,
       userRank,
       loading,
+      error,
       initializeUserLeaderboard,
       updateUserScore,
       awardPoints,

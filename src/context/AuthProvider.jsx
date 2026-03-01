@@ -22,165 +22,270 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { auth, db, googleProvider, isFirebaseConfigured } from "../firebase";
+import { getFirebaseErrorInfo } from "../utils/firebaseValidation";
+import { notifyError, notifySuccess } from "../utils/notify";
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState(null);
 
   //   verify recent authentication
   const reauthenticateUser = useCallback(
     async (currentPassword) => {
-      if (!isFirebaseConfigured() || !auth || !currentUser) {
-        throw new Error(
-          "Firebase is not configured. Please add Firebase credentials to use authentication.",
+      try {
+        if (!isFirebaseConfigured() || !auth || !currentUser) {
+          const error = new Error("Firebase is not configured");
+          const errorInfo = getFirebaseErrorInfo(error, "Re-authentication");
+          notifyError(errorInfo.message);
+          throw error;
+        }
+        const user = auth.currentUser;
+        // create credential with email and current password
+        const credentials = EmailAuthProvider.credential(
+          user.email,
+          currentPassword,
         );
-      }
-      const user = auth.currentUser;
-      // create credential with email and current password
-      const credentials = EmailAuthProvider.credential(
-        user.email,
-        currentPassword,
-      );
 
-      // Re-authenticate the user
-      await reauthenticateWithCredential(user, credentials);
+        // Re-authenticate the user
+        await reauthenticateWithCredential(user, credentials);
+      } catch (error) {
+        const errorInfo = getFirebaseErrorInfo(error, "Re-authentication");
+        notifyError(errorInfo.message);
+        throw error;
+      }
     },
     [currentUser],
   );
 
   // signup function
   const signup = useCallback(async (email, password, fullName) => {
-    if (!isFirebaseConfigured() || !auth) {
-      throw new Error(
-        "Firebase is not configured. Please add Firebase credentials to use authentication.",
-      );
-    }
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-    const user = userCredential.user;
-
-    // Send email verification before Firestore writes so offline errors do not block it
-    await sendEmailVerification(user, {
-      url: window.location.origin + "/dashboard",
-      handleCodeInApp: false,
-    });
-
     try {
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        email: user.email,
-        fullName: fullName,
-        createdAt: serverTimestamp(),
-        provider: "email",
-      });
+      setAuthError(null);
+      
+      if (!isFirebaseConfigured() || !auth) {
+        const error = new Error("Firebase is not configured");
+        const errorInfo = getFirebaseErrorInfo(error, "Sign Up");
+        setAuthError(errorInfo);
+        notifyError(errorInfo.message);
+        throw error;
+      }
+      
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
 
-      // Initialize leaderboard entry for new user
-      await setDoc(doc(db, "leaderboard", user.uid), {
-        uid: user.uid,
-        displayName: fullName,
-        photoURL: null,
-        score: 0,
-        activitiesCount: 0,
-        lastUpdated: serverTimestamp(),
-      });
+      // Send email verification before Firestore writes so offline errors do not block it
+      try {
+        await sendEmailVerification(user, {
+          url: window.location.origin + "/dashboard",
+          handleCodeInApp: false,
+        });
+        notifySuccess("Verification email sent! Please check your inbox.");
+      } catch (emailError) {
+        console.warn("Failed to send verification email:", emailError);
+        notifyError("Account created, but verification email failed. You can resend it later.");
+      }
+
+      try {
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          email: user.email,
+          fullName: fullName,
+          createdAt: serverTimestamp(),
+          provider: "email",
+        });
+
+        // Initialize leaderboard entry for new user
+        await setDoc(doc(db, "leaderboard", user.uid), {
+          uid: user.uid,
+          displayName: fullName,
+          photoURL: null,
+          score: 0,
+          activitiesCount: 0,
+          lastUpdated: serverTimestamp(),
+        });
+      } catch (error) {
+        const errorInfo = getFirebaseErrorInfo(error, "User Profile Creation");
+        console.error("Error saving user profile data:", errorInfo);
+        notifyError("Account created, but profile setup failed. Please contact support.");
+      }
+
+      notifySuccess("Account created successfully! Welcome to CryptoHub.");
+      return userCredential;
     } catch (error) {
-      console.error("Error saving user profile data:", error);
+      const errorInfo = getFirebaseErrorInfo(error, "Sign Up");
+      setAuthError(errorInfo);
+      notifyError(errorInfo.message);
+      throw error;
     }
-
-    return userCredential;
   }, []);
 
   //   login function
   const login = useCallback(async (email, password) => {
-    if (!isFirebaseConfigured() || !auth) {
-      throw new Error(
-        "Firebase is not configured. Please add Firebase credentials to use authentication.",
+    try {
+      setAuthError(null);
+      
+      if (!isFirebaseConfigured() || !auth) {
+        const error = new Error("Firebase is not configured");
+        const errorInfo = getFirebaseErrorInfo(error, "Login");
+        setAuthError(errorInfo);
+        notifyError(errorInfo.message);
+        throw error;
+      }
+      
+      await setPersistence(auth, browserLocalPersistence);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
       );
+      
+      notifySuccess("Welcome back! Logged in successfully.");
+      return userCredential;
+    } catch (error) {
+      const errorInfo = getFirebaseErrorInfo(error, "Login");
+      setAuthError(errorInfo);
+      notifyError(errorInfo.message);
+      throw error;
     }
-    await setPersistence(auth, browserLocalPersistence);
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-    return userCredential;
   }, []);
 
   //   login with google function
   const loginWithGoogle = useCallback(async () => {
-    if (!isFirebaseConfigured() || !auth || !googleProvider) {
-      throw new Error(
-        "Firebase is not configured. Please add Firebase credentials to use authentication.",
-      );
+    try {
+      setAuthError(null);
+      
+      if (!isFirebaseConfigured() || !auth || !googleProvider) {
+        const error = new Error("Firebase is not configured");
+        const errorInfo = getFirebaseErrorInfo(error, "Google Sign-In");
+        setAuthError(errorInfo);
+        notifyError(errorInfo.message);
+        throw error;
+      }
+      
+      await setPersistence(auth, browserLocalPersistence);
+      const userCredential = await signInWithPopup(auth, googleProvider);
+      const user = userCredential.user;
+
+      // Check if user document exists, if not create it
+      try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (!userDoc.exists()) {
+          await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            email: user.email,
+            fullName: user.displayName || "Google User",
+            photoURL: user.photoURL,
+            createdAt: serverTimestamp(),
+            provider: "google",
+          });
+
+          // Initialize leaderboard entry for new user
+          await setDoc(doc(db, "leaderboard", user.uid), {
+            uid: user.uid,
+            displayName: user.displayName || "Google User",
+            photoURL: user.photoURL,
+            score: 0,
+            activitiesCount: 0,
+            lastUpdated: serverTimestamp(),
+          });
+        }
+      } catch (firestoreError) {
+        const errorInfo = getFirebaseErrorInfo(firestoreError, "Google User Profile");
+        console.error("Error creating Google user profile:", errorInfo);
+        notifyError("Signed in, but profile setup failed. Please try again.");
+      }
+
+      notifySuccess("Welcome! Signed in with Google successfully.");
+      return userCredential;
+    } catch (error) {
+      const errorInfo = getFirebaseErrorInfo(error, "Google Sign-In");
+      setAuthError(errorInfo);
+      notifyError(errorInfo.message);
+      throw error;
     }
-    await setPersistence(auth, browserLocalPersistence);
-    const userCredential = await signInWithPopup(auth, googleProvider);
-    const user = userCredential.user;
-
-    // Check if user document exists, if not create it
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    if (!userDoc.exists()) {
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        email: user.email,
-        fullName: user.displayName || "Google User",
-        photoURL: user.photoURL,
-        createdAt: serverTimestamp(),
-        provider: "google",
-      });
-
-      // Initialize leaderboard entry for new user
-      await setDoc(doc(db, "leaderboard", user.uid), {
-        uid: user.uid,
-        displayName: user.displayName || "Google User",
-        photoURL: user.photoURL,
-        score: 0,
-        activitiesCount: 0,
-        lastUpdated: serverTimestamp(),
-      });
-    }
-
-    return userCredential;
   }, []);
 
   //   logout function
   const logout = useCallback(async () => {
-    if (!isFirebaseConfigured() || !auth) {
-      return;
+    try {
+      setAuthError(null);
+      
+      if (!isFirebaseConfigured() || !auth) {
+        return;
+      }
+      
+      await signOut(auth);
+      notifySuccess("Logged out successfully. See you soon!");
+    } catch (error) {
+      const errorInfo = getFirebaseErrorInfo(error, "Logout");
+      setAuthError(errorInfo);
+      notifyError(errorInfo.message);
+      throw error;
     }
-    await signOut(auth);
   }, []);
 
   //   change Password function
   const ChangePassword = useCallback(
     async (currentPassword, newPassword) => {
-      if (!isFirebaseConfigured() || !auth || !auth.currentUser) {
-        throw new Error("User  is Not Authenticated");
+      try {
+        setAuthError(null);
+        
+        if (!isFirebaseConfigured() || !auth || !auth.currentUser) {
+          const error = new Error("User is not authenticated");
+          const errorInfo = getFirebaseErrorInfo(error, "Change Password");
+          setAuthError(errorInfo);
+          notifyError(errorInfo.message);
+          throw error;
+        }
+        const user = auth.currentUser;
+
+        // re-authenticate user
+        await reauthenticateUser(currentPassword);
+
+        // update Password
+        await updatePassword(user, newPassword);
+        
+        notifySuccess("Password changed successfully!");
+      } catch (error) {
+        const errorInfo = getFirebaseErrorInfo(error, "Change Password");
+        setAuthError(errorInfo);
+        notifyError(errorInfo.message);
+        throw error;
       }
-      const user = auth.currentUser;
-
-      // re-authenticate user
-      await reauthenticateUser(currentPassword);
-
-      // update Password
-      await updatePassword(user, newPassword);
     },
     [reauthenticateUser],
   );
 
   //   send email verification
   const sendVerificationEmail = useCallback(async () => {
-    if (!isFirebaseConfigured() || !auth?.currentUser) {
-      throw new Error("User is not authenticated");
-    }
+    try {
+      setAuthError(null);
+      
+      if (!isFirebaseConfigured() || !auth?.currentUser) {
+        const error = new Error("User is not authenticated");
+        const errorInfo = getFirebaseErrorInfo(error, "Email Verification");
+        setAuthError(errorInfo);
+        notifyError(errorInfo.message);
+        throw error;
+      }
 
-    await sendEmailVerification(auth.currentUser, {
-      url: window.location.origin + "/dashboard",
-      handleCodeInApp: false,
-    });
+      await sendEmailVerification(auth.currentUser, {
+        url: window.location.origin + "/dashboard",
+        handleCodeInApp: false,
+      });
+      
+      notifySuccess("Verification email sent! Please check your inbox.");
+    } catch (error) {
+      const errorInfo = getFirebaseErrorInfo(error, "Email Verification");
+      setAuthError(errorInfo);
+      notifyError(errorInfo.message);
+      throw error;
+    }
   }, []);
 
   //   reload user and check verification status
@@ -214,12 +319,25 @@ export const AuthProvider = ({ children }) => {
 
   //   reset Password function
   const resetPassword = useCallback(async (email) => {
-    if (!isFirebaseConfigured() || !auth) {
-      throw new Error(
-        "Firebase is not configured. Please add Firebase credentials to use authentication.",
-      );
+    try {
+      setAuthError(null);
+      
+      if (!isFirebaseConfigured() || !auth) {
+        const error = new Error("Firebase is not configured");
+        const errorInfo = getFirebaseErrorInfo(error, "Password Reset");
+        setAuthError(errorInfo);
+        notifyError(errorInfo.message);
+        throw error;
+      }
+      
+      await sendPasswordResetEmail(auth, email);
+      notifySuccess("Password reset email sent! Check your inbox.");
+    } catch (error) {
+      const errorInfo = getFirebaseErrorInfo(error, "Password Reset");
+      setAuthError(errorInfo);
+      notifyError(errorInfo.message);
+      throw error;
     }
-    await sendPasswordResetEmail(auth, email);
   }, []);
 
   //   check if user signed in with email/password
@@ -377,10 +495,17 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  // Clear auth error
+  const clearAuthError = useCallback(() => {
+    setAuthError(null);
+  }, []);
+
   const value = useMemo(
     () => ({
       currentUser,
       loading,
+      authError,
+      clearAuthError,
       signup,
       login,
       loginWithGoogle,
@@ -395,6 +520,8 @@ export const AuthProvider = ({ children }) => {
     [
       currentUser,
       loading,
+      authError,
+      clearAuthError,
       signup,
       login,
       loginWithGoogle,
@@ -420,3 +547,4 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
