@@ -55,6 +55,8 @@ import TopLosers from "./pages/TopLosers";
 import ApiAccess from "./pages/ApiAccess";
 import AIBlogPage from "./pages/AIBlog/AIBlogPage";
 
+import ScrollToTopOnRouteChange from "./utils/ScrollToTop";
+
 const App = () => {
   const lenisRef = useRef(null);
   const { isLoading } = useContext(CoinContext);
@@ -149,6 +151,10 @@ const App = () => {
               }
             >
               {!isDashboard && <Navbar />}
+
+              {/* scroll to top on route change */}
+              <ScrollToTopOnRouteChange lenis={lenisRef.current} />
+
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/pricing" element={<Pricing />} />
