@@ -20,6 +20,8 @@
   padding: 60px 16px 40px;
 }
 
+.modern-table
+
 .tg-hero-glow {
   position: absolute;
   top: 30%;
@@ -691,7 +693,6 @@
 /* BACKGROUND */
 .page-wrapper {
   min-height: 100vh;
-  background: radial-gradient(circle at 50% 0%, #1c0d33, #090513 60%);
   color: #fff;
   padding-bottom: 100px;
   font-family: "Inter", sans-serif;
@@ -700,7 +701,7 @@
 /* HERO */
 .hero {
   text-align: center;
-  padding: 100px 20px 60px;
+  padding: 50px 20px 60px;
 }
 
 .hero-pill {
@@ -741,11 +742,12 @@
 }
 
 .stat {
-  padding: 25px 40px;
+  padding: 15px 30px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
+  width: 200px;
   transition: 0.3s ease;
 }
 
@@ -773,7 +775,7 @@
 /* SORT BAR */
 .sort-bar {
   width: 90%;
-  max-width: 1100px;
+  max-width: 1300px;
   margin: 40px auto;
   padding: 15px 20px;
   border-radius: 18px;
@@ -809,7 +811,7 @@
 /* TABLE */
 .table-section {
   width: 90%;
-  max-width: 1100px;
+  max-width: 1300px;
   margin: auto;
   border-radius: 20px;
   overflow: hidden;
@@ -828,7 +830,7 @@
   color: var(--text-muted);
   font-weight: 600;
   font-size: 1rem;
-  padding: 12px 8px;
+  padding: 12px 30px;
   background: transparent;
   text-align: left;
   text-transform: uppercase;

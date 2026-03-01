@@ -4,7 +4,7 @@
    ===================================================== */
 
 .api-access-container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   padding-bottom: 80px;
   position: relative;
@@ -145,6 +145,7 @@
   gap: 12px;
   padding: 16px 24px;
   min-width: 130px;
+  width: 200px;
 }
 
 .aa-stat-card .stat-icon {
@@ -640,7 +641,7 @@
    ------------------------- */
 .aa-auth-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 20px;
 }
 
@@ -701,7 +702,7 @@
 }
 
 .aa-faq-a {
-  padding: 0 24px 20px;
+  padding: 20px 24px 20px;
   color: rgba(255, 255, 255, 0.55);
   font-size: 0.88rem;
   line-height: 1.7;

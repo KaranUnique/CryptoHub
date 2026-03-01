@@ -4,7 +4,6 @@
 
 /* ========== BASE STYLES ========== */
 .blog-page.glassnode-style {
-  background: #0a0a0a;
   color: #f7f8fa;
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -60,8 +59,6 @@
   background-clip: text;
 }
 
-
-
 /* ========== FEATURED SECTION ========== */
 .featured-section {
   margin-bottom: 5rem;
@@ -75,11 +72,12 @@
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 2.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
 }
 
 .featured-grid {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 40px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2.5rem;
@@ -214,7 +212,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1.2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -255,6 +252,7 @@
 .read-btn:hover {
   color: #00f3ff;
   gap: 0.8rem;
+  background: none !important;
 }
 
 /* ========== ALL POSTS SECTION ========== */
@@ -263,7 +261,7 @@
 }
 
 .section-header {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 
 .section-header h2 {
@@ -282,6 +280,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 40px;
 }
 
 /* Post Card */
@@ -621,8 +621,7 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 4rem;
-  padding-top: 3rem;
+  margin-top: 3rem !important;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 

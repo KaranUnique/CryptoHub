@@ -158,7 +158,7 @@ const TopGainers = () => {
                     key={coin.id}
                     onClick={() => navigate(`/coin/${coin.id}`)}
                   >
-                    <td>{(currentPage - 1) * coinsPerPage + idx + 1}</td>
+                    <td style={{paddingLeft: "30px"}}>{(currentPage - 1) * coinsPerPage + idx + 1}</td>
 
                     <td className="coin-cell">
                       <img src={coin.image} alt={coin.name} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />

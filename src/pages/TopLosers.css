@@ -70,6 +70,7 @@
   height: 54px;
   border-radius: 50%;
   margin-bottom: 12px;
+  margin-top: 30px;
   border: 2px solid #f87171;
   background: #fff;
 }
@@ -278,7 +279,7 @@
   background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.2);
   backdrop-filter: blur(12px);
-  min-width: 140px;
+  width: 200px;
 }
 
 .tl-stat-card .stat-icon {
@@ -415,7 +416,7 @@
   display: grid;
   grid-template-columns: 60px 2fr 1.2fr 1fr 1fr 1.2fr 1.2fr;
   gap: 8px;
-  padding: 14px 20px;
+  padding: 20px;
   border-bottom: 1px solid rgba(239, 68, 68, 0.15);
   font-size: 0.75rem;
   font-weight: 600;
@@ -575,6 +576,9 @@
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.9rem;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: all 0.2s ease;
 }
 

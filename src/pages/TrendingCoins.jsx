@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getTrending } from "../CryptoChatbot/coinGeckoService";
 import { Link } from "react-router-dom";
 import { FiTrendingUp, FiBarChart2 } from "react-icons/fi";
-import "./TopLosers.css";
+import "./TrendingCoins.css";
 
 const COINS_PER_PAGE = 15;
 

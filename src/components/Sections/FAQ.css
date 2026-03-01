@@ -60,5 +60,5 @@
 .faq-answer.show {
   max-height: 200px;
   /* enough for text */
-  padding: 0 20px 18px;
+  padding: 10px 20px 18px;
 }
