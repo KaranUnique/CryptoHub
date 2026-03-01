@@ -60,6 +60,13 @@ export const CoinContextProvider = (props) => {
     gcTime: API_CONFIG.QUERY.GC_TIME, // 5 minutes
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    retry: (failureCount, error) => {
+      // Retry up to 3 times on failure
+      if (failureCount < 3 && error?.status !== 403) {
+        return true;
+      }
+      return false;
+    },
   });
 
   // ---------------------------------------------------------

@@ -14,9 +14,13 @@
  *   const data = await apiClient.get('/api/coingecko/coins/markets?vs_currency=usd');
  */
 
-import { coinGeckoRateLimiter } from './rateLimiter';
-import { shouldRetry, calculateBackoff, getRetryAfterDelay } from './exponentialBackoff';
-import { API_CONFIG } from '../config/apiConfig';
+import { coinGeckoRateLimiter } from "./rateLimiter";
+import {
+  shouldRetry,
+  calculateBackoff,
+  getRetryAfterDelay,
+} from "./exponentialBackoff";
+import { API_CONFIG } from "../config/apiConfig";
 
 // ─── Two-Tier Cache ───────────────────────────────────────────────
 /**
@@ -50,9 +54,9 @@ function getCacheStatus(key) {
   const entry = getCacheEntry(key);
   if (!entry) return null;
   const now = Date.now();
-  if (now < entry.staleAt) return 'fresh';
-  if (now < entry.offlineAt) return 'stale';
-  return 'offline';
+  if (now < entry.staleAt) return "fresh";
+  if (now < entry.offlineAt) return "stale";
+  return "offline";
 }
 
 // ─── In-flight Request Deduplication ─────────────────────────────
@@ -72,7 +76,7 @@ const metrics = {
 
 // Expose metrics to the browser console for debugging:
 //   console.table(window.__CRYPTOHUB_API_METRICS)
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   window.__CRYPTOHUB_API_METRICS = metrics;
 }
 
@@ -86,7 +90,11 @@ if (typeof window !== 'undefined') {
  * @param {number} timeout - Ms before the request is aborted
  * @returns {Promise<Response>}
  */
-async function fetchWithTimeout(url, options = {}, timeout = API_CONFIG.REQUEST.TIMEOUT) {
+async function fetchWithTimeout(
+  url,
+  options = {},
+  timeout = API_CONFIG.REQUEST.TIMEOUT,
+) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
 
@@ -97,9 +105,9 @@ async function fetchWithTimeout(url, options = {}, timeout = API_CONFIG.REQUEST.
     });
     return response;
   } catch (error) {
-    if (error.name === 'AbortError') {
+    if (error.name === "AbortError") {
       metrics.timeouts++;
-      const timeoutError = new Error('Request timeout');
+      const timeoutError = new Error("Request timeout");
       timeoutError.isTimeout = true;
       throw timeoutError;
     }
@@ -127,17 +135,27 @@ async function executeWithBackoff(url, fetchOptions = {}, onRetry = null) {
     try {
       const response = await fetchWithTimeout(url, fetchOptions);
 
+      // Handle HTTP 403 — Forbidden (API key issue or invalid endpoint)
+      if (response.status === 403) {
+        const forbiddenError = new Error(
+          "API_KEY_INVALID: CoinGecko API key is invalid or missing permissions",
+        );
+        forbiddenError.status = 403;
+        forbiddenError.isApiKeyError = true;
+        throw forbiddenError;
+      }
+
       // Handle HTTP 429 — Rate Limited
       if (response.status === 429) {
         metrics.rateLimitHits++;
         const retryDelay = getRetryAfterDelay(response);
-        const retryError = new Error('RATE_LIMITED');
+        const retryError = new Error("RATE_LIMITED");
         retryError.status = 429;
         retryError.retryDelay = retryDelay;
 
         if (!shouldRetry(retryError, attempt)) throw retryError;
 
-        if (typeof onRetry === 'function') {
+        if (typeof onRetry === "function") {
           onRetry(attempt + 1, retryDelay, retryError);
         }
 
@@ -148,13 +166,15 @@ async function executeWithBackoff(url, fetchOptions = {}, onRetry = null) {
 
       // Handle other non-OK responses
       if (!response.ok) {
-        const httpError = new Error(`HTTP ${response.status}: ${response.statusText}`);
+        const httpError = new Error(
+          `HTTP ${response.status}: ${response.statusText}`,
+        );
         httpError.status = response.status;
 
         if (!shouldRetry(httpError, attempt)) throw httpError;
 
         const delay = calculateBackoff(attempt);
-        if (typeof onRetry === 'function') {
+        if (typeof onRetry === "function") {
           onRetry(attempt + 1, delay, httpError);
         }
 
@@ -166,7 +186,6 @@ async function executeWithBackoff(url, fetchOptions = {}, onRetry = null) {
 
       // Success — parse JSON
       return await response.json();
-
     } catch (error) {
       lastError = error;
 
@@ -175,7 +194,7 @@ async function executeWithBackoff(url, fetchOptions = {}, onRetry = null) {
 
       const delay = error.retryDelay || calculateBackoff(attempt);
 
-      if (typeof onRetry === 'function') {
+      if (typeof onRetry === "function") {
         onRetry(attempt + 1, delay, error);
       }
 
@@ -185,7 +204,7 @@ async function executeWithBackoff(url, fetchOptions = {}, onRetry = null) {
   }
 
   metrics.errors++;
-  throw lastError || new Error('Request failed after all retries');
+  throw lastError || new Error("Request failed after all retries");
 }
 
 // ─── Public API Client ────────────────────────────────────────────
@@ -214,6 +233,11 @@ const apiClient = {
       onRateLimited = null,
     } = options;
 
+    // Add API key to headers if available
+    if (import.meta.env.VITE_COINGECKO_API_KEY) {
+      headers["x-cg-demo-api-key"] = import.meta.env.VITE_COINGECKO_API_KEY;
+    }
+
     metrics.totalRequests++;
 
     // ① Check cache first
@@ -221,19 +245,19 @@ const apiClient = {
       const cacheStatus = getCacheStatus(url);
       const entry = getCacheEntry(url);
 
-      if (cacheStatus === 'fresh') {
+      if (cacheStatus === "fresh") {
         metrics.cacheHits++;
         return entry.data;
       }
 
-      if (cacheStatus === 'stale' && allowStale) {
+      if (cacheStatus === "stale" && allowStale) {
         metrics.cacheHits++;
         // Return stale data immediately AND revalidate in background
         this._revalidate(url, headers, priority, onRetry);
         return entry.data;
       }
 
-      if (cacheStatus === 'offline') {
+      if (cacheStatus === "offline") {
         // Network offline — return very old data rather than failing
         if (!navigator.onLine) {
           metrics.cacheHits++;
@@ -254,18 +278,18 @@ const apiClient = {
     const requestPromise = coinGeckoRateLimiter.enqueue(
       async () => {
         const retryHandler = (attempt, delay, error) => {
-          if (error?.status === 429 && typeof onRateLimited === 'function') {
+          if (error?.status === 429 && typeof onRateLimited === "function") {
             onRateLimited(delay);
           }
-          if (typeof onRetry === 'function') {
+          if (typeof onRetry === "function") {
             onRetry(attempt, delay, error);
           }
         };
 
         const fetchOptions = {
-          method: 'GET',
+          method: "GET",
           headers: {
-            accept: 'application/json',
+            accept: "application/json",
             ...headers,
           },
         };
@@ -277,7 +301,7 @@ const apiClient = {
 
         return data;
       },
-      url,      // Key for deduplication in the queue
+      url, // Key for deduplication in the queue
       priority,
     );
 
@@ -293,21 +317,23 @@ const apiClient = {
    * blocking the caller (stale-while-revalidate pattern).
    */
   _revalidate(url, headers, priority, onRetry) {
-    coinGeckoRateLimiter.enqueue(
-      async () => {
-        const fetchOptions = {
-          method: 'GET',
-          headers: { accept: 'application/json', ...headers },
-        };
-        const data = await executeWithBackoff(url, fetchOptions, onRetry);
-        setCacheEntry(url, data);
-        return data;
-      },
-      `revalidate:${url}`,
-      priority - 1, // Lower priority than fresh requests
-    ).catch(() => {
-      // Background revalidation failures are silent
-    });
+    coinGeckoRateLimiter
+      .enqueue(
+        async () => {
+          const fetchOptions = {
+            method: "GET",
+            headers: { accept: "application/json", ...headers },
+          };
+          const data = await executeWithBackoff(url, fetchOptions, onRetry);
+          setCacheEntry(url, data);
+          return data;
+        },
+        `revalidate:${url}`,
+        priority - 1, // Lower priority than fresh requests
+      )
+      .catch(() => {
+        // Background revalidation failures are silent
+      });
   },
 
   /**
@@ -344,19 +370,19 @@ const apiClient = {
    */
   logMetrics() {
     const m = this.getMetrics();
-    console.group('🔵 CryptoHub API Client Metrics');
+    console.group("🔵 CryptoHub API Client Metrics");
     console.table({
-      'Total Requests': m.totalRequests,
-      'Cache Hits': m.cacheHits,
-      'Cache Misses': m.cacheMisses,
-      'Rate Limit Hits': m.rateLimitHits,
-      'Retries': m.retries,
-      'Errors': m.errors,
-      'Timeouts': m.timeouts,
-      'Cache Size': m.cacheSize,
-      'In-Flight': m.inFlightCount,
+      "Total Requests": m.totalRequests,
+      "Cache Hits": m.cacheHits,
+      "Cache Misses": m.cacheMisses,
+      "Rate Limit Hits": m.rateLimitHits,
+      Retries: m.retries,
+      Errors: m.errors,
+      Timeouts: m.timeouts,
+      "Cache Size": m.cacheSize,
+      "In-Flight": m.inFlightCount,
     });
-    console.log('Rate Limiter:', m.rateLimiter);
+    console.log("Rate Limiter:", m.rateLimiter);
     console.groupEnd();
   },
 };

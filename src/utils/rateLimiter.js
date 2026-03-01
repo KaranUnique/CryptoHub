@@ -11,9 +11,9 @@
 
 // ─── Default Configuration ────────────────────────────────────────
 const DEFAULT_CONFIG = {
-  maxRequestsPerMinute: 25,   // Stay comfortably under CoinGecko's 30/min limit
-  maxConcurrent: 3,           // Up to 3 in-flight requests at once
-  minInterval: 2400,          // ms between consecutive requests (60000/25)
+  maxRequestsPerMinute: 15, // Reduced to stay under CoinGecko's 30/min limit
+  maxConcurrent: 2, // Reduced concurrent requests
+  minInterval: 3000, // Increased interval between requests
 };
 
 // ─── RateLimiter Class ────────────────────────────────────────────
@@ -25,11 +25,11 @@ class RateLimiter {
     this.config = { ...DEFAULT_CONFIG, ...config };
 
     // Internal state
-    this._queue = [];                  // Pending request objects
-    this._activeCount = 0;             // Requests currently in-flight
-    this._requestTimestamps = [];      // Timestamps of recent requests (for per-minute check)
-    this._processing = false;          // Whether the queue loop is running
-    this._pendingKeys = new Set();     // Keys of requests already in the queue (dedup)
+    this._queue = []; // Pending request objects
+    this._activeCount = 0; // Requests currently in-flight
+    this._requestTimestamps = []; // Timestamps of recent requests (for per-minute check)
+    this._processing = false; // Whether the queue loop is running
+    this._pendingKeys = new Set(); // Keys of requests already in the queue (dedup)
 
     // Metrics (exposed for monitoring/debugging)
     this.metrics = {
@@ -82,7 +82,9 @@ class RateLimiter {
     };
 
     // Insert in priority order (higher priority first)
-    const insertIndex = this._queue.findIndex((item) => item.priority < priority);
+    const insertIndex = this._queue.findIndex(
+      (item) => item.priority < priority,
+    );
     if (insertIndex === -1) {
       this._queue.push(requestItem);
     } else {
@@ -117,7 +119,7 @@ class RateLimiter {
    * Clears the entire queue, rejecting all pending promises.
    * Call on unmount or logout to avoid ghost requests.
    */
-  clearQueue(reason = 'Queue cleared') {
+  clearQueue(reason = "Queue cleared") {
     const items = [...this._queue];
     this._queue = [];
     this._pendingKeys.clear();
@@ -179,7 +181,7 @@ class RateLimiter {
       this.metrics.completed++;
     } catch (error) {
       // Track rate limit responses specifically
-      if (error?.message === 'RATE_LIMITED' || error?.status === 429) {
+      if (error?.message === "RATE_LIMITED" || error?.status === 429) {
         this.metrics.rateLimitHits++;
       }
       item.reject(error);
@@ -198,7 +200,7 @@ class RateLimiter {
 
     // Prune timestamps older than 1 minute
     this._requestTimestamps = this._requestTimestamps.filter(
-      (ts) => ts > oneMinuteAgo
+      (ts) => ts > oneMinuteAgo,
     );
 
     return this._requestTimestamps.length < this.config.maxRequestsPerMinute;
