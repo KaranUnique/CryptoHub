@@ -2,39 +2,22 @@
  * CoinGecko Free API Service
  * No API key required — uses public endpoints
  * Rate limit: ~10-30 calls/min (plenty for a chatbot)
+ *
+ * All requests are now routed through apiClient which provides:
+ *  - Rate limiting   (25 req/min queue — stays under CoinGecko's 30/min cap)
+ *  - Exponential backoff with Retry-After header support
+ *  - Two-tier caching (fresh 60s / stale 5min / offline 24hr)
+ *  - Request deduplication (same URL = one in-flight request)
+ *  - 15-second request timeout
  */
+
+import apiClient from '../utils/apiClient';
 
 const BASE_URL = "/api/coingecko";
 
-// Simple in-memory cache to avoid redundant API calls
-const cache = {};
-const CACHE_TTL = 60_000; // 1 minute
-
-async function cachedFetch(url, cacheKey) {
-  const now = Date.now();
-  if (cache[cacheKey] && now - cache[cacheKey].timestamp < CACHE_TTL) {
-    return cache[cacheKey].data;
-  }
-
-  try {
-    const res = await fetch(url);
-    if (!res.ok) {
-      if (res.status === 429) throw new Error("RATE_LIMITED");
-      throw new Error(`API error: ${res.status}`);
-    }
-    const data = await res.json();
-    cache[cacheKey] = { data, timestamp: now };
-    return data;
-  } catch (err) {
-    // Return stale cache if available
-    if (cache[cacheKey]) return cache[cacheKey].data;
-    throw err;
-  }
-}
-
 // ─── Market Overview (global stats) ───────────────────────────────
 export async function getGlobalData() {
-  const data = await cachedFetch(`${BASE_URL}/global`, "global");
+  const data = await apiClient.get(`${BASE_URL}/global`);
   const g = data.data;
   return {
     totalMarketCap: g.total_market_cap?.usd,
@@ -49,24 +32,24 @@ export async function getGlobalData() {
 // ─── Top Coins by Market Cap ──────────────────────────────────────
 export async function getTopCoins(currency = "inr", perPage = 50, page = 1) {
   const url = `${BASE_URL}/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${perPage}&page=${page}&sparkline=false&price_change_percentage=1h,24h,7d`;
-  return cachedFetch(url, `top_coins_${currency}_${perPage}_${page}`);
+  return apiClient.get(url);
 }
 
 // ─── Single Coin Price ────────────────────────────────────────────
 export async function getCoinPrice(coinId, currency = "inr") {
   const url = `${BASE_URL}/simple/price?ids=${coinId}&vs_currencies=${currency}&include_24hr_change=true&include_24hr_vol=true&include_market_cap=true`;
-  return cachedFetch(url, `price_${coinId}_${currency}`);
+  return apiClient.get(url);
 }
 
 // ─── Coin Details ─────────────────────────────────────────────────
 export async function getCoinDetails(coinId) {
   const url = `${BASE_URL}/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`;
-  return cachedFetch(url, `details_${coinId}`);
+  return apiClient.get(url);
 }
 
 // ─── Trending Coins ───────────────────────────────────────────────
 export async function getTrending() {
-  const data = await cachedFetch(`${BASE_URL}/search/trending`, "trending");
+  const data = await apiClient.get(`${BASE_URL}/search/trending`);
   return data.coins?.map((c) => ({
     id: c.item.id,
     name: c.item.name,
@@ -80,7 +63,7 @@ export async function getTrending() {
 // ─── Search Coin by Name/Symbol ───────────────────────────────────
 export async function searchCoin(query) {
   const url = `${BASE_URL}/search?query=${encodeURIComponent(query)}`;
-  const data = await cachedFetch(url, `search_${query.toLowerCase()}`);
+  const data = await apiClient.get(url);
   return data.coins?.slice(0, 5) || [];
 }
 
