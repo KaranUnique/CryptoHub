@@ -29,32 +29,35 @@ export const CoinContextProvider = (props) => {
     setTimeout(() => setIsRateLimited(false), retryDelayMs + 500);
   }, []);
 
-  const fetchCoinData = useCallback(async (curr) => {
-    const apiKey = import.meta.env.VITE_CG_API_KEY;
+  const fetchCoinData = useCallback(
+    async (curr) => {
+      // Use CoinGecko's free tier without API key for better production compatibility
+      // The proxy configuration in vercel.json handles routing to api.coingecko.com
+      const baseParams = `vs_currency=${curr.name}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h`;
+      const url = `/api/coingecko/coins/markets?${baseParams}`;
 
-    // Build the proxied URL (/api/coingecko → https://api.coingecko.com/api/v3)
-    // Using the Vite proxy defined in vite.config.js keeps the API key
-    // server-side and routes through our rate limiter correctly.
-    const baseParams = `vs_currency=${curr.name}&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h`;
-    const url = apiKey
-      ? `/api/coingecko/coins/markets?${baseParams}&x_cg_demo_api_key=${apiKey}`
-      : `/api/coingecko/coins/markets?${baseParams}`;
+      return apiClient.get(url, {
+        // High priority — this is the main data feed for the whole app
+        priority: 1,
+        // Notify context when rate-limited so UI can show an indicator
+        onRateLimited: handleRateLimited,
+      });
+    },
+    [handleRateLimited],
+  );
 
-    return apiClient.get(url, {
-      // High priority — this is the main data feed for the whole app
-      priority: 1,
-      // Notify context when rate-limited so UI can show an indicator
-      onRateLimited: handleRateLimited,
-    });
-  }, [handleRateLimited]);
-
-  const { data: allCoin = [], isLoading, isError, error } = useQuery({
+  const {
+    data: allCoin = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["coins", currency.name],
     queryFn: () => fetchCoinData(currency),
     // These mirror the global defaults in main.jsx — kept here for
     // explicitness so the CoinContext behaviour is self-documenting.
-    staleTime: API_CONFIG.QUERY.STALE_TIME,       // 60 seconds
-    gcTime:    API_CONFIG.QUERY.GC_TIME,          // 5 minutes
+    staleTime: API_CONFIG.QUERY.STALE_TIME, // 60 seconds
+    gcTime: API_CONFIG.QUERY.GC_TIME, // 5 minutes
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
@@ -67,10 +70,7 @@ export const CoinContextProvider = (props) => {
     if (!Array.isArray(allCoin) || allCoin.length === 0) return [];
 
     // Only "all" selected
-    if (
-      selectedFilters.length === 1 &&
-      selectedFilters[0] === "all"
-    ) {
+    if (selectedFilters.length === 1 && selectedFilters[0] === "all") {
       return allCoin;
     }
 
@@ -90,39 +90,48 @@ export const CoinContextProvider = (props) => {
         .filter(
           (coin) =>
             coin.price_change_percentage_24h !== null &&
-            coin.price_change_percentage_24h > 0
+            coin.price_change_percentage_24h > 0,
         )
         .sort(
           (a, b) =>
-            b.price_change_percentage_24h -
-            a.price_change_percentage_24h
+            b.price_change_percentage_24h - a.price_change_percentage_24h,
         )
         .slice(0, 20);
       result.push(...topGainers);
     }
 
     // Remove duplicates if a coin is in both lists
-    return Array.from(
-      new Map(result.map((coin) => [coin.id, coin])).values()
-    );
+    return Array.from(new Map(result.map((coin) => [coin.id, coin])).values());
   }, [allCoin, selectedFilters]);
 
   // ---------------------------------------------------------
   // 3. CONTEXT VALUE
   // ---------------------------------------------------------
 
-  const contextValue = useMemo(() => ({
-    allCoin,
-    filteredCoins,
-    selectedFilters,
-    setSelectedFilters,
-    currency,
-    setCurrency,
-    isLoading,
-    isError,
-    isRateLimited,                 // true when a 429 is being handled
-    errorMessage: error?.message,
-  }), [allCoin, filteredCoins, selectedFilters, currency, isLoading, isError, isRateLimited, error]);
+  const contextValue = useMemo(
+    () => ({
+      allCoin,
+      filteredCoins,
+      selectedFilters,
+      setSelectedFilters,
+      currency,
+      setCurrency,
+      isLoading,
+      isError,
+      isRateLimited, // true when a 429 is being handled
+      errorMessage: error?.message,
+    }),
+    [
+      allCoin,
+      filteredCoins,
+      selectedFilters,
+      currency,
+      isLoading,
+      isError,
+      isRateLimited,
+      error,
+    ],
+  );
 
   return (
     <CoinContext.Provider value={contextValue}>

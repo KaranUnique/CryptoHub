@@ -1,14 +1,13 @@
 // News service for fetching cryptocurrency news
-const NEWS_API_BASE = 'https://api.coingecko.com/api/v3';
+const NEWS_API_BASE = '/api/coingecko';
 
 export const fetchCoinNews = async (coinId) => {
   try {
-    const apiKey = import.meta.env.VITE_CG_API_KEY;
+    // Use CoinGecko free tier without API key for better production compatibility
     const options = {
       method: 'GET',
       headers: {
-        accept: 'application/json',
-        ...(apiKey && { 'x-cg-demo-api-key': apiKey })
+        accept: 'application/json'
       }
     };
 
