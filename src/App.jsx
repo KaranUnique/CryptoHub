@@ -30,6 +30,7 @@ import ForgotPassword from "@/components/Auth/ForgotPassword";
 import PrivateRoute from "@/components/Auth/PrivateRoute";
 import { AuthProvider } from "@/context/AuthProvider";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { CoinContextProvider } from "@/context/CoinContext";
 import Contributors from "@/components/Sections/Contributors";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -47,6 +48,7 @@ import PageNotFound from "@/components/Common/PageNotFound";
 import About from "@/components/Sections/About";
 import CryptoChatbot from "./CryptoChatbot/CryptoChatbot";
 import Feedback from "./pages/Feedback";
+import RateLimitIndicator from "@/components/Common/RateLimitIndicator";
 
 import TrendingCoins from "@/pages/TrendingCoins";
 import NewListings from "@/pages/NewListings";
@@ -220,10 +222,10 @@ const App = () => {
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
-            {!isDashboard && !isAuthPage && <Footer />}
-          </div>
-          <ScrollToTop lenis={lenisRef.current} />
-          <CryptoChatbot />
+            <ScrollToTop lenis={lenisRef.current} />
+            <CryptoChatbot />
+            <RateLimitIndicator />
+          </CoinContextProvider>
         </AuthProvider>
       </ThemeProvider>
     </>
