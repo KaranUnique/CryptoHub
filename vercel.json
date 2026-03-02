@@ -2,5 +2,11 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "rewrites": [
+    {
+      "source": "/api/coingecko/:path*",
+      "destination": "https://api.coingecko.com/api/v3/:path*"
+    }
+  ]
 }

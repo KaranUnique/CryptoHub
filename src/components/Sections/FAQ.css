@@ -48,10 +48,26 @@
   padding: 0 20px;
   color: #cfcfcf;
   line-height: 1.6;
-  transition: max-height 0.4s ease, padding 0.3s ease;
+  transition: max-height 0.5s ease, padding 0.3s ease;
 }
 
 .faq-answer.show {
-  max-height: 200px; /* enough for text */
+  max-height: 600px; /* increased for longer content */
   padding: 0 20px 18px;
+}
+
+.faq-answer p {
+  margin-bottom: 10px;
+}
+
+.faq-answer ul {
+  list-style: disc !important;
+  list-style-position: inside;
+  padding-left: 20px !important;
+  margin: 10px 0;
+}
+
+.faq-answer li {
+  display: list-item !important;
+  margin-bottom: 6px;
 }

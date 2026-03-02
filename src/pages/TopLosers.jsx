@@ -11,35 +11,29 @@ import {
   FiAlertTriangle,
 } from "react-icons/fi";
 import { CoinContext } from "../context/CoinContextInstance";
+import apiClient from "../utils/apiClient";
 import "./TopLosers.css";
 
 const fetchTopLosers = async (currency) => {
-  const apiKey = import.meta.env.VITE_CG_API_KEY;
-
-  // Fetch 3 pages of coins (250 total) to get a broad pool, then sort by worst 24h change
+  // Use rate-limited apiClient to prevent 429 errors
+  // Fetch pages sequentially to respect rate limits
   const pages = [1, 2, 3];
-  const results = await Promise.all(
-    pages.map(async (page) => {
-      const baseUrl = `/api/coingecko/coins/markets`;
-      const params = new URLSearchParams({
-        vs_currency: currency,
-        order: "market_cap_desc",
-        per_page: "100",
-        page: page.toString(),
-        sparkline: "false",
-        price_change_percentage: "24h,7d",
-      });
-      if (apiKey) params.append("x_cg_demo_api_key", apiKey);
+  const results = [];
 
-      const response = await fetch(`${baseUrl}?${params.toString()}`, {
-        method: "GET",
-        headers: { accept: "application/json" },
-      });
+  for (const page of pages) {
+    const params = new URLSearchParams({
+      vs_currency: currency,
+      order: "market_cap_desc",
+      per_page: "100",
+      page: page.toString(),
+      sparkline: "false",
+      price_change_percentage: "24h,7d",
+    });
 
-      if (!response.ok) throw new Error(`API Error: ${response.status}`);
-      return response.json();
-    }),
-  );
+    const url = `/api/coingecko/coins/markets?${params.toString()}`;
+    const data = await apiClient.get(url);
+    results.push(data);
+  }
 
   const allCoins = results.flat();
 
@@ -195,7 +189,6 @@ const TopLosers = () => {
             </div>
           </div>
         </motion.div>
-
       </section>
 
       {/* Top 3 Losers Highlight Cards */}
@@ -217,10 +210,18 @@ const TopLosers = () => {
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
                 <Link to={`/coin/${coin.id}`} className="tl-highlight-link">
-                  <div className="tl-highlight-rank">#{coin.market_cap_rank}</div>
-                  <img src={coin.image} alt={coin.name} className="tl-highlight-img" />
+                  <div className="tl-highlight-rank">
+                    #{coin.market_cap_rank}
+                  </div>
+                  <img
+                    src={coin.image}
+                    alt={coin.name}
+                    className="tl-highlight-img"
+                  />
                   <div className="tl-highlight-info">
-                    <div className="tl-highlight-symbol">{coin.symbol.toUpperCase()}</div>
+                    <div className="tl-highlight-symbol">
+                      {coin.symbol.toUpperCase()}
+                    </div>
                     <div className="tl-highlight-name">{coin.name}</div>
                     <div className="tl-highlight-price">
                       {currency.Symbol || currency.symbol}

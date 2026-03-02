@@ -1,0 +1,429 @@
+/* Firebase Error Component - Cosmic Theme Integration */
+
+.firebase-error-container {
+  position: relative;
+  width: 100%;
+  padding: 1rem;
+  animation: firebaseErrorSlideIn 0.3s ease-out;
+}
+
+@keyframes firebaseErrorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.firebase-error-card {
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(15, 15, 25, 0.95);
+  border-radius: 16px;
+  padding: 1.75rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* Error Severity Variants */
+.firebase-error-error .firebase-error-card {
+  border-color: rgba(239, 68, 68, 0.4);
+  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.15);
+}
+
+.firebase-error-warning .firebase-error-card {
+  border-color: rgba(251, 191, 36, 0.4);
+  box-shadow: 0 8px 32px rgba(251, 191, 36, 0.15);
+}
+
+.firebase-error-info .firebase-error-card {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
+}
+
+/* Header */
+.firebase-error-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.firebase-error-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.firebase-error-error .firebase-error-icon {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.firebase-error-warning .firebase-error-icon {
+  background: rgba(251, 191, 36, 0.15);
+}
+
+.firebase-error-info .firebase-error-icon {
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.firebase-error-icon-symbol {
+  font-size: 1.75rem;
+  animation: firebaseIconPulse 2s ease-in-out infinite;
+}
+
+@keyframes firebaseIconPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.firebase-error-header-content {
+  flex: 1;
+}
+
+.firebase-error-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.25rem 0;
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.firebase-error-error .firebase-error-title {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.firebase-error-warning .firebase-error-title {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.firebase-error-info .firebase-error-title {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.firebase-error-context {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.firebase-error-dismiss {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.firebase-error-dismiss:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Body */
+.firebase-error-body {
+  margin-bottom: 1.25rem;
+}
+
+.firebase-error-message {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.firebase-error-user-action {
+  background: rgba(139, 92, 246, 0.08);
+  border-left: 3px solid rgba(139, 92, 246, 0.5);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.firebase-error-error .firebase-error-user-action {
+  background: rgba(239, 68, 68, 0.08);
+  border-left-color: rgba(239, 68, 68, 0.5);
+}
+
+.firebase-error-warning .firebase-error-user-action {
+  background: rgba(251, 191, 36, 0.08);
+  border-left-color: rgba(251, 191, 36, 0.5);
+}
+
+.firebase-error-info .firebase-error-user-action {
+  background: rgba(59, 130, 246, 0.08);
+  border-left-color: rgba(59, 130, 246, 0.5);
+}
+
+.firebase-error-user-action strong {
+  display: block;
+  color: #8b5cf6;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.firebase-error-error .firebase-error-user-action strong {
+  color: #ef4444;
+}
+
+.firebase-error-warning .firebase-error-user-action strong {
+  color: #fbbf24;
+}
+
+.firebase-error-info .firebase-error-user-action strong {
+  color: #3b82f6;
+}
+
+.firebase-error-user-action p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+/* Developer Details */
+.firebase-error-developer-details {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.firebase-error-developer-summary {
+  cursor: pointer;
+  color: #8b5cf6;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: 0.75rem;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.firebase-error-developer-summary:hover {
+  color: #a78bfa;
+}
+
+.firebase-error-developer-summary::before {
+  content: "▶";
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.firebase-error-developer-details[open] .firebase-error-developer-summary::before {
+  transform: rotate(90deg);
+}
+
+.firebase-error-developer-content {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.firebase-error-developer-action,
+.firebase-error-code,
+.firebase-error-original {
+  margin-bottom: 0.75rem;
+}
+
+.firebase-error-developer-action strong,
+.firebase-error-code strong,
+.firebase-error-original strong {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.firebase-error-developer-action p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.firebase-error-code code {
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+}
+
+.firebase-error-stack {
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.75rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0.5rem 0 0 0;
+  line-height: 1.4;
+}
+
+/* Action Buttons */
+.firebase-error-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.firebase-error-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.firebase-error-btn-icon {
+  font-size: 1.125rem;
+}
+
+.firebase-error-btn-primary {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.firebase-error-btn-primary:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.firebase-error-btn-primary:active {
+  transform: translateY(0);
+}
+
+.firebase-error-btn-secondary {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.firebase-error-btn-secondary:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+.firebase-error-btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .firebase-error-container {
+    padding: 0.75rem;
+  }
+
+  .firebase-error-card {
+    padding: 1.25rem;
+  }
+
+  .firebase-error-header {
+    gap: 0.75rem;
+  }
+
+  .firebase-error-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .firebase-error-icon-symbol {
+    font-size: 1.5rem;
+  }
+
+  .firebase-error-title {
+    font-size: 1.125rem;
+  }
+
+  .firebase-error-message {
+    font-size: 0.9375rem;
+  }
+
+  .firebase-error-actions {
+    flex-direction: column;
+  }
+
+  .firebase-error-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .firebase-error-container,
+  .firebase-error-icon-symbol,
+  .firebase-error-btn {
+    animation: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .firebase-error-card {
+    border-width: 2px;
+  }
+
+  .firebase-error-btn {
+    border-width: 2px;
+  }
+}
