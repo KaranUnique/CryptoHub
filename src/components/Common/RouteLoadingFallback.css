@@ -1,0 +1,37 @@
+.route-loading-fallback {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+/* Smooth fade-in animation for route loading */
+.route-loading-fallback > * {
+  animation: routeFadeIn 0.3s ease-in-out;
+}
+
+@keyframes routeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Prevent layout shift during route transitions */
+.route-loading-fallback .center-spinner {
+  position: relative;
+  min-height: 60vh;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .route-loading-fallback .center-spinner {
+    min-height: 50vh;
+  }
+}
