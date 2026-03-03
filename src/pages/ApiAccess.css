@@ -517,10 +517,10 @@
 
 .aa-code-block {
   position: relative;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
-  padding: 20px 20px 20px 20px;
+  padding: 20px;
   overflow-x: auto;
 }
 
@@ -531,8 +531,9 @@
 
 .aa-code-block code {
   font-family: "Fira Code", "Consolas", monospace;
-  font-size: 0.82rem;
-  color: #e2e8f0;
+  font-size: 0.95rem;
+  color: #a78bfa;
+  font-weight: 600;
   line-height: 1.75;
   white-space: pre;
 }
@@ -582,12 +583,12 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr 2fr;
   padding: 12px 24px;
-  background: rgba(255, 255, 255, 0.04);
-  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.08em;
+  color: #fff;
   gap: 16px;
 }
 
@@ -595,37 +596,39 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr 2fr;
   padding: 15px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   gap: 16px;
   align-items: center;
   transition: background 0.2s;
 }
 
 .aa-rate-row:hover {
-  background: rgba(139, 92, 246, 0.05);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .aa-rate-tier {
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .aa-rate-limit {
   color: #4ade80;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 .aa-rate-notes {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .aa-rate-note {
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
   line-height: 1.6;
+  margin-top: 12px;
 }
 
 .aa-rate-note code {
@@ -657,9 +660,10 @@
 }
 
 .aa-auth-card p {
-  font-size: 0.87rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 14px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
 
 /* -------------------------

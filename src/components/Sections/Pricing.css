@@ -361,13 +361,7 @@ table tbody td:last-child {
   /* slate-100 */
 }
 
-/* 3. FAQ section specific (questions + answers) */
-.glass-panel button,
-.glass-panel button h4,
-.glass-panel .px-10.pb-8 {
-  color: #0f172a !important;
-  /* slate-900 */
-}
+
 
 .dark .glass-panel button,
 .dark .glass-panel button h4,

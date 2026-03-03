@@ -156,6 +156,41 @@
   font-weight: 700;
 }
 
+/* ── Watchlist Button on Coin Detail ── */
+.coin-watchlist-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 50px;
+  border: 1px solid rgba(234, 179, 8, 0.25);
+  background: rgba(234, 179, 8, 0.08);
+  color: #eab308;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.coin-watchlist-btn:hover {
+  background: rgba(234, 179, 8, 0.15);
+  border-color: rgba(234, 179, 8, 0.45);
+  transform: translateY(-1px);
+}
+
+.coin-watchlist-btn.active {
+  background: rgba(234, 179, 8, 0.15);
+  border-color: rgba(234, 179, 8, 0.4);
+  box-shadow: 0 0 12px rgba(234, 179, 8, 0.15);
+}
+
+.coin-watchlist-btn svg {
+  flex-shrink: 0;
+}
+
 .coin-price-row {
   display: flex;
   align-items: center;

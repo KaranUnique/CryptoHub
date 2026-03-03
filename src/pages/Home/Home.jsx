@@ -9,12 +9,15 @@ import {
   FiFilter,
   FiChevronLeft,
   FiChevronRight,
+  FiStar,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
 import MarketFilters from "../../components/Dashboard/MarketFilters";
+import { useWatchlist } from "../../context/WatchlistContext";
 
 const Home = () => {
   const { allCoin, filteredCoins, currency } = useContext(CoinContext);
+  const { isInWatchlist, toggleWatchlist } = useWatchlist();
   const [displayCoin, setDisplayCoin] = useState([]);
   const [input, setInput] = useState("");
   const [showFilters, setShowFilters] = useState(false);
@@ -259,6 +262,7 @@ const Home = () => {
 
         <div className="table-container glass-panel-home">
           <div className="table-header">
+            <div className="col-star"></div>
             <div className="col-rank">#</div>
             <div className="col-name">Asset</div>
             <div className="col-price">Price</div>
@@ -269,13 +273,22 @@ const Home = () => {
           <div className="table-body">
             {currentCoins && currentCoins.length > 0 ? (
               currentCoins.map((item) => (
-                <Link
-                  to={`/coin/${item.id}`}
-                  className="table-row"
-                  key={item.id}
-                >
-                  <div className="col-rank">{item.market_cap_rank}</div>
-                  <div className="col-name">
+                <div className="table-row" key={item.id}>
+                  <div className="col-star">
+                    <button
+                      className={`watchlist-star-btn ${isInWatchlist(item.id) ? 'active' : ''}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleWatchlist(item.id, item.name);
+                      }}
+                      title={isInWatchlist(item.id) ? 'Remove from watchlist' : 'Add to watchlist'}
+                    >
+                      <FiStar />
+                    </button>
+                  </div>
+                  <Link to={`/coin/${item.id}`} className="col-rank">{item.market_cap_rank}</Link>
+                  <Link to={`/coin/${item.id}`} className="col-name">
                     <img
                       src={item.image}
                       alt={item.name}
@@ -287,12 +300,13 @@ const Home = () => {
                       </span>
                       <span className="coin-fullname">{item.name}</span>
                     </div>
-                  </div>
-                  <div className="col-price">
+                  </Link>
+                  <Link to={`/coin/${item.id}`} className="col-price">
                     {currency.Symbol || currency.symbol}
                     {item.current_price.toLocaleString()}
-                  </div>
-                  <div
+                  </Link>
+                  <Link
+                    to={`/coin/${item.id}`}
                     className={`col-change ${item.price_change_percentage_24h > 0 ? "positive" : "negative"}`}
                   >
                     {item.price_change_percentage_24h > 0 ? (
@@ -301,12 +315,12 @@ const Home = () => {
                       <FiArrowDownRight />
                     )}
                     {Math.abs(item.price_change_percentage_24h).toFixed(2)}%
-                  </div>
-                  <div className="col-mcap">
+                  </Link>
+                  <Link to={`/coin/${item.id}`} className="col-mcap">
                     {currency.Symbol || currency.symbol}
                     {item.market_cap.toLocaleString()}
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               ))
             ) : (
               <div

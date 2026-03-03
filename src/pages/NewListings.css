@@ -1,3 +1,82 @@
+/* Top 3 Coins Card Section */
+.nl-top3-section {
+  margin: 2.5rem auto 2rem auto;
+  max-width: 900px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+.nl-top3-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: var(--nl-title-cyan, #00e1ff);
+  letter-spacing: 0.5px;
+}
+.nl-top3-cards {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.nl-top3-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.08);
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.10);
+  padding: 1.2rem 1.5rem;
+  min-width: 180px;
+  max-width: 220px;
+  transition: transform 0.18s, box-shadow 0.18s;
+  cursor: pointer;
+  border: 1.5px solid rgba(0,225,255,0.13);
+}
+.nl-top3-card:hover {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 6px 24px 0 rgba(0,225,255,0.13);
+}
+.nl-top3-rank {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #a0e9ff;
+  margin-bottom: 0.5rem;
+}
+.nl-top3-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: 0.7rem;
+  background: #fff;
+  object-fit: contain;
+  border: 2px solid #e0f7fa;
+}
+.nl-top3-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nl-top3-symbol {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #00e1ff;
+  margin-bottom: 0.2rem;
+}
+.nl-top3-name {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+.nl-top3-price {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #a0e9ff;
+  margin-bottom: 0.2rem;
+}
+.nl-top3-mcap {
+  font-size: 0.95rem;
+  color: #b2ebf2;
+}
 /* ============================================
    NEW LISTINGS PAGE STYLES
    Matches CryptoHub cosmic/glass design system

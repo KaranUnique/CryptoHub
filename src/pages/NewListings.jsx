@@ -187,6 +187,7 @@ const NewListings = () => {
 
   return (
     <div className="new-listings-container">
+      
       {/* Hero Section */}
       <section className="new-listings-hero">
         <div className="nl-hero-glow"></div>
@@ -245,6 +246,38 @@ const NewListings = () => {
           </div>
         </motion.div>
       </section>
+
+      {/* Top 5 Coins Card Section */}
+      {!isLoading && !isError && newCoins.length > 0 && (
+        <section className="nl-top3-section">
+          <h2 className="nl-top3-title">Top 4 New Coins</h2>
+          <div className="nl-top3-cards">
+            {newCoins
+              .slice()
+              .sort((a, b) => (b.market_cap || 0) - (a.market_cap || 0))
+              .slice(0, 4)
+              .map((coin, idx) => (
+                <Link to={`/coin/${coin.id}`} className="nl-top3-card glass-card" key={coin.id}>
+                  <div className="nl-top3-rank">#{idx + 1}</div>
+                  <img src={coin.image} alt={coin.name} className="nl-top3-icon" />
+                  <div className="nl-top3-info">
+                    <div className="nl-top3-symbol">{coin.symbol.toUpperCase()}</div>
+                    <div className="nl-top3-name">{coin.name}</div>
+                    <div className="nl-top3-price">
+                      {currency.Symbol || currency.symbol}
+                      {coin.current_price < 0.01
+                        ? coin.current_price.toFixed(6)
+                        : coin.current_price.toLocaleString()}
+                    </div>
+                    <div className="nl-top3-mcap">
+                      Market Cap: {currency.Symbol || currency.symbol}{formatNumber(coin.market_cap)}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </section>
+      )}
 
       {/* Sort Controls */}
       <section className="nl-controls">

@@ -56,6 +56,9 @@ import TopGainers from "./pages/TopGainers";
 import TopLosers from "./pages/TopLosers";
 import ApiAccess from "./pages/ApiAccess";
 import AIBlogPage from "./pages/AIBlog/AIBlogPage";
+import TermsConditions from "./pages/TermsConditions";
+import Watchlist from "./pages/Watchlist";
+import { WatchlistProvider } from "@/context/WatchlistContext";
 
 import ScrollToTopOnRouteChange from "./utils/ScrollToTop";
 
@@ -145,6 +148,7 @@ const App = () => {
       />
       <ThemeProvider>
         <AuthProvider>
+          <WatchlistProvider>
           <div className="app">
             {isLoading && !isDashboard && <LoadingSpinner />}
             <div
@@ -181,6 +185,7 @@ const App = () => {
                 <Route path="/new-listings" element={<NewListings />} />
                 <Route path="/top-losers" element={<TopLosers />} />
                 <Route path="/api-access" element={<ApiAccess />} />
+                <Route path="/watchlist" element={<Watchlist />} />
 
                 <Route path="/gainers" element={<TopGainers />} />
 
@@ -213,7 +218,7 @@ const App = () => {
                 </Route>
                 <Route path="/coin/:coinId" element={<CoinWrapper />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />
-                <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/terms" element={<TermsConditions />} />
                 <Route path="/contactus" element={<ContactUs />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/feedback" element={<Feedback />} />
@@ -222,10 +227,11 @@ const App = () => {
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
-            <ScrollToTop lenis={lenisRef.current} />
-            <CryptoChatbot />
-            <RateLimitIndicator />
-          </CoinContextProvider>
+            {!isDashboard && !isAuthPage && <Footer />}
+          </div>
+          <ScrollToTop lenis={lenisRef.current} />
+          <CryptoChatbot />
+          </WatchlistProvider>
         </AuthProvider>
       </ThemeProvider>
     </>
