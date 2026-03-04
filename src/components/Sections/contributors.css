@@ -1045,6 +1045,7 @@ body::before {
   .contributors-filters {
     flex-direction: column;
   }
+
   .contributors-modal {
     max-height: 90vh;
     width: 95%;
@@ -1140,7 +1141,7 @@ body::before {
 }
 
 .project-admin-container {
-  background: 
+  background:
     linear-gradient(165deg, rgba(24, 10, 65, 0.97) 0%, rgba(12, 4, 30, 0.99) 60%, rgba(18, 8, 50, 0.97) 100%) padding-box,
     linear-gradient(90deg, var(--gold-500), var(--primary-500), var(--accent-cyan), var(--gold-500)) border-box;
   background-size: 100% 100%, 300% 100%;

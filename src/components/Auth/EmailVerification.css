@@ -23,6 +23,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -179,6 +180,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -189,27 +191,27 @@
   .email-verification-container {
     background: #1a202c;
   }
-  
+
   .email-verification-title {
     color: #f7fafc;
   }
-  
+
   .email-verification-message,
   .email-verification-instructions,
   .email-verification-help {
     color: #a0aec0;
   }
-  
+
   .email-verification-footer {
     border-top-color: #2d3748;
   }
-  
+
   .btn-secondary {
     background: #2d3748;
     color: #667eea;
     border-color: #667eea;
   }
-  
+
   .btn-secondary:hover:not(:disabled) {
     background: #374151;
   }
@@ -220,17 +222,17 @@
   .email-verification-container {
     padding: 2rem 1.5rem;
   }
-  
+
   .email-verification-title {
     font-size: 1.5rem;
   }
-  
+
   .email-verification-icon {
     width: 60px;
     height: 60px;
     font-size: 2rem;
   }
-  
+
   .email-verification-instructions {
     padding: 0;
   }

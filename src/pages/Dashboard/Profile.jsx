@@ -101,11 +101,10 @@ const Profile = () => {
     }
   };
 
-  const inputClasses = `w-full px-4 py-3 rounded-xl border outline-none transition-all duration-200 ${
-    isDark
+  const inputClasses = `w-full px-4 py-3 rounded-xl border outline-none transition-all duration-200 ${isDark
       ? "bg-[#0f0f1f] border-[rgba(255,255,255,0.08)] text-white focus:border-[#00d9ff] focus:ring-1 focus:ring-[#00d9ff]"
       : "bg-white border-gray-200 text-gray-900 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
-  }`;
+    }`;
 
   const labelClasses = `block mb-2 text-sm font-medium ${isDark ? "text-gray-400" : "text-gray-600"}`;
   const sectionClasses = `p-6 rounded-2xl border ${isDark ? "bg-[#0a0a1a] border-[rgba(255,255,255,0.05)]" : "bg-white border-gray-100 shadow-sm"}`;
@@ -340,13 +339,12 @@ const Profile = () => {
                         tradingExperience: level,
                       }))
                     }
-                    className={`py-2 rounded-lg text-sm font-medium transition-all ${
-                      formData.tradingExperience === level
+                    className={`py-2 rounded-lg text-sm font-medium transition-all ${formData.tradingExperience === level
                         ? "bg-[#00d9ff] text-[#0a0a1a] shadow-lg shadow-[rgba(0,217,255,0.2)]"
                         : isDark
                           ? "bg-[#1a1a2e] text-gray-400 hover:bg-[#252540]"
                           : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {level}
                   </button>

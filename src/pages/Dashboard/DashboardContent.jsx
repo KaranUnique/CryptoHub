@@ -52,11 +52,10 @@ const DashboardContent = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
         <div
-          className={`xl:col-span-2 rounded-2xl p-8 border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${
-            isDark
+          className={`xl:col-span-2 rounded-2xl p-8 border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${isDark
               ? "bg-[#14141f] border-[rgba(255,255,255,0.08)] shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]"
               : "bg-white border-gray-200 shadow-xl"
-          }`}
+            }`}
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-[rgba(0,217,255,0.1)] border border-[rgba(0,217,255,0.2)] flex items-center justify-center shadow-lg">
@@ -82,11 +81,10 @@ const DashboardContent = () => {
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div
-              className={`p-5 rounded-xl border transition-all duration-200 hover:scale-105 ${
-                isDark
+              className={`p-5 rounded-xl border transition-all duration-200 hover:scale-105 ${isDark
                   ? "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.08)]"
                   : "bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
-              }`}
+                }`}
             >
               <p
                 className={`text-sm mb-2 ${isDark ? "text-gray-400" : "text-gray-600"}`}
@@ -100,11 +98,10 @@ const DashboardContent = () => {
               </p>
             </div>
             <div
-              className={`p-5 rounded-xl border transition-all duration-200 hover:scale-105 ${
-                isDark
+              className={`p-5 rounded-xl border transition-all duration-200 hover:scale-105 ${isDark
                   ? "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.08)]"
                   : "bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
-              }`}
+                }`}
             >
               <p
                 className={`text-sm mb-2 ${isDark ? "text-gray-400" : "text-gray-600"}`}
@@ -118,11 +115,10 @@ const DashboardContent = () => {
               </p>
             </div>
             <div
-              className={`p-5 rounded-xl border transition-all duration-200 hover:scale-105 ${
-                isDark
+              className={`p-5 rounded-xl border transition-all duration-200 hover:scale-105 ${isDark
                   ? "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.08)]"
                   : "bg-gradient-to-br from-green-50 to-green-100 border-green-200"
-              }`}
+                }`}
             >
               <p
                 className={`text-sm mb-2 ${isDark ? "text-gray-400" : "text-gray-600"}`}
@@ -132,11 +128,10 @@ const DashboardContent = () => {
               <p className="text-3xl font-bold text-green-400">+0.00%</p>
             </div>
             <div
-              className={`p-5 rounded-xl border transition-all duration-200 hover:scale-105 ${
-                isDark
+              className={`p-5 rounded-xl border transition-all duration-200 hover:scale-105 ${isDark
                   ? "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.08)]"
                   : "bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200"
-              }`}
+                }`}
             >
               <p
                 className={`text-sm mb-2 ${isDark ? "text-gray-400" : "text-gray-600"}`}
@@ -153,11 +148,10 @@ const DashboardContent = () => {
         </div>
 
         <div
-          className={`xl:col-span-1 rounded-2xl p-8 border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${
-            isDark
+          className={`xl:col-span-1 rounded-2xl p-8 border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${isDark
               ? "bg-[#14141f] border-[rgba(255,255,255,0.08)] shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]"
               : "bg-white border-gray-200 shadow-xl"
-          }`}
+            }`}
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-[rgba(0,217,255,0.1)] border border-[rgba(0,217,255,0.2)] flex items-center justify-center shadow-lg">
@@ -222,23 +216,22 @@ const DashboardContent = () => {
               >
                 {currentUser?.metadata?.creationTime
                   ? new Date(
-                      currentUser.metadata.creationTime,
-                    ).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })
+                    currentUser.metadata.creationTime,
+                  ).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })
                   : "N/A"}
               </p>
             </div>
             <div className="pt-2">
               <button
                 onClick={() => navigate("/change-password")}
-                className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 font-medium border ${
-                  isDark
+                className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 font-medium border ${isDark
                     ? "bg-[rgba(0,217,255,0.1)] hover:bg-[rgba(0,217,255,0.15)] text-[#00d9ff] border-[rgba(0,217,255,0.2)] hover:border-[rgba(0,217,255,0.3)]"
                     : "bg-purple-50 hover:bg-purple-100 text-purple-600 border-purple-200 hover:border-purple-300"
-                }`}
+                  }`}
               >
                 <svg
                   className="w-5 h-5"
@@ -292,11 +285,10 @@ const MarketOverviewWidget = ({ isDark, navigate }) => {
 
   return (
     <div
-      className={`rounded-2xl p-8 border transition-all duration-300 ${
-        isDark
+      className={`rounded-2xl p-8 border transition-all duration-300 ${isDark
           ? "bg-[#14141f] border-[rgba(255,255,255,0.08)]"
           : "bg-white border-gray-200 shadow-xl"
-      }`}
+        }`}
     >
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
@@ -323,11 +315,10 @@ const MarketOverviewWidget = ({ isDark, navigate }) => {
         </div>
         <button
           onClick={() => navigate("/market-overview")}
-          className={`px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium ${
-            isDark
+          className={`px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium ${isDark
               ? "bg-[rgba(0,217,255,0.1)] hover:bg-[rgba(0,217,255,0.15)] text-[#00d9ff] border border-[rgba(0,217,255,0.2)]"
               : "bg-cyan-50 hover:bg-cyan-100 text-cyan-600 border border-cyan-200"
-          }`}
+            }`}
         >
           View All →
         </button>
@@ -354,11 +345,10 @@ const MarketOverviewWidget = ({ isDark, navigate }) => {
             <div
               key={coin.id}
               onClick={() => navigate(`/coin/${coin.id}`)}
-              className={`p-4 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105 ${
-                isDark
+              className={`p-4 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105 ${isDark
                   ? "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.08)] hover:border-[rgba(0,217,255,0.2)]"
                   : "bg-gray-50 border-gray-200 hover:border-cyan-300"
-              }`}
+                }`}
             >
               <div className="flex items-center gap-3 mb-2">
                 <img
@@ -414,9 +404,8 @@ const MarketOverviewWidget = ({ isDark, navigate }) => {
             <div
               key={coin.id}
               onClick={() => navigate(`/coin/${coin.id}`)}
-              className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 ${
-                isDark ? "hover:bg-[rgba(0,217,255,0.05)]" : "hover:bg-gray-50"
-              }`}
+              className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 ${isDark ? "hover:bg-[rgba(0,217,255,0.05)]" : "hover:bg-gray-50"
+                }`}
             >
               <div className="flex items-center gap-3">
                 <span

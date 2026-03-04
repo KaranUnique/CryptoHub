@@ -62,10 +62,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(69, 89, 220, 0.1) 0%, 
-    rgba(34, 197, 94, 0.05) 50%, 
-    rgba(157, 78, 221, 0.05) 100%);
+  background: linear-gradient(135deg,
+      rgba(69, 89, 220, 0.1) 0%,
+      rgba(34, 197, 94, 0.05) 50%,
+      rgba(157, 78, 221, 0.05) 100%);
   z-index: -1;
 }
 
@@ -919,12 +919,12 @@
   .content-layout {
     grid-template-columns: 1fr;
   }
-  
+
   .article-sidebar {
     position: static;
     order: 2;
   }
-  
+
   .toc-card {
     display: none;
   }
@@ -938,38 +938,38 @@
     transform: none;
     flex-direction: row;
   }
-  
+
   .article-title {
     font-size: 32px;
   }
-  
+
   .article-excerpt {
     font-size: 18px;
     padding-left: 15px;
   }
-  
+
   .article-meta-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .quick-stats {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .cta-content {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .cta-form {
     flex-direction: column;
     width: 100%;
   }
-  
+
   .related-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .takeaways-grid {
     grid-template-columns: 1fr;
   }
@@ -980,19 +980,19 @@
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .article-title {
     font-size: 28px;
   }
-  
+
   .article-excerpt {
     font-size: 16px;
   }
-  
+
   .content-section h2 {
     font-size: 22px;
   }
-  
+
   .content-section p {
     font-size: 16px;
   }

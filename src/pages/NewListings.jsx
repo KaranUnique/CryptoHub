@@ -12,50 +12,29 @@ import {
   FiTrendingUp,
 } from "react-icons/fi";
 import { CoinContext } from "../context/CoinContextInstance";
+import apiClient from "../utils/apiClient";
 import "./NewListings.css";
 
 const fetchNewListings = async (currency) => {
-  const apiKey = import.meta.env.VITE_CG_API_KEY;
-
-  // Fetch page 2-3 of coins ordered by market cap (these are smaller / newer coins)
-  // combined with volume sorting to find recently active new coins
+  // Use rate-limited apiClient to prevent 429 errors
+  // Fetch pages sequentially to respect rate limits
   const pages = [1, 2, 3];
-  const results = await Promise.all(
-    pages.map(async (page) => {
-      const baseUrl = `https://api.coingecko.com/api/v3/coins/markets`;
-      const params = new URLSearchParams({
-        vs_currency: currency,
-        order: "market_cap_asc",
-        per_page: "100",
-        page: page.toString(),
-        sparkline: "false",
-        price_change_percentage: "24h,7d",
-      });
-      if (apiKey) params.append("x_cg_demo_api_key", apiKey);
+  const results = [];
 
-      const response = await fetch(`${baseUrl}?${params.toString()}`, {
-        method: "GET",
-        headers: { accept: "application/json" },
-      });
+  for (const page of pages) {
+    const params = new URLSearchParams({
+      vs_currency: currency,
+      order: "market_cap_asc",
+      per_page: "100",
+      page: page.toString(),
+      sparkline: "false",
+      price_change_percentage: "24h,7d",
+    });
 
-      if (!response.ok) throw new Error(`API Error: ${response.status}`);
-      return response.json();
-    })
-  );
-
-  // Combine all pages and sort by ATL date (newest ATL date = most recently listed)
-  const allCoins = results.flat();
-
-  // Filter and sort: coins with recent ATL dates are typically newly listed
-  const withAtlDate = allCoins
-    .filter((coin) => coin.atl_date && coin.current_price > 0)
-    .sort((a, b) => new Date(b.atl_date) - new Date(a.atl_date));
-
-  // Remove duplicates
-  const uniqueCoins = Array.from(
-    new Map(withAtlDate.map((coin) => [coin.id, coin])).values()
-  );
-
+    const url = `/api/coingecko/coins/markets?${params.toString()}`;
+    const data = await apiClient.get(url);
+    results.push(data);
+  }
   return uniqueCoins;
 };
 
@@ -90,17 +69,24 @@ const NewListings = () => {
         return copy.sort((a, b) => a.current_price - b.current_price);
       case "change_high":
         return copy.sort(
-          (a, b) => (b.price_change_percentage_24h || 0) - (a.price_change_percentage_24h || 0)
+          (a, b) =>
+            (b.price_change_percentage_24h || 0) -
+            (a.price_change_percentage_24h || 0),
         );
       case "volume":
-        return copy.sort((a, b) => (b.total_volume || 0) - (a.total_volume || 0));
+        return copy.sort(
+          (a, b) => (b.total_volume || 0) - (a.total_volume || 0),
+        );
       default:
         return copy;
     }
   }, [newCoins, sortBy]);
 
   // Pagination (memoized)
-  const totalPages = useMemo(() => Math.max(1, Math.ceil(sortedCoins.length / itemsPerPage)), [sortedCoins.length]);
+  const totalPages = useMemo(
+    () => Math.max(1, Math.ceil(sortedCoins.length / itemsPerPage)),
+    [sortedCoins.length],
+  );
   const currentCoins = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
     return sortedCoins.slice(start, start + itemsPerPage);
@@ -113,7 +99,7 @@ const NewListings = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
-    [totalPages]
+    [totalPages],
   );
 
   const formatDate = (dateStr) => {
@@ -147,7 +133,8 @@ const NewListings = () => {
   const CoinRow = useCallback(
     React.memo(({ coin, index }) => {
       const changeVal = Number(coin.price_change_percentage_24h) || 0;
-      const changeClass = changeVal > 0 ? "positive" : changeVal < 0 ? "negative" : "neutral";
+      const changeClass =
+        changeVal > 0 ? "positive" : changeVal < 0 ? "negative" : "neutral";
       const changeSign = changeVal > 0 ? "+" : "";
       return (
         <motion.div
@@ -157,21 +144,28 @@ const NewListings = () => {
           transition={{ duration: 0.3, delay: index * 0.03 }}
         >
           <Link to={`/coin/${coin.id}`} className="nl-table-row">
-            <div className="nl-col-rank">{(currentPage - 1) * itemsPerPage + index + 1}</div>
+            <div className="nl-col-rank">
+              {(currentPage - 1) * itemsPerPage + index + 1}
+            </div>
             <div className="nl-col-name">
               <img src={coin.image} alt={coin.name} className="nl-coin-icon" />
               <div className="nl-coin-info">
-                <span className="nl-coin-symbol">{coin.symbol.toUpperCase()}</span>
+                <span className="nl-coin-symbol">
+                  {coin.symbol.toUpperCase()}
+                </span>
                 <span className="nl-coin-fullname">{coin.name}</span>
               </div>
             </div>
             <div className={`nl-col-price ${changeClass}`}>
               {currency.Symbol || currency.symbol}
-              {coin.current_price < 0.01 ? coin.current_price.toFixed(6) : coin.current_price.toLocaleString()}
+              {coin.current_price < 0.01
+                ? coin.current_price.toFixed(6)
+                : coin.current_price.toLocaleString()}
             </div>
             <div className={`nl-col-change ${changeClass}`}>
               {changeVal > 0 ? <FiArrowUpRight /> : <FiArrowDownRight />}
-              {changeSign}{Math.abs(changeVal).toFixed(2)}%
+              {changeSign}
+              {Math.abs(changeVal).toFixed(2)}%
             </div>
             <div className="nl-col-volume">
               {currency.Symbol || currency.symbol}
@@ -188,11 +182,12 @@ const NewListings = () => {
         </motion.div>
       );
     }),
-    [currency, currentPage, itemsPerPage]
+    [currency, currentPage, itemsPerPage],
   );
 
   return (
     <div className="new-listings-container">
+      
       {/* Hero Section */}
       <section className="new-listings-hero">
         <div className="nl-hero-glow"></div>
@@ -232,7 +227,11 @@ const NewListings = () => {
               <FiTrendingUp className="stat-icon" />
               <div className="stat-info">
                 <span className="stat-value">
-                  {newCoins.filter((c) => (c.price_change_percentage_24h || 0) > 0).length}
+                  {
+                    newCoins.filter(
+                      (c) => (c.price_change_percentage_24h || 0) > 0,
+                    ).length
+                  }
                 </span>
                 <span className="stat-label">Gainers (24h)</span>
               </div>
@@ -247,6 +246,38 @@ const NewListings = () => {
           </div>
         </motion.div>
       </section>
+
+      {/* Top 5 Coins Card Section */}
+      {!isLoading && !isError && newCoins.length > 0 && (
+        <section className="nl-top3-section">
+          <h2 className="nl-top3-title">Top 4 New Coins</h2>
+          <div className="nl-top3-cards">
+            {newCoins
+              .slice()
+              .sort((a, b) => (b.market_cap || 0) - (a.market_cap || 0))
+              .slice(0, 4)
+              .map((coin, idx) => (
+                <Link to={`/coin/${coin.id}`} className="nl-top3-card glass-card" key={coin.id}>
+                  <div className="nl-top3-rank">#{idx + 1}</div>
+                  <img src={coin.image} alt={coin.name} className="nl-top3-icon" />
+                  <div className="nl-top3-info">
+                    <div className="nl-top3-symbol">{coin.symbol.toUpperCase()}</div>
+                    <div className="nl-top3-name">{coin.name}</div>
+                    <div className="nl-top3-price">
+                      {currency.Symbol || currency.symbol}
+                      {coin.current_price < 0.01
+                        ? coin.current_price.toFixed(6)
+                        : coin.current_price.toLocaleString()}
+                    </div>
+                    <div className="nl-top3-mcap">
+                      Market Cap: {currency.Symbol || currency.symbol}{formatNumber(coin.market_cap)}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </section>
+      )}
 
       {/* Sort Controls */}
       <section className="nl-controls">
@@ -334,45 +365,44 @@ const NewListings = () => {
                 <div className="nl-page-numbers">
                   {totalPages <= 5
                     ? Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                        (num) => (
-                          <button
-                            key={num}
-                            className={`nl-page-num ${
-                              currentPage === num ? "active" : ""
+                      (num) => (
+                        <button
+                          key={num}
+                          className={`nl-page-num ${currentPage === num ? "active" : ""
                             }`}
                             onClick={() => handlePageChange(num)}
                           >
                             {num}
                           </button>
-                        )
+                        ),
                       )
+                    )
                     : (() => {
-                        const pages = [];
-                        if (currentPage <= 3) {
-                          for (let i = 1; i <= 5; i++) pages.push(i);
-                        } else if (currentPage >= totalPages - 2) {
-                          for (let i = totalPages - 4; i <= totalPages; i++)
-                            pages.push(i);
-                        } else {
-                          for (
-                            let i = currentPage - 2;
-                            i <= currentPage + 2;
-                            i++
-                          )
-                            pages.push(i);
-                        }
-                        return pages.map((num) => (
-                          <button
-                            key={num}
-                            className={`nl-page-num ${
-                              currentPage === num ? "active" : ""
+                      const pages = [];
+                      if (currentPage <= 3) {
+                        for (let i = 1; i <= 5; i++) pages.push(i);
+                      } else if (currentPage >= totalPages - 2) {
+                        for (let i = totalPages - 4; i <= totalPages; i++)
+                          pages.push(i);
+                      } else {
+                        for (
+                          let i = currentPage - 2;
+                          i <= currentPage + 2;
+                          i++
+                        )
+                          pages.push(i);
+                      }
+                      return pages.map((num) => (
+                        <button
+                          key={num}
+                          className={`nl-page-num ${currentPage === num ? "active" : ""
                             }`}
-                            onClick={() => handlePageChange(num)}
-                          >
-                            {num}
-                          </button>
-                        ));
-                      })()}
+                          onClick={() => handlePageChange(num)}
+                        >
+                          {num}
+                        </button>
+                      ));
+                    })()}
                 </div>
 
                 <button

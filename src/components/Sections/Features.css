@@ -5,13 +5,6 @@
 */
 .features-container {
   min-height: 100vh;
-  background: linear-gradient(
-    145deg,
-    #0a0a0f 0%,
-    #0f0a1a 30%,
-    #1a0f2e 60%,
-    #0a1428 100%
-  );
   padding: 2rem 1rem;
   position: relative;
   overflow-x: hidden;
@@ -27,34 +20,31 @@
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(
-      circle at 10% 20%,
+    radial-gradient(circle at 10% 20%,
       rgba(139, 92, 246, 0.1) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 90% 80%,
+      transparent 50%),
+    radial-gradient(circle at 90% 80%,
       rgba(236, 72, 153, 0.1) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 30% 90%,
+      transparent 50%),
+    radial-gradient(circle at 30% 90%,
       rgba(245, 158, 11, 0.08) 0%,
-      transparent 50%
-    );
+      transparent 50%);
   animation: cosmicShift 15s ease-in-out infinite;
   z-index: 0;
   pointer-events: none;
 }
 
 @keyframes cosmicShift {
+
   0%,
   100% {
     transform: scale(1) rotate(0deg);
   }
+
   33% {
     transform: scale(1.1) rotate(120deg);
   }
+
   66% {
     transform: scale(0.95) rotate(240deg);
   }
@@ -87,6 +77,7 @@
   from {
     background-position: 0 0;
   }
+
   to {
     background-position: 100px 200px;
   }
@@ -103,14 +94,12 @@
 
 .features-title {
   font-size: clamp(2.8rem, 6vw, 5rem);
-  background: linear-gradient(
-    135deg,
-    #8b5cf6 0%,
-    #ec4899 25%,
-    #f59e0b 50%,
-    #10b981 75%,
-    #8b5cf6 100%
-  );
+  background: linear-gradient(135deg,
+      #8b5cf6 0%,
+      #ec4899 25%,
+      #f59e0b 50%,
+      #10b981 75%,
+      #8b5cf6 100%);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -126,10 +115,12 @@
 }
 
 @keyframes gradientShift {
+
   0%,
   100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
@@ -139,6 +130,7 @@
   from {
     filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.8)) brightness(1);
   }
+
   to {
     filter: drop-shadow(0 0 60px rgba(236, 72, 153, 0.9)) brightness(1.1);
   }
@@ -165,16 +157,13 @@ select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
-  background: linear-gradient(
-    145deg,
-    rgba(25, 25, 50, 0.95),
-    rgba(15, 15, 35, 0.95)
-  );
+  background: linear-gradient(145deg,
+      rgba(25, 25, 50, 0.95),
+      rgba(15, 15, 35, 0.95));
   backdrop-filter: blur(30px);
   border: 2px solid rgba(139, 92, 246, 0.4);
   border-radius: 24px;
-  padding: 1.4rem 4rem 1.4rem 2rem;
+  padding: 1rem 4rem 1rem 2rem;
   font-size: 1.15rem;
   font-weight: 600;
   color: #ffffff !important;
@@ -218,7 +207,7 @@ select option:hover {
   z-index: 20;
 }
 
-select:focus + .select-wrapper::after {
+select:focus+.select-wrapper::after {
   transform: translateY(-50%) rotate(180deg);
   color: #ec4899;
 }
@@ -247,7 +236,7 @@ select:focus {
   backdrop-filter: blur(60px);
   border-radius: 36px;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 4rem 3rem;
+  padding: 2rem 1.5rem;
   margin: 0 auto 3rem;
   max-width: 1300px;
   box-shadow:
@@ -258,10 +247,12 @@ select:focus {
 }
 
 @keyframes cardFloat {
+
   0%,
   100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -274,12 +265,10 @@ select:focus {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(139, 92, 246, 0.6) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(139, 92, 246, 0.6) 50%,
+      transparent 100%);
   z-index: 5;
 }
 
@@ -329,12 +318,14 @@ select:focus {
 }
 
 @keyframes loaderPulse {
+
   0%,
   100% {
     box-shadow:
       0 0 0 0 rgba(139, 92, 246, 0.8),
       0 0 0 0 rgba(139, 92, 246, 0.4);
   }
+
   50% {
     box-shadow:
       0 0 0 20px rgba(139, 92, 246, 0),
@@ -408,7 +399,7 @@ select:focus {
 /* Coins Grid */
 .coins-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   max-width: 1000px;
   margin: 0 auto;
@@ -436,11 +427,9 @@ select:focus {
   left: 0;
   right: 0;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(139, 92, 246, 0.1),
-    rgba(236, 72, 153, 0.1)
-  );
+  background: linear-gradient(135deg,
+      rgba(139, 92, 246, 0.1),
+      rgba(236, 72, 153, 0.1));
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -448,9 +437,6 @@ select:focus {
 .coin-item:hover {
   transform: translateY(-12px) scale(1.05);
   border-color: rgba(139, 92, 246, 0.6);
-  box-shadow:
-    0 35px 70px rgba(139, 92, 246, 0.4),
-    0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .coin-item:hover::before {
@@ -458,11 +444,9 @@ select:focus {
 }
 
 .coin-item.active {
-  background: linear-gradient(
-    135deg,
-    rgba(139, 92, 246, 0.2),
-    rgba(236, 72, 153, 0.2)
-  );
+  background: linear-gradient(135deg,
+      rgba(139, 92, 246, 0.2),
+      rgba(236, 72, 153, 0.2));
   border-color: #8b5cf6;
   box-shadow:
     0 0 0 1px rgba(139, 92, 246, 0.5),
@@ -489,7 +473,8 @@ select:focus {
 .features-note {
   text-align: center;
   margin-top: 30px;
-  font-size: 0.85rem;
+  margin-bottom: 10px;
+  font-size: 1rem;
   color: var(--text-muted);
   opacity: 0.7;
 }
@@ -593,6 +578,7 @@ select,
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -603,7 +589,9 @@ select,
 }
 
 /* High DPI Displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+
   .features-card,
   .top-coins-display {
     border-width: 0.5px;

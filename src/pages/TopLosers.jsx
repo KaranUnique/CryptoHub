@@ -11,35 +11,29 @@ import {
   FiAlertTriangle,
 } from "react-icons/fi";
 import { CoinContext } from "../context/CoinContextInstance";
+import apiClient from "../utils/apiClient";
 import "./TopLosers.css";
 
 const fetchTopLosers = async (currency) => {
-  const apiKey = import.meta.env.VITE_CG_API_KEY;
-
-  // Fetch 3 pages of coins (250 total) to get a broad pool, then sort by worst 24h change
+  // Use rate-limited apiClient to prevent 429 errors
+  // Fetch pages sequentially to respect rate limits
   const pages = [1, 2, 3];
-  const results = await Promise.all(
-    pages.map(async (page) => {
-      const baseUrl = `/api/coingecko/coins/markets`;
-      const params = new URLSearchParams({
-        vs_currency: currency,
-        order: "market_cap_desc",
-        per_page: "100",
-        page: page.toString(),
-        sparkline: "false",
-        price_change_percentage: "24h,7d",
-      });
-      if (apiKey) params.append("x_cg_demo_api_key", apiKey);
+  const results = [];
 
-      const response = await fetch(`${baseUrl}?${params.toString()}`, {
-        method: "GET",
-        headers: { accept: "application/json" },
-      });
+  for (const page of pages) {
+    const params = new URLSearchParams({
+      vs_currency: currency,
+      order: "market_cap_desc",
+      per_page: "100",
+      page: page.toString(),
+      sparkline: "false",
+      price_change_percentage: "24h,7d",
+    });
 
-      if (!response.ok) throw new Error(`API Error: ${response.status}`);
-      return response.json();
-    }),
-  );
+    const url = `/api/coingecko/coins/markets?${params.toString()}`;
+    const data = await apiClient.get(url);
+    results.push(data);
+  }
 
   const allCoins = results.flat();
 
@@ -134,11 +128,11 @@ const TopLosers = () => {
   const avgLoss =
     losers.length > 0
       ? (
-          losers
-            .filter((c) => (c.price_change_percentage_24h || 0) < 0)
-            .reduce((sum, c) => sum + (c.price_change_percentage_24h || 0), 0) /
-          (totalNegative || 1)
-        ).toFixed(2)
+        losers
+          .filter((c) => (c.price_change_percentage_24h || 0) < 0)
+          .reduce((sum, c) => sum + (c.price_change_percentage_24h || 0), 0) /
+        (totalNegative || 1)
+      ).toFixed(2)
       : "0.00";
 
   return (
@@ -195,7 +189,6 @@ const TopLosers = () => {
             </div>
           </div>
         </motion.div>
-
       </section>
 
       {/* Top 3 Losers Highlight Cards */}
@@ -217,10 +210,18 @@ const TopLosers = () => {
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
                 <Link to={`/coin/${coin.id}`} className="tl-highlight-link">
-                  <div className="tl-highlight-rank">#{coin.market_cap_rank}</div>
-                  <img src={coin.image} alt={coin.name} className="tl-highlight-img" />
+                  <div className="tl-highlight-rank">
+                    #{coin.market_cap_rank}
+                  </div>
+                  <img
+                    src={coin.image}
+                    alt={coin.name}
+                    className="tl-highlight-img"
+                  />
                   <div className="tl-highlight-info">
-                    <div className="tl-highlight-symbol">{coin.symbol.toUpperCase()}</div>
+                    <div className="tl-highlight-symbol">
+                      {coin.symbol.toUpperCase()}
+                    </div>
                     <div className="tl-highlight-name">{coin.name}</div>
                     <div className="tl-highlight-price">
                       {currency.Symbol || currency.symbol}
@@ -344,9 +345,8 @@ const TopLosers = () => {
                           {Math.abs(change24h).toFixed(2)}%
                         </div>
                         <div
-                          className={`tl-col-change7d ${
-                            change7d >= 0 ? "positive" : "negative"
-                          }`}
+                          className={`tl-col-change7d ${change7d >= 0 ? "positive" : "negative"
+                            }`}
                         >
                           {Math.abs(change7d).toFixed(2)}%
                         </div>
@@ -383,45 +383,43 @@ const TopLosers = () => {
                 <div className="tl-page-numbers">
                   {totalPages <= 5
                     ? Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                        (num) => (
-                          <button
-                            key={num}
-                            className={`tl-page-num ${
-                              currentPage === num ? "active" : ""
+                      (num) => (
+                        <button
+                          key={num}
+                          className={`tl-page-num ${currentPage === num ? "active" : ""
                             }`}
-                            onClick={() => handlePageChange(num)}
-                          >
-                            {num}
-                          </button>
-                        ),
-                      )
+                          onClick={() => handlePageChange(num)}
+                        >
+                          {num}
+                        </button>
+                      ),
+                    )
                     : (() => {
-                        const pages = [];
-                        if (currentPage <= 3) {
-                          for (let i = 1; i <= 5; i++) pages.push(i);
-                        } else if (currentPage >= totalPages - 2) {
-                          for (let i = totalPages - 4; i <= totalPages; i++)
-                            pages.push(i);
-                        } else {
-                          for (
-                            let i = currentPage - 2;
-                            i <= currentPage + 2;
-                            i++
-                          )
-                            pages.push(i);
-                        }
-                        return pages.map((num) => (
-                          <button
-                            key={num}
-                            className={`tl-page-num ${
-                              currentPage === num ? "active" : ""
+                      const pages = [];
+                      if (currentPage <= 3) {
+                        for (let i = 1; i <= 5; i++) pages.push(i);
+                      } else if (currentPage >= totalPages - 2) {
+                        for (let i = totalPages - 4; i <= totalPages; i++)
+                          pages.push(i);
+                      } else {
+                        for (
+                          let i = currentPage - 2;
+                          i <= currentPage + 2;
+                          i++
+                        )
+                          pages.push(i);
+                      }
+                      return pages.map((num) => (
+                        <button
+                          key={num}
+                          className={`tl-page-num ${currentPage === num ? "active" : ""
                             }`}
-                            onClick={() => handlePageChange(num)}
-                          >
-                            {num}
-                          </button>
-                        ));
-                      })()}
+                          onClick={() => handlePageChange(num)}
+                        >
+                          {num}
+                        </button>
+                      ));
+                    })()}
                 </div>
 
                 <button

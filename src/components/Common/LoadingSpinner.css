@@ -9,8 +9,10 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  background: transparent; /* No background overlay */
-  pointer-events: none; /* Allow clicks through the overlay */
+  background: transparent;
+  /* No background overlay */
+  pointer-events: none;
+  /* Allow clicks through the overlay */
 }
 
 .spinner-card {
@@ -18,7 +20,7 @@
   padding: 30px 40px;
   border-radius: 16px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3),
-              0 0 0 1px rgba(127, 92, 255, 0.3);
+    0 0 0 1px rgba(127, 92, 255, 0.3);
   border: 1px solid rgba(127, 92, 255, 0.4);
   display: flex;
   flex-direction: column;
@@ -26,7 +28,8 @@
   justify-content: center;
   min-width: 200px;
   animation: slideUp 0.3s ease-out;
-  pointer-events: auto; /* Spinner card itself can be clicked */
+  pointer-events: auto;
+  /* Spinner card itself can be clicked */
 }
 
 @keyframes slideUp {
@@ -34,6 +37,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -86,14 +90,23 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes bounce {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     transform: scale(0);
   }
+
   40% {
     transform: scale(1);
   }

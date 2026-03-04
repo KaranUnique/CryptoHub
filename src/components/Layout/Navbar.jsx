@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "../../context/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FiLock, FiUser, FiLogOut, FiMail, FiBookmark } from "react-icons/fi";
+import { FiLock, FiUser, FiLogOut, FiMail, FiBookmark, FiMenu, FiX, FiChevronDown } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 import "./Navbar.css";
 
 function Navbar() {
@@ -23,15 +24,21 @@ function Navbar() {
   /* -------------------- Handlers -------------------- */
 
   const handleDropdownEnter = (label) => {
-    setOpenDropdown(label);
+    if (window.innerWidth > 1024) {
+      setOpenDropdown(label);
+    }
   };
 
   const handleDropdownLeave = () => {
-    setOpenDropdown(null);
+    if (window.innerWidth > 1024) {
+      setOpenDropdown(null);
+    }
   };
 
-  const handleDropdownClick = (label) => {
-    setOpenDropdown(openDropdown === label ? null : label);
+  const toggleProfile = (e) => {
+    e.stopPropagation();
+    setIsProfileOpen(!isProfileOpen);
+    setOpenDropdown(null);
   };
 
   const toggleMobileMenu = () => {
@@ -125,6 +132,7 @@ function Navbar() {
         { to: "/trending", label: "Trending" },
         { to: "/gainers", label: "Gainers" },
         { to: "/top-losers", label: "Top Losers" },
+        {to:"watchlist", label:"Watchlist" },
       ],
     },
     { to: "/blog", label: "Insights" },
@@ -138,11 +146,12 @@ function Navbar() {
         { to: "/faq", label: "FAQ" },
       ],
     },
- 
+
   ];
 
   const authenticatedNavLinks = [
     ...navLinks,
+    { to: "/watchlist", label: "Watchlist" },
     { to: "/dashboard", label: "Dashboard" },
     { to: "/leaderboard", label: "Leaderboard" },
   ];
@@ -160,9 +169,8 @@ function Navbar() {
       ref={navRef}
       role="navigation"
       aria-label="Main navigation"
-      className={`navbar ${scrolled ? "scrolled" : ""} ${
-        isMobileMenuOpen ? "has-mobile-menu" : ""
-      } ${isDashboardPage ? "is-dashboard" : ""}`}
+      className={`navbar ${scrolled ? "scrolled" : ""} ${isMobileMenuOpen ? "has-mobile-menu" : ""
+        } ${isDashboardPage ? "is-dashboard" : ""}`}
     >
       <div className="navbar-content">
         {/* Logo */}

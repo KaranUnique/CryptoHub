@@ -20,31 +20,31 @@ describe('Footer Component', () => {
 
     it('validates invalid email format', async () => {
         renderWithProviders(<Footer />);
-        
+
         const input = screen.getByPlaceholderText(/enter your email/i);
         const button = screen.getByRole('button', { name: /subscribe/i });
-        
+
         // Disable HTML5 validation to allow custom validation logic to run
         const form = input.closest('form');
         form.setAttribute('novalidate', 'true');
 
         fireEvent.change(input, { target: { value: 'invalid-email' } });
         fireEvent.click(button);
-        
+
         expect(await screen.findByText(/please enter a valid email address/i)).toBeInTheDocument();
     });
 
     it('shows success message on valid subscription', async () => {
         renderWithProviders(<Footer />);
-        
+
         const input = screen.getByPlaceholderText(/enter your email/i);
         const form = input.closest('form');
-        
+
         fireEvent.change(input, { target: { value: 'test@example.com' } });
         fireEvent.submit(form);
-        
+
         expect(screen.getByText(/subscribing/i)).toBeInTheDocument();
-        
+
         await waitFor(() => {
             expect(screen.getByText(/successfully subscribed/i)).toBeInTheDocument();
         }, { timeout: 3000 });

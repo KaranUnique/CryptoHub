@@ -4,7 +4,7 @@
    ===================================================== */
 
 .api-access-container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   padding-bottom: 80px;
   position: relative;
@@ -49,12 +49,10 @@
   transform: translate(-50%, -50%);
   width: 700px;
   height: 700px;
-  background: radial-gradient(
-    circle,
-    rgba(124, 58, 237, 0.18) 0%,
-    rgba(79, 70, 229, 0.08) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(circle,
+      rgba(124, 58, 237, 0.18) 0%,
+      rgba(79, 70, 229, 0.08) 40%,
+      transparent 70%);
   z-index: -1;
   filter: blur(80px);
   pointer-events: none;
@@ -66,11 +64,9 @@
   right: 8%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(
-    circle,
-    rgba(6, 182, 212, 0.1) 0%,
-    transparent 65%
-  );
+  background: radial-gradient(circle,
+      rgba(6, 182, 212, 0.1) 0%,
+      transparent 65%);
   z-index: -1;
   filter: blur(60px);
   pointer-events: none;
@@ -149,6 +145,7 @@
   gap: 12px;
   padding: 16px 24px;
   min-width: 130px;
+  width: 200px;
 }
 
 .aa-stat-card .stat-icon {
@@ -384,6 +381,7 @@
 .aa-endpoint-desc-inline {
   display: -webkit-box;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-align: right;
@@ -519,10 +517,10 @@
 
 .aa-code-block {
   position: relative;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
-  padding: 20px 20px 20px 20px;
+  padding: 20px;
   overflow-x: auto;
 }
 
@@ -533,8 +531,9 @@
 
 .aa-code-block code {
   font-family: "Fira Code", "Consolas", monospace;
-  font-size: 0.82rem;
-  color: #e2e8f0;
+  font-size: 0.95rem;
+  color: #a78bfa;
+  font-weight: 600;
   line-height: 1.75;
   white-space: pre;
 }
@@ -584,12 +583,12 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr 2fr;
   padding: 12px 24px;
-  background: rgba(255, 255, 255, 0.04);
-  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.08em;
+  color: #fff;
   gap: 16px;
 }
 
@@ -597,37 +596,39 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr 2fr;
   padding: 15px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   gap: 16px;
   align-items: center;
   transition: background 0.2s;
 }
 
 .aa-rate-row:hover {
-  background: rgba(139, 92, 246, 0.05);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .aa-rate-tier {
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .aa-rate-limit {
   color: #4ade80;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 .aa-rate-notes {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .aa-rate-note {
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
   line-height: 1.6;
+  margin-top: 12px;
 }
 
 .aa-rate-note code {
@@ -643,7 +644,7 @@
    ------------------------- */
 .aa-auth-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 20px;
 }
 
@@ -659,9 +660,10 @@
 }
 
 .aa-auth-card p {
-  font-size: 0.87rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 14px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
 
 /* -------------------------
@@ -704,7 +706,7 @@
 }
 
 .aa-faq-a {
-  padding: 0 24px 20px;
+  padding: 20px 24px 20px;
   color: rgba(255, 255, 255, 0.55);
   font-size: 0.88rem;
   line-height: 1.7;
@@ -721,11 +723,9 @@
 .aa-cta {
   text-align: center;
   padding: 60px 40px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(124, 58, 237, 0.12) 0%,
-    rgba(0, 0, 0, 0) 70%
-  );
+  background: radial-gradient(ellipse at center,
+      rgba(124, 58, 237, 0.12) 0%,
+      rgba(0, 0, 0, 0) 70%);
 }
 
 .aa-cta h2 {
@@ -765,10 +765,12 @@
    RESPONSIVE
    ------------------------- */
 @media (max-width: 768px) {
+
   .aa-params-head,
   .aa-params-row {
     grid-template-columns: 1.2fr 0.7fr 2fr;
   }
+
   .aa-param-req {
     display: none;
   }
@@ -777,6 +779,7 @@
   .aa-rate-row {
     grid-template-columns: 1fr 1fr;
   }
+
   .aa-rate-notes {
     display: none;
   }
@@ -791,10 +794,12 @@
 }
 
 @media (max-width: 540px) {
+
   .aa-params-head,
   .aa-params-row {
     grid-template-columns: 1fr 2fr;
   }
+
   .aa-param-type {
     display: none;
   }

@@ -13,6 +13,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -171,11 +172,9 @@
 /* Summary */
 .ai-blog-card__summary {
   padding: 1.5rem;
-  background: linear-gradient(
-    135deg,
-    rgba(34, 197, 94, 0.06),
-    rgba(69, 89, 220, 0.06)
-  );
+  background: linear-gradient(135deg,
+      rgba(34, 197, 94, 0.06),
+      rgba(69, 89, 220, 0.06));
   border-radius: 12px;
   border: 1px solid rgba(34, 197, 94, 0.15);
 }
@@ -226,6 +225,7 @@
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
+
   .ai-blog-card__header,
   .ai-blog-card__body {
     padding: 1.5rem;

@@ -3,24 +3,23 @@
 }
 
 /* Desktop */
-/* Desktop */
 .market-filters {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   /* Removed large margins as it's inside a header */
   margin: 0;
   flex-wrap: wrap;
 }
 
 .filter-label {
-  font-size: 14px;
+  font-size: 16px;
   color: #aaa;
 }
 
 .market-filter-btn {
   padding: 6px 14px;
-  border-radius: 20px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: transparent;
   color: #fff;

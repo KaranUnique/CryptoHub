@@ -185,12 +185,14 @@ a {
 .text-gradient-cyan {
   background: linear-gradient(to right, #00f3ff, #0066ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-purple {
   background: linear-gradient(to right, #bc00dd, #ff0055);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 

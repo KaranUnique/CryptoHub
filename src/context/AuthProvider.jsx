@@ -345,7 +345,7 @@ export const AuthProvider = ({ children }) => {
         console.error("Error processing avatar:", error);
         throw new Error(
           "Failed to process profile picture: " +
-            (error.message || "Unknown error"),
+          (error.message || "Unknown error"),
         );
       }
     }

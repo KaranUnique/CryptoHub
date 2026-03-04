@@ -3,7 +3,6 @@ import { useTheme } from "../../context/useTheme";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import "./Pricing.css";
 import {
   FiCheck,
   FiX,
@@ -118,7 +117,7 @@ export default function Pricing() {
 
       {/* Hero Header */}
       <motion.section
-        className="relative py-24 px-6 overflow-hidden"
+        className="relative py-24 pt-16 px-6 overflow-hidden"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
@@ -162,7 +161,7 @@ export default function Pricing() {
 
           {/* FIXED: Working Billing Toggle */}
           <motion.div
-            className="flex flex-col justify-center items-center gap-6 p-8 bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 max-w-lg mx-auto"
+            className="flex flex-col justify-center items-center gap-6 p-5 bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 max-w-lg mx-auto"
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring" }}
           >
@@ -227,16 +226,16 @@ export default function Pricing() {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true }}
       >
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 lg:gap-12">
+        <div className="max-w-8xl grid md:grid-cols-3 gap-8 lg:gap-12">
           {plans.map((plan) => {
             const currentPrice = getPrice(plan?.price, billingCycle);
 
             return (
               <motion.div
                 key={plan.name}
-                className={`glass-panel rounded-3xl p-1 relative overflow-hidden group
+                className={`glass-panel rounded-3xl p-1 relative  group
                   ${plan.highlight ? "ring-4 ring-purple-500/20 shadow-2xl shadow-purple-500/25 lg:scale-[1.02]" : "shadow-xl"}`}
                 variants={cardVariants}
                 initial="hidden"
@@ -245,7 +244,7 @@ export default function Pricing() {
                 viewport={{ once: true }}
               >
                 {/* Card Background */}
-                <div className="h-full w-full bg-linear-to-br bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-[1.75rem] p-8 flex flex-col relative z-10 border border-white/30 dark:border-gray-700/50">
+                <div className="h-full w-full bg-linear-to-br bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl p-8 flex flex-col relative z-10 border border-white/30 dark:border-gray-700/50">
                   {/* Popular Badge */}
                   {plan.highlight && (
                     <motion.div
@@ -278,17 +277,14 @@ export default function Pricing() {
                     {plan.features.map((feature, i) => (
                       <motion.div
                         key={i}
-                        className={`flex items-center gap-4 py-1 rounded-xl transition-all duration-300 group/feature hover:bg-white/50 dark:hover:bg-gray-800/50 ${
-                          feature.available ? "" : "opacity-60"
-                        }`}
-                        whileHover={{ paddingLeft: "2.5rem" }}
+                        className={`flex items-center gap-4 py-1 rounded-xl transition-all duration-300 group/feature hover:bg-white/50 dark:hover:bg-gray-800/50 ${feature.available ? "" : "opacity-60"
+                          }`}
                       >
                         <div
-                          className={`w-7 h-7 rounded-xl flex items-center justify-center shadow-lg shrink-0 ${
-                            feature.available
-                              ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-emerald-500/40"
-                              : "bg-gray-200/50 dark:bg-gray-700/50 text-gray-400 border-2 border-gray-300/50 dark:border-gray-600/50"
-                          }`}
+                          className={`w-7 h-7 rounded-xl flex items-center justify-center shadow-lg shrink-0 ${feature.available
+                            ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-emerald-500/40"
+                            : "bg-gray-200/50 dark:bg-gray-700/50 text-gray-400 border-2 border-gray-300/50 dark:border-gray-600/50"
+                            }`}
                         >
                           {feature.available ? (
                             <FiCheck className="w-6 h-6" />
@@ -305,11 +301,10 @@ export default function Pricing() {
 
                   {/* CTA Button */}
                   <motion.button
-                    className={`w-full py-6 px-8 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-2xl transition-all duration-300 overflow-hidden relative ${
-                      plan.highlight
-                        ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-purple-500/40 hover:shadow-purple-500/60 hover:-translate-y-1"
-                        : "bg-gray-700 dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-200/50 dark:border-gray-600/50 hover:bg-gray-800 dark:hover:bg-gray-900"
-                    }`}
+                    className={`w-full py-4 px-8 rounded-2xl font-bold text-lg uppercase tracking-wider shadow-2xl transition-all duration-300 overflow-hidden relative ${plan.highlight
+                      ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-purple-500/40 hover:shadow-purple-500/60 hover:-translate-y-1"
+                      : "bg-gray-700 dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-200/50 dark:border-gray-600/50 hover:bg-gray-800 dark:hover:bg-gray-900"
+                      }`}
                     onClick={() => handlePlanClick(plan.name)}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
@@ -346,8 +341,8 @@ export default function Pricing() {
             </p>
           </motion.div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-700/50 shadow-2xl">
+          <div className="overflow-x-auto rounded-3xl">
+            <table className="w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/50 shadow-2xl">
               <thead>
                 <tr className="border-b border-gray-200/50 dark:border-gray-700/50">
                   <th className="p-6 text-left font-bold text-lg">Feature</th>
@@ -430,7 +425,7 @@ export default function Pricing() {
             {faqs.map((faq, index) => (
               <motion.div
                 key={index}
-                className="glass-panel rounded-2xl overflow-hidden shadow-xl"
+                className=" rounded-2xl overflow-hidden shadow-xl"
                 variants={itemVariants}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -438,21 +433,21 @@ export default function Pricing() {
                 viewport={{ once: true }}
               >
                 <motion.button
-                  className="w-full py-8 px-10 text-left hover:bg-white/50 dark:hover:bg-gray-800/50 transition-all duration-300"
+                  className="w-full py-8 px-10 text-left hover:bg-white/50 dark:hover:bg-purple-600 transition-all duration-300"
                   onClick={() =>
                     setOpenFaqIndex(openFaqIndex === index ? null : index)
                   }
                   whileTap={{ scale: 0.98 }}
                 >
                   <div className="flex items-center justify-between">
-                    <h4 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">
+                    <h4 className="text-lg md:text-xl font-bold text-gray-100 dark:text-white/70">
                       {faq.question}
                     </h4>
                     <motion.div
                       animate={{ rotate: openFaqIndex === index ? 90 : 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <FiPlus className="w-7 h-7 text-gray-500" />
+                      <FiPlus className="w-7 h-7 text-gray-100" />
                     </motion.div>
                   </div>
                 </motion.button>
@@ -465,7 +460,7 @@ export default function Pricing() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
-                      <div className="px-10 pb-8 text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                      <div className="px-10 pb-8 p-5 text-lg text-gray-100 dark:text-gray-100 ">
                         {faq.answer}
                       </div>
                     </motion.div>

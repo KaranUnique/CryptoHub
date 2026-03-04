@@ -4,7 +4,7 @@ import "./About.css";
 const About = () => {
   return (
     <div className="about-section fade-in">
-      
+
       <h1 className="about-title-underline">About CryptoHub</h1>
 
       <p className="about-intro">

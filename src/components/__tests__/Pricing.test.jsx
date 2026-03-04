@@ -107,7 +107,7 @@ describe("Pricing Component", () => {
 
   it("shows mock payment modal for other plans", () => {
     // Mock window.alert to prevent test error and verify call
-    const alertMock = vi.spyOn(window, "alert").mockImplementation(() => {});
+    const alertMock = vi.spyOn(window, "alert").mockImplementation(() => { });
     // Mock document.getElementById for modal
 
     renderPricing();

@@ -24,25 +24,25 @@ export const StorageKeys = {
   CURRENCY: 'currency',
   LANGUAGE: 'language',
   TIMEZONE: 'timezone',
-  
+
   // App state
   FAVORITES: 'favorites',
   WATCHLIST: 'watchlist',
   ALERTS: 'alerts',
   PORTFOLIO: 'portfolio',
   TRANSACTIONS: 'transactions',
-  
+
   // Cache
   PRICE_CACHE: 'price_cache',
   MARKET_DATA_CACHE: 'market_data_cache',
   COIN_LIST_CACHE: 'coin_list_cache',
-  
+
   // User data
   USER_SETTINGS: 'user_settings',
   RECENT_SEARCHES: 'recent_searches',
   CHART_PREFERENCES: 'chart_preferences',
   NOTIFICATION_SETTINGS: 'notification_settings',
-  
+
   // Session
   LAST_VISITED: 'last_visited',
   SESSION_DATA: 'session_data'
@@ -62,7 +62,7 @@ class StorageManager {
     this.version = STORAGE_VERSION;
     this.listeners = new Map();
   }
-  
+
   /**
    * Gets full key with prefix
    * @param {string} key - Key name
@@ -71,7 +71,7 @@ class StorageManager {
   getFullKey(key) {
     return `${this.prefix}${key}`;
   }
-  
+
   /**
    * Checks if storage is available
    * @returns {boolean} Availability status
@@ -86,7 +86,7 @@ class StorageManager {
       return false;
     }
   }
-  
+
   /**
    * Sets a value in storage
    * @param {string} key - Key name
@@ -103,13 +103,13 @@ class StorageManager {
         timestamp: Date.now(),
         expires: options.ttl ? Date.now() + options.ttl : null
       };
-      
+
       this.storage.setItem(fullKey, JSON.stringify(data));
       this.notifyListeners(key, value);
       return true;
     } catch (error) {
       console.error(`Storage set error for ${key}:`, error);
-      
+
       // Try to clear space if quota exceeded
       if (error.name === 'QuotaExceededError') {
         this.clearExpired();
@@ -126,7 +126,7 @@ class StorageManager {
       return false;
     }
   }
-  
+
   /**
    * Gets a value from storage
    * @param {string} key - Key name
@@ -137,30 +137,30 @@ class StorageManager {
     try {
       const fullKey = this.getFullKey(key);
       const item = this.storage.getItem(fullKey);
-      
+
       if (!item) return defaultValue;
-      
+
       const data = JSON.parse(item);
-      
+
       // Check expiration
       if (data.expires && Date.now() > data.expires) {
         this.remove(key);
         return defaultValue;
       }
-      
+
       // Check version
       if (data.version !== this.version) {
         this.remove(key);
         return defaultValue;
       }
-      
+
       return data.value;
     } catch (error) {
       console.error(`Storage get error for ${key}:`, error);
       return defaultValue;
     }
   }
-  
+
   /**
    * Removes a value from storage
    * @param {string} key - Key name
@@ -177,7 +177,7 @@ class StorageManager {
       return false;
     }
   }
-  
+
   /**
    * Checks if a key exists
    * @param {string} key - Key name
@@ -186,7 +186,7 @@ class StorageManager {
   has(key) {
     return this.get(key) !== null;
   }
-  
+
   /**
    * Clears all stored data
    * @returns {boolean} Success status
@@ -194,14 +194,14 @@ class StorageManager {
   clear() {
     try {
       const keysToRemove = [];
-      
+
       for (let i = 0; i < this.storage.length; i++) {
         const key = this.storage.key(i);
         if (key && key.startsWith(this.prefix)) {
           keysToRemove.push(key);
         }
       }
-      
+
       keysToRemove.forEach(key => this.storage.removeItem(key));
       return true;
     } catch (error) {
@@ -209,14 +209,14 @@ class StorageManager {
       return false;
     }
   }
-  
+
   /**
    * Clears expired items
    * @returns {number} Number of items cleared
    */
   clearExpired() {
     let cleared = 0;
-    
+
     for (let i = this.storage.length - 1; i >= 0; i--) {
       const key = this.storage.key(i);
       if (key && key.startsWith(this.prefix)) {
@@ -233,27 +233,27 @@ class StorageManager {
         }
       }
     }
-    
+
     return cleared;
   }
-  
+
   /**
    * Gets all keys
    * @returns {Array} Array of keys
    */
   keys() {
     const keys = [];
-    
+
     for (let i = 0; i < this.storage.length; i++) {
       const key = this.storage.key(i);
       if (key && key.startsWith(this.prefix)) {
         keys.push(key.replace(this.prefix, ''));
       }
     }
-    
+
     return keys;
   }
-  
+
   /**
    * Gets storage size info
    * @returns {Object} Size information
@@ -262,7 +262,7 @@ class StorageManager {
     let totalSize = 0;
     let itemCount = 0;
     const items = [];
-    
+
     for (let i = 0; i < this.storage.length; i++) {
       const key = this.storage.key(i);
       if (key && key.startsWith(this.prefix)) {
@@ -273,7 +273,7 @@ class StorageManager {
         items.push({ key: key.replace(this.prefix, ''), size });
       }
     }
-    
+
     return {
       totalSize,
       totalSizeFormatted: formatBytes(totalSize),
@@ -281,7 +281,7 @@ class StorageManager {
       items: items.sort((a, b) => b.size - a.size)
     };
   }
-  
+
   /**
    * Adds a change listener
    * @param {string} key - Key to watch
@@ -293,7 +293,7 @@ class StorageManager {
       this.listeners.set(key, new Set());
     }
     this.listeners.get(key).add(callback);
-    
+
     return () => {
       const listeners = this.listeners.get(key);
       if (listeners) {
@@ -301,7 +301,7 @@ class StorageManager {
       }
     };
   }
-  
+
   /**
    * Notifies listeners of changes
    * @param {string} key - Changed key
@@ -333,7 +333,7 @@ export class WatchlistManager {
     this.storage = storage;
     this.key = StorageKeys.WATCHLIST;
   }
-  
+
   /**
    * Gets watchlist
    * @returns {Array} Watchlist items
@@ -341,7 +341,7 @@ export class WatchlistManager {
   get() {
     return this.storage.get(this.key, []);
   }
-  
+
   /**
    * Adds item to watchlist
    * @param {Object} coin - Coin to add
@@ -349,21 +349,21 @@ export class WatchlistManager {
    */
   add(coin) {
     const watchlist = this.get();
-    
+
     if (watchlist.some(item => item.id === coin.id)) {
       return false; // Already exists
     }
-    
+
     watchlist.push({
       id: coin.id,
       symbol: coin.symbol,
       name: coin.name,
       addedAt: Date.now()
     });
-    
+
     return this.storage.set(this.key, watchlist);
   }
-  
+
   /**
    * Removes item from watchlist
    * @param {string} coinId - Coin ID to remove
@@ -373,7 +373,7 @@ export class WatchlistManager {
     const watchlist = this.get().filter(item => item.id !== coinId);
     return this.storage.set(this.key, watchlist);
   }
-  
+
   /**
    * Checks if coin is in watchlist
    * @param {string} coinId - Coin ID to check
@@ -382,7 +382,7 @@ export class WatchlistManager {
   has(coinId) {
     return this.get().some(item => item.id === coinId);
   }
-  
+
   /**
    * Toggles coin in watchlist
    * @param {Object} coin - Coin to toggle
@@ -397,7 +397,7 @@ export class WatchlistManager {
       return true;
     }
   }
-  
+
   /**
    * Reorders watchlist
    * @param {Array} newOrder - Array of coin IDs in new order
@@ -408,10 +408,10 @@ export class WatchlistManager {
     const reordered = newOrder
       .map(id => watchlist.find(item => item.id === id))
       .filter(Boolean);
-    
+
     return this.storage.set(this.key, reordered);
   }
-  
+
   /**
    * Clears watchlist
    * @returns {boolean} Success status
@@ -430,7 +430,7 @@ export class PortfolioManager {
     this.portfolioKey = StorageKeys.PORTFOLIO;
     this.transactionsKey = StorageKeys.TRANSACTIONS;
   }
-  
+
   /**
    * Gets all holdings
    * @returns {Array} Portfolio holdings
@@ -438,7 +438,7 @@ export class PortfolioManager {
   getHoldings() {
     return this.storage.get(this.portfolioKey, []);
   }
-  
+
   /**
    * Gets all transactions
    * @returns {Array} Transactions
@@ -446,7 +446,7 @@ export class PortfolioManager {
   getTransactions() {
     return this.storage.get(this.transactionsKey, []);
   }
-  
+
   /**
    * Adds a transaction
    * @param {Object} transaction - Transaction details
@@ -459,16 +459,16 @@ export class PortfolioManager {
       ...transaction,
       createdAt: Date.now()
     };
-    
+
     transactions.push(newTransaction);
     this.storage.set(this.transactionsKey, transactions);
-    
+
     // Update holdings
     this.updateHoldings(transaction);
-    
+
     return true;
   }
-  
+
   /**
    * Updates holdings based on transaction
    * @param {Object} transaction - Transaction details
@@ -476,15 +476,15 @@ export class PortfolioManager {
   updateHoldings(transaction) {
     const holdings = this.getHoldings();
     const existingIndex = holdings.findIndex(h => h.coinId === transaction.coinId);
-    
+
     if (transaction.type === 'buy') {
       if (existingIndex >= 0) {
         // Update existing holding
         const existing = holdings[existingIndex];
-        const totalCost = (existing.averagePrice * existing.amount) + 
-                         (transaction.price * transaction.amount);
+        const totalCost = (existing.averagePrice * existing.amount) +
+          (transaction.price * transaction.amount);
         const totalAmount = existing.amount + transaction.amount;
-        
+
         holdings[existingIndex] = {
           ...existing,
           amount: totalAmount,
@@ -506,7 +506,7 @@ export class PortfolioManager {
     } else if (transaction.type === 'sell' && existingIndex >= 0) {
       const existing = holdings[existingIndex];
       const newAmount = existing.amount - transaction.amount;
-      
+
       if (newAmount <= 0) {
         holdings.splice(existingIndex, 1);
       } else {
@@ -517,10 +517,10 @@ export class PortfolioManager {
         };
       }
     }
-    
+
     this.storage.set(this.portfolioKey, holdings);
   }
-  
+
   /**
    * Removes a transaction
    * @param {string} transactionId - Transaction ID
@@ -529,20 +529,20 @@ export class PortfolioManager {
   removeTransaction(transactionId) {
     const transactions = this.getTransactions().filter(t => t.id !== transactionId);
     this.storage.set(this.transactionsKey, transactions);
-    
+
     // Recalculate holdings
     this.recalculateHoldings();
-    
+
     return true;
   }
-  
+
   /**
    * Recalculates holdings from transactions
    */
   recalculateHoldings() {
     const transactions = this.getTransactions();
     const holdings = new Map();
-    
+
     for (const tx of transactions) {
       const existing = holdings.get(tx.coinId) || {
         coinId: tx.coinId,
@@ -551,7 +551,7 @@ export class PortfolioManager {
         amount: 0,
         totalCost: 0
       };
-      
+
       if (tx.type === 'buy') {
         existing.amount += tx.amount;
         existing.totalCost += tx.price * tx.amount;
@@ -559,10 +559,10 @@ export class PortfolioManager {
         existing.amount -= tx.amount;
         existing.totalCost -= tx.price * tx.amount;
       }
-      
+
       holdings.set(tx.coinId, existing);
     }
-    
+
     const holdingsArray = Array.from(holdings.values())
       .filter(h => h.amount > 0)
       .map(h => ({
@@ -570,10 +570,10 @@ export class PortfolioManager {
         averagePrice: h.totalCost / h.amount,
         updatedAt: Date.now()
       }));
-    
+
     this.storage.set(this.portfolioKey, holdingsArray);
   }
-  
+
   /**
    * Gets portfolio summary
    * @param {Object} currentPrices - Current prices by coin ID
@@ -583,17 +583,17 @@ export class PortfolioManager {
     const holdings = this.getHoldings();
     let totalValue = 0;
     let totalCost = 0;
-    
+
     const details = holdings.map(holding => {
       const currentPrice = currentPrices[holding.coinId] || 0;
       const value = holding.amount * currentPrice;
       const cost = holding.amount * holding.averagePrice;
       const profitLoss = value - cost;
       const profitLossPercent = cost > 0 ? (profitLoss / cost) * 100 : 0;
-      
+
       totalValue += value;
       totalCost += cost;
-      
+
       return {
         ...holding,
         currentPrice,
@@ -603,7 +603,7 @@ export class PortfolioManager {
         profitLossPercent
       };
     });
-    
+
     return {
       holdings: details,
       totalValue,
@@ -612,7 +612,7 @@ export class PortfolioManager {
       totalProfitLossPercent: totalCost > 0 ? ((totalValue - totalCost) / totalCost) * 100 : 0
     };
   }
-  
+
   /**
    * Clears portfolio
    * @returns {boolean} Success status
@@ -622,7 +622,7 @@ export class PortfolioManager {
     this.storage.set(this.transactionsKey, []);
     return true;
   }
-  
+
   /**
    * Exports portfolio data
    * @returns {Object} Export data
@@ -634,7 +634,7 @@ export class PortfolioManager {
       exportedAt: new Date().toISOString()
     };
   }
-  
+
   /**
    * Imports portfolio data
    * @param {Object} data - Import data
@@ -659,7 +659,7 @@ export class AlertsManager {
     this.storage = storage;
     this.key = StorageKeys.ALERTS;
   }
-  
+
   /**
    * Gets all alerts
    * @returns {Array} Alerts
@@ -667,7 +667,7 @@ export class AlertsManager {
   getAll() {
     return this.storage.get(this.key, []);
   }
-  
+
   /**
    * Gets active alerts
    * @returns {Array} Active alerts
@@ -675,7 +675,7 @@ export class AlertsManager {
   getActive() {
     return this.getAll().filter(alert => alert.active);
   }
-  
+
   /**
    * Adds an alert
    * @param {Object} alert - Alert configuration
@@ -695,13 +695,13 @@ export class AlertsManager {
       triggered: false,
       createdAt: Date.now()
     };
-    
+
     alerts.push(newAlert);
     this.storage.set(this.key, alerts);
-    
+
     return newAlert;
   }
-  
+
   /**
    * Updates an alert
    * @param {string} alertId - Alert ID
@@ -711,16 +711,16 @@ export class AlertsManager {
   update(alertId, updates) {
     const alerts = this.getAll();
     const index = alerts.findIndex(a => a.id === alertId);
-    
+
     if (index >= 0) {
       alerts[index] = { ...alerts[index], ...updates, updatedAt: Date.now() };
       this.storage.set(this.key, alerts);
       return true;
     }
-    
+
     return false;
   }
-  
+
   /**
    * Removes an alert
    * @param {string} alertId - Alert ID
@@ -730,7 +730,7 @@ export class AlertsManager {
     const alerts = this.getAll().filter(a => a.id !== alertId);
     return this.storage.set(this.key, alerts);
   }
-  
+
   /**
    * Toggles alert active status
    * @param {string} alertId - Alert ID
@@ -739,16 +739,16 @@ export class AlertsManager {
   toggle(alertId) {
     const alerts = this.getAll();
     const alert = alerts.find(a => a.id === alertId);
-    
+
     if (alert) {
       alert.active = !alert.active;
       this.storage.set(this.key, alerts);
       return alert.active;
     }
-    
+
     return false;
   }
-  
+
   /**
    * Checks alerts against current prices
    * @param {Object} prices - Current prices
@@ -757,13 +757,13 @@ export class AlertsManager {
   checkAlerts(prices) {
     const alerts = this.getActive();
     const triggered = [];
-    
+
     for (const alert of alerts) {
       const currentPrice = prices[alert.coinId];
       if (!currentPrice) continue;
-      
+
       let isTriggered = false;
-      
+
       if (alert.condition === 'above' && currentPrice >= alert.targetPrice) {
         isTriggered = true;
       } else if (alert.condition === 'below' && currentPrice <= alert.targetPrice) {
@@ -772,16 +772,16 @@ export class AlertsManager {
         // This would need reference price - simplified for demo
         isTriggered = false;
       }
-      
+
       if (isTriggered) {
         this.update(alert.id, { triggered: true, triggeredAt: Date.now(), active: false });
         triggered.push({ ...alert, currentPrice });
       }
     }
-    
+
     return triggered;
   }
-  
+
   /**
    * Clears all alerts
    * @returns {boolean} Success status
@@ -819,7 +819,7 @@ export class PreferencesManager {
       }
     };
   }
-  
+
   /**
    * Gets all preferences
    * @returns {Object} Preferences
@@ -828,7 +828,7 @@ export class PreferencesManager {
     const stored = this.storage.get(this.key, {});
     return { ...this.defaults, ...stored };
   }
-  
+
   /**
    * Gets a single preference
    * @param {string} key - Preference key
@@ -838,17 +838,17 @@ export class PreferencesManager {
     const prefs = this.getAll();
     return key.split('.').reduce((obj, k) => obj?.[k], prefs);
   }
-/**
-   * Sets a preference
-   * @param {string} key - Preference key
-   * @param {*} value - Preference value
-   * @returns {boolean} Success status
-   */
+  /**
+     * Sets a preference
+     * @param {string} key - Preference key
+     * @param {*} value - Preference value
+     * @returns {boolean} Success status
+     */
   set(key, value) {
     const prefs = this.getAll();
     const keys = key.split('.');
     let current = prefs;
-    
+
     for (let i = 0; i < keys.length - 1; i++) {
       const keyPart = keys[i];
 
@@ -861,7 +861,7 @@ export class PreferencesManager {
       if (!current[keyPart]) current[keyPart] = {};
       current = current[keyPart];
     }
-    
+
     const finalKey = keys[keys.length - 1];
 
     // SECURITY FIX: Check the final key as well
@@ -883,7 +883,7 @@ export class PreferencesManager {
     const merged = deepMerge(prefs, preferences);
     return this.storage.set(this.key, merged);
   }
-  
+
   /**
    * Resets to defaults
    * @returns {boolean} Success status
@@ -902,7 +902,7 @@ export class RecentSearchesManager {
     this.key = StorageKeys.RECENT_SEARCHES;
     this.maxItems = maxItems;
   }
-  
+
   /**
    * Gets recent searches
    * @returns {Array} Recent searches
@@ -910,7 +910,7 @@ export class RecentSearchesManager {
   get() {
     return this.storage.get(this.key, []);
   }
-  
+
   /**
    * Adds a search
    * @param {Object} item - Search item
@@ -918,10 +918,10 @@ export class RecentSearchesManager {
    */
   add(item) {
     let searches = this.get();
-    
+
     // Remove if exists
     searches = searches.filter(s => s.id !== item.id);
-    
+
     // Add to front
     searches.unshift({
       id: item.id,
@@ -930,15 +930,15 @@ export class RecentSearchesManager {
       image: item.image,
       searchedAt: Date.now()
     });
-    
+
     // Trim to max
     if (searches.length > this.maxItems) {
       searches = searches.slice(0, this.maxItems);
     }
-    
+
     return this.storage.set(this.key, searches);
   }
-  
+
   /**
    * Removes a search
    * @param {string} itemId - Item ID
@@ -948,7 +948,7 @@ export class RecentSearchesManager {
     const searches = this.get().filter(s => s.id !== itemId);
     return this.storage.set(this.key, searches);
   }
-  
+
   /**
    * Clears recent searches
    * @returns {boolean} Success status
@@ -969,7 +969,7 @@ export class CacheManager {
   constructor(storage = new StorageManager()) {
     this.storage = storage;
   }
-  
+
   /**
    * Gets cached data
    * @param {string} key - Cache key
@@ -978,17 +978,17 @@ export class CacheManager {
    */
   get(key, maxAge = 300000) { // Default 5 minutes
     const cached = this.storage.get(`cache_${key}`);
-    
+
     if (!cached) return null;
-    
+
     if (Date.now() - cached.cachedAt > maxAge) {
       this.storage.remove(`cache_${key}`);
       return null;
     }
-    
+
     return cached.data;
   }
-  
+
   /**
    * Sets cached data
    * @param {string} key - Cache key
@@ -1002,7 +1002,7 @@ export class CacheManager {
       cachedAt: Date.now()
     }, { ttl });
   }
-  
+
   /**
    * Invalidates cache entry
    * @param {string} key - Cache key
@@ -1011,7 +1011,7 @@ export class CacheManager {
   invalidate(key) {
     return this.storage.remove(`cache_${key}`);
   }
-  
+
   /**
    * Invalidates cache by pattern
    * @param {string} pattern - Key pattern
@@ -1019,14 +1019,14 @@ export class CacheManager {
   invalidatePattern(pattern) {
     const keys = this.storage.keys();
     const regex = new RegExp(pattern);
-    
+
     keys.forEach(key => {
       if (regex.test(key)) {
         this.storage.remove(key);
       }
     });
   }
-  
+
   /**
    * Clears all cache
    * @returns {boolean} Success status
@@ -1057,11 +1057,11 @@ const generateId = () => {
  */
 const formatBytes = (bytes) => {
   if (bytes === 0) return '0 B';
-  
+
   const k = 1024;
   const sizes = ['B', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  
+
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 };
 
@@ -1073,7 +1073,7 @@ const formatBytes = (bytes) => {
  */
 const deepMerge = (target, source) => {
   const output = { ...target };
-  
+
   for (const key of Object.keys(source)) {
     if (source[key] instanceof Object && !Array.isArray(source[key])) {
       output[key] = deepMerge(target[key] || {}, source[key]);
@@ -1081,7 +1081,7 @@ const deepMerge = (target, source) => {
       output[key] = source[key];
     }
   }
-  
+
   return output;
 };
 
