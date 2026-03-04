@@ -1331,6 +1331,7 @@
   color: #ffffff;
   transform: translateX(5px);
   box-shadow: 0 4px 12px rgba(0, 243, 255, 0.1);
+  text-decoration: none !important;
 }
 
 .mobile-dropdown-link:hover::before {
@@ -2001,6 +2002,7 @@
   padding-left: 1.25rem;
   transform: translateX(5px);
   box-shadow: 0 4px 12px rgba(0, 243, 255, 0.1);
+  text-decoration: none !important;
 }
 
 .dropdown-menu li:hover .dropdown-link {

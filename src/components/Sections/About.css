@@ -1,9 +1,8 @@
-/* Animated gradient underline for headings */
+/* Animated gradient underline for headings 
 .about-title-underline {
   display: inline-block;
   position: relative;
-}
-
+} 
 .about-title-underline::after {
   content: '';
   display: block;
@@ -16,7 +15,7 @@
   background: linear-gradient(90deg, #38bdf8 0%, #f472b6 100%);
   opacity: 0.85;
   animation: underline-move 2.5s linear infinite alternate;
-}
+} */
 
 @keyframes underline-move {
   0% {
