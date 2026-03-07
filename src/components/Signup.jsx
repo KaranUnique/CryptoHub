@@ -85,8 +85,8 @@ function Signup() {
 
       try {
         await signup(formData.email, formData.password, formData.fullName);
-          notifySuccess("Signed up successfully");
-       setTimeout(() => navigate("/dashboard"), 1500);
+        notifySuccess("Signed up successfully");
+        setTimeout(() => navigate("/dashboard"), 1500);
       } catch (error) {
         console.error("Signup error:", error);
 
@@ -116,8 +116,8 @@ function Signup() {
 
     try {
       await loginWithGoogle();
-        notifySuccess("Signed up successfully with Google");
-     setTimeout(() => navigate("/dashboard"), 1500);
+      notifySuccess("Signed up successfully with Google");
+      setTimeout(() => navigate("/dashboard"), 1500);
     } catch (error) {
       console.error("Google signup error:", error);
       let errorMessage = "Failed to sign up with Google. Please try again.";
@@ -128,7 +128,7 @@ function Signup() {
         errorMessage = "Network error. Please check your connection";
       }
 
-     notifyError(errorMessage);
+      notifyError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -136,6 +136,10 @@ function Signup() {
 
   return (
     <div className="auth-container">
+      <Link to="/" className="back-home-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Back to Home</span>
+      </Link>
       <div className="auth-orb orb-top-left"></div>
       <div className="auth-orb orb-bottom-right"></div>
 
@@ -148,7 +152,7 @@ function Signup() {
         <div className="auth-header">
           <h1 className="auth-title">Create Account</h1>
           <p className="auth-subtitle">
-            Join <span className="text-gradient-purple">CryptoHub</span> and start tracking today
+            Join the <span className="text-gradient-cyan">CryptoHub</span> Intelligence network
           </p>
         </div>
 
@@ -257,8 +261,8 @@ function Signup() {
             </label>
           </div>
 
-          <button type="submit" className="btn-neon-purple w-full" disabled={loading}>
-            {loading ? "Creating Account..." : "Create Account"}
+          <button type="submit" className="btn-neon w-full" disabled={loading}>
+            {loading ? "Initializing..." : "Create Account"}
           </button>
 
           <div className="divider">

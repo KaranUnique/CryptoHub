@@ -20,6 +20,9 @@ import PrivateRoute from "@/components/PrivateRoute";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import Contributors from "@/components/Contributors";
+import PrivacyPolicy from "@/pages/Legal/PrivacyPolicy";
+import TermsOfService from "@/pages/Legal/TermsOfService";
+import CookiePolicy from "@/pages/Legal/CookiePolicy";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { CoinContext } from "@/context/CoinContext";
@@ -43,7 +46,10 @@ const App = () => {
   const isDashboard = location.pathname === "/dashboard" ||
     location.pathname === "/leaderboard" ||
     location.pathname === "/market-overview" ||
-    location.pathname === "/change-password";
+    location.pathname === "/change-password" ||
+    location.pathname === "/login" ||
+    location.pathname === "/signup" ||
+    location.pathname === "/forgot-password";
 
   useEffect(() => {
     AOS.init({
@@ -114,6 +120,11 @@ const App = () => {
 
               {/* Coin route - accessible to all but shows sidebar if logged in */}
               <Route path="/coin/:coinId" element={<CoinWrapper />} />
+
+              {/* Legal Routes */}
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/cookies" element={<CookiePolicy />} />
 
               {/* Add 404 Route if you implemented it earlier */}
               {/* <Route path="*" element={<NotFound />} /> */}

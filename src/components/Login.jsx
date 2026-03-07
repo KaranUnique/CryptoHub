@@ -98,7 +98,7 @@ function Login() {
     try {
       await loginWithGoogle();
       notifySuccess("Logged in successfully with Google");
-     setTimeout(() => navigate("/dashboard"), 1500);
+      setTimeout(() => navigate("/dashboard"), 1500);
     } catch (error) {
       console.error("Google login error:", error);
       let errorMessage = "Failed to login with Google. Please try again.";
@@ -117,6 +117,10 @@ function Login() {
 
   return (
     <div className="auth-container">
+      <Link to="/" className="back-home-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Back to Home</span>
+      </Link>
       {/* Background Orbs */}
       <div className="auth-orb orb-top-left"></div>
       <div className="auth-orb orb-bottom-right"></div>
@@ -196,7 +200,7 @@ function Login() {
           </div>
 
           <button type="submit" className="btn-neon w-full" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Authenticating..." : "Sign In to CryptoHub"}
           </button>
 
           <div className="divider">
