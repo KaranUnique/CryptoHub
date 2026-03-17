@@ -296,9 +296,11 @@
 }
 
 .table-row:hover {
-    background: rgba(255, 255, 255, 0.02);
-    border-left: 3px solid #06b6d4;
-    padding-left: 21px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(6, 182, 212, 0.35),
+              0 0 18px rgba(6, 182, 212, 0.25);
+  transform: translateY(-2px);
+  border-left: none;
 }
 
 .col-rank {
@@ -1545,3 +1547,31 @@
     color: #06b6d4;
     font-weight: 600;
 }
+/* ==================== HERO DEPTH EFFECT ==================== */
+.cosmic-hero {
+  perspective: 1200px;
+}
+
+.hero-content {
+  transition: transform 0.25s ease;
+}
+
+.cosmic-hero:hover .hero-content {
+  transform: translateZ(30px) scale(1.02);
+}
+
+/* ==================== ORBITAL FLOAT ANIMATION ==================== */
+@keyframes floatOrb {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.orbital-element {
+  animation: floatOrb 6s ease-in-out infinite;
+}
+
+.orb-2 { animation-delay: 1s; }
+.orb-3 { animation-delay: 2s; }
+.orb-4 { animation-delay: 3s; }
+.orb-5 { animation-delay: 4s; }
