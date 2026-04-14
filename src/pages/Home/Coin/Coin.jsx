@@ -16,6 +16,8 @@ const Coin = () => {
   const [historicaldata, setHistoricalData] = useState(null);
   const [coinLoading, setCoinLoading] = useState(true);
   const [historyLoading, setHistoryLoading] = useState(true);
+  const [coinError, setCoinError] = useState(null);
+  const [historyError, setHistoryError] = useState(null);
   const [timeframe, setTimeframe] = useState("7"); // Default 7 days
   const [chartMode, setChartMode] = useState("advanced"); // "basic" or "advanced"
   const { currency } = useContext(CoinContext);
@@ -38,7 +40,10 @@ const Coin = () => {
       const response = await fetch(url, options);
 
       if (response.status === 429) {
-        console.error("Rate limit exceeded. Please wait a moment and refresh.");
+        const errorMsg =
+          "Rate limit exceeded. Please wait a moment and refresh.";
+        console.error(errorMsg);
+        setCoinError(errorMsg);
         setCoinLoading(false);
         return;
       }
@@ -49,9 +54,12 @@ const Coin = () => {
 
       const data = await response.json();
       setCoinData(data);
+      setCoinError(null);
       setCoinLoading(false);
     } catch (err) {
       setCoinLoading(false);
+      const errorMsg = err.message || "Failed to fetch coin data";
+      setCoinError(errorMsg);
       console.error("Error fetching coin data:", err);
     }
   }, [coinId]);
@@ -85,9 +93,10 @@ const Coin = () => {
       const response = await fetch(url, options);
 
       if (response.status === 429) {
-        console.error(
-          "Rate limit exceeded. Please wait a moment before changing timeframes.",
-        );
+        const errorMsg =
+          "Rate limit exceeded. Please wait a moment before changing timeframes.";
+        console.error(errorMsg);
+        setHistoryError(errorMsg);
         setHistoryLoading(false);
         return;
       }
@@ -99,9 +108,12 @@ const Coin = () => {
       const data = await response.json();
 
       setHistoricalData(data);
+      setHistoryError(null);
       setHistoryLoading(false);
     } catch (err) {
       setHistoryLoading(false);
+      const errorMsg = err.message || "Failed to fetch historical data";
+      setHistoryError(errorMsg);
       console.error("History fetch error:", err);
     }
   }, [coinId, currency, timeframe]);
@@ -141,7 +153,39 @@ const Coin = () => {
     );
   }
 
-  // Empty / error state
+  // Error state
+  if (coinError || historyError) {
+    return (
+      <div className="coin-loader">
+        <p style={{ color: "#ff6b6b", marginBottom: "20px" }}>
+          {coinError || historyError}
+        </p>
+        <button
+          onClick={() => {
+            setCoinLoading(true);
+            setHistoryLoading(true);
+            setCoinError(null);
+            setHistoryError(null);
+            fetchCoinData();
+            fetchHistoricalData();
+          }}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#8b5cf6",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontSize: "14px",
+          }}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  // Empty state
   if (!coindata || !historicaldata) {
     return (
       <div className="coin-loader">
