@@ -20,12 +20,13 @@ async function cachedFetch(url, cacheKey) {
     const res = await fetch(url);
     if (!res.ok) {
       if (res.status === 429) throw new Error("RATE_LIMITED");
-      throw new Error(`API error: ${res.status}`);
+      throw new Error(`API error: ${res.status} ${res.statusText} - ${url}`);
     }
     const data = await res.json();
     cache[cacheKey] = { data, timestamp: now };
     return data;
   } catch (err) {
+    console.error(`CoinGecko API Error [${cacheKey}]:`, err);
     // Return stale cache if available
     if (cache[cacheKey]) return cache[cacheKey].data;
     throw err;
@@ -86,16 +87,31 @@ export async function searchCoin(query) {
 
 // ─── Derived: Top Gainers & Losers ────────────────────────────────
 export async function getGainersLosers(currency = "inr", count = 5) {
-  const coins = await getTopCoins(currency, 100);
-  const sorted = [...coins].sort(
-    (a, b) =>
-      (b.price_change_percentage_24h || 0) -
-      (a.price_change_percentage_24h || 0),
-  );
-  return {
-    gainers: sorted.slice(0, count),
-    losers: sorted.slice(-count).reverse(),
-  };
+  try {
+    const response = await getTopCoins(currency, 100);
+    // Handle both array response and wrapped response
+    const coins = Array.isArray(response)
+      ? response
+      : response.data || response;
+
+    if (!Array.isArray(coins)) {
+      console.error("Invalid response format from getTopCoins:", response);
+      throw new Error("Invalid API response format");
+    }
+
+    const sorted = [...coins].sort(
+      (a, b) =>
+        (b.price_change_percentage_24h || 0) -
+        (a.price_change_percentage_24h || 0),
+    );
+    return {
+      gainers: sorted.slice(0, count),
+      losers: sorted.slice(-count).reverse(),
+    };
+  } catch (err) {
+    console.error("Error in getGainersLosers:", err);
+    throw err;
+  }
 }
 
 // ─── Derived: Compare Two Coins ───────────────────────────────────
