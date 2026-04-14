@@ -22,24 +22,24 @@ const Coin = () => {
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
 
   const fetchCoinData = React.useCallback(async () => {
+    const apiKey = import.meta.env.VITE_CG_API_KEY;
+    const url = apiKey
+      ? `/api/coingecko/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&x_cg_demo_api_key=${apiKey}`
+      : `/api/coingecko/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`;
+
     const options = {
       method: "GET",
       headers: {
         accept: "application/json",
-        "x-cg-demo-api-key": import.meta.env.VITE_CG_API_KEY,
       },
     };
 
     try {
-      const response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${coinId}`,
-        options,
-      );
+      const response = await fetch(url, options);
 
       if (response.status === 429) {
-        console.error(
-          "Rate limit exceeded. Please wait a moment and refresh.",
-        );
+        console.error("Rate limit exceeded. Please wait a moment and refresh.");
+        setCoinLoading(false);
         return;
       }
 
@@ -64,26 +64,31 @@ const Coin = () => {
   }, [fetchCoinData]);
 
   const fetchHistoricalData = React.useCallback(async () => {
-    if (!currency?.name) return;
+    if (!currency?.name) {
+      setHistoryLoading(false);
+      return;
+    }
+
+    const apiKey = import.meta.env.VITE_CG_API_KEY;
+    const url = apiKey
+      ? `/api/coingecko/coins/${coinId}/market_chart?vs_currency=${currency.name}&days=${timeframe}&interval=daily&x_cg_demo_api_key=${apiKey}`
+      : `/api/coingecko/coins/${coinId}/market_chart?vs_currency=${currency.name}&days=${timeframe}&interval=daily`;
 
     const options = {
       method: "GET",
       headers: {
         accept: "application/json",
-        "x-cg-demo-api-key": import.meta.env.VITE_CG_API_KEY,
       },
     };
 
     try {
-      const response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency.name}&days=${timeframe}&interval=daily`,
-        options,
-      );
+      const response = await fetch(url, options);
 
       if (response.status === 429) {
         console.error(
           "Rate limit exceeded. Please wait a moment before changing timeframes.",
         );
+        setHistoryLoading(false);
         return;
       }
 
@@ -160,11 +165,18 @@ const Coin = () => {
 
   return (
     <div className="coin-page">
-
       {/* ── Back button ── */}
       <button className="coin-back-btn" onClick={() => navigate(-1)}>
-        <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.3"
-          strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+        <svg
+          width="15"
+          height="15"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          viewBox="0 0 24 24"
+        >
           <path d="M15 19l-7-7 7-7" />
         </svg>
         Back
@@ -173,33 +185,61 @@ const Coin = () => {
       {/* ── Hero header ── */}
       <div className="coin-hero">
         <div className="coin-hero-inner">
-          <img className="coin-logo" src={coindata?.image?.large} alt={coindata?.name} />
+          <img
+            className="coin-logo"
+            src={coindata?.image?.large}
+            alt={coindata?.name}
+          />
           <div className="coin-hero-info">
             <div className="coin-name-row">
               <span className="coin-name-text">{coindata?.name}</span>
-              <span className="coin-symbol-badge">{coindata?.symbol?.toUpperCase()}</span>
+              <span className="coin-symbol-badge">
+                {coindata?.symbol?.toUpperCase()}
+              </span>
               {coindata?.market_cap_rank && (
-                <span className="coin-rank-badge">Rank #{coindata.market_cap_rank}</span>
+                <span className="coin-rank-badge">
+                  Rank #{coindata.market_cap_rank}
+                </span>
               )}
               <button
-                className={`coin-watchlist-btn ${isInWatchlist(coinId) ? 'active' : ''}`}
+                className={`coin-watchlist-btn ${isInWatchlist(coinId) ? "active" : ""}`}
                 onClick={() => toggleWatchlist(coinId, coindata?.name)}
-                title={isInWatchlist(coinId) ? 'Remove from watchlist' : 'Add to watchlist'}
+                title={
+                  isInWatchlist(coinId)
+                    ? "Remove from watchlist"
+                    : "Add to watchlist"
+                }
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill={isInWatchlist(coinId) ? '#eab308' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill={isInWatchlist(coinId) ? "#eab308" : "none"}
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
-                {isInWatchlist(coinId) ? 'Watchlisted' : 'Add to Watchlist'}
+                {isInWatchlist(coinId) ? "Watchlisted" : "Add to Watchlist"}
               </button>
             </div>
             <div className="coin-price-row">
               <span className="coin-current-price">
-                {currency.Symbol}
-                {coindata.market_data.current_price[currency.name].toLocaleString()}
+                {currency.symbol}
+                {coindata.market_data.current_price[
+                  currency.name
+                ].toLocaleString()}
               </span>
-              <span className={`price-change-pill ${isPositive ? "positive" : "negative"}`}>
+              <span
+                className={`price-change-pill ${isPositive ? "positive" : "negative"}`}
+              >
                 {isPositive ? "▲" : "▼"}&nbsp;
-                {Math.abs(coindata.market_data.price_change_percentage_24h).toFixed(2)}%
+                {Math.abs(
+                  coindata.market_data.price_change_percentage_24h,
+                ).toFixed(2)}
+                %
               </span>
             </div>
           </div>
@@ -208,29 +248,38 @@ const Coin = () => {
 
       {/* ── Two-column layout ── */}
       <div className="coin-layout">
-
         {/* Left column */}
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-
           {/* Chart */}
           <div className="coin-card coin-chart-card">
             <div className="coin-chart-top">
               <span className="coin-card-title">Price Chart</span>
-              <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+              <div
+                style={{ display: "flex", gap: "12px", alignItems: "center" }}
+              >
                 <div className="timeframe-selector">
-                  {[{ label: "7d", val: "7" }, { label: "14d", val: "14" }, { label: "30d", val: "30" }].map(
-                    ({ label, val }) => (
-                      <button
-                        key={val}
-                        className={`timeframe-btn ${timeframe === val ? "active" : ""}`}
-                        onClick={() => setTimeframe(val)}
-                      >
-                        {label}
-                      </button>
-                    )
-                  )}
+                  {[
+                    { label: "7d", val: "7" },
+                    { label: "14d", val: "14" },
+                    { label: "30d", val: "30" },
+                  ].map(({ label, val }) => (
+                    <button
+                      key={val}
+                      className={`timeframe-btn ${timeframe === val ? "active" : ""}`}
+                      onClick={() => setTimeframe(val)}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
-                <div style={{ display: "flex", gap: "6px", borderLeft: "1px solid rgba(255,255,255,0.1)", paddingLeft: "12px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "6px",
+                    borderLeft: "1px solid rgba(255,255,255,0.1)",
+                    paddingLeft: "12px",
+                  }}
+                >
                   <button
                     className={`chart-mode-btn ${chartMode === "basic" ? "active" : ""}`}
                     onClick={() => setChartMode("basic")}
@@ -239,7 +288,10 @@ const Coin = () => {
                       padding: "6px 12px",
                       borderRadius: "6px",
                       border: "1px solid rgba(0,217,255,0.3)",
-                      background: chartMode === "basic" ? "rgba(0,217,255,0.2)" : "transparent",
+                      background:
+                        chartMode === "basic"
+                          ? "rgba(0,217,255,0.2)"
+                          : "transparent",
                       color: chartMode === "basic" ? "#00d9ff" : "#9ca3af",
                       cursor: "pointer",
                       fontSize: "12px",
@@ -257,7 +309,10 @@ const Coin = () => {
                       padding: "6px 12px",
                       borderRadius: "6px",
                       border: "1px solid rgba(0,217,255,0.3)",
-                      background: chartMode === "advanced" ? "rgba(0,217,255,0.2)" : "transparent",
+                      background:
+                        chartMode === "advanced"
+                          ? "rgba(0,217,255,0.2)"
+                          : "transparent",
                       color: chartMode === "advanced" ? "#00d9ff" : "#9ca3af",
                       cursor: "pointer",
                       fontSize: "12px",
@@ -270,9 +325,14 @@ const Coin = () => {
                 </div>
               </div>
             </div>
-            <div className={`coin-chart ${chartMode === "advanced" ? "coin-chart--advanced" : ""}`}>
+            <div
+              className={`coin-chart ${chartMode === "advanced" ? "coin-chart--advanced" : ""}`}
+            >
               {chartMode === "advanced" ? (
-                <AdvancedChart historicaldata={historicaldata} isDark={isDark} />
+                <AdvancedChart
+                  historicaldata={historicaldata}
+                  isDark={isDark}
+                />
               ) : (
                 <LineChart historicaldata={historicaldata} />
               )}
@@ -283,15 +343,18 @@ const Coin = () => {
           <div className="coin-card price-range-card">
             <div className="price-range-label">24h Price Range</div>
             <div className="price-range-track">
-              <div className="price-range-thumb" style={{ left: `${rangePos}%` }} />
+              <div
+                className="price-range-thumb"
+                style={{ left: `${rangePos}%` }}
+              />
             </div>
             <div className="price-range-ends">
               <span className="range-low">
-                Low: {currency.Symbol}
+                Low: {currency.symbol}
                 {coindata.market_data.low_24h[currency.name].toLocaleString()}
               </span>
               <span className="range-high">
-                High: {currency.Symbol}
+                High: {currency.symbol}
                 {coindata.market_data.high_24h[currency.name].toLocaleString()}
               </span>
             </div>
@@ -303,8 +366,13 @@ const Coin = () => {
               <div className="sentiment-header">
                 <span className="sentiment-title">Market Sentiment</span>
                 <span
-                  className={`sentiment-status-badge ${sentiment.isPositive ? "bullish" : sentiment.isPositive === false ? "bearish" : "neutral"
-                    }`}
+                  className={`sentiment-status-badge ${
+                    sentiment.isPositive
+                      ? "bullish"
+                      : sentiment.isPositive === false
+                        ? "bearish"
+                        : "neutral"
+                  }`}
                 >
                   {sentiment.text}
                 </span>
@@ -315,8 +383,13 @@ const Coin = () => {
               </div>
               <div className="sentiment-track">
                 <div
-                  className={`sentiment-dot ${sentiment.isPositive ? "bullish" : sentiment.isPositive === false ? "bearish" : "neutral"
-                    }`}
+                  className={`sentiment-dot ${
+                    sentiment.isPositive
+                      ? "bullish"
+                      : sentiment.isPositive === false
+                        ? "bearish"
+                        : "neutral"
+                  }`}
                   style={{ left: `${sentiment.percentage}%` }}
                 />
               </div>
@@ -332,21 +405,26 @@ const Coin = () => {
 
         {/* Right column – metric cards */}
         <div className="metrics-panel">
-
           <div className="metrics-section-title">Market Data</div>
 
           <div className="metric-card highlight">
             <div className="metric-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <div className="metric-content">
               <span className="metric-label">Current Price</span>
               <span className="metric-value highlight-price">
                 {currency.Symbol}
-                {coindata.market_data.current_price[currency.name].toLocaleString()}
+                {coindata.market_data.current_price[
+                  currency.name
+                ].toLocaleString()}
               </span>
             </div>
           </div>
@@ -354,28 +432,40 @@ const Coin = () => {
           <div className="metric-card">
             <div className="metric-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
+                />
               </svg>
             </div>
             <div className="metric-content">
               <span className="metric-label">Market Cap Rank</span>
-              <span className="metric-value rank">#{coindata.market_cap_rank}</span>
+              <span className="metric-value rank">
+                #{coindata.market_cap_rank}
+              </span>
             </div>
           </div>
 
           <div className="metric-card">
             <div className="metric-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
               </svg>
             </div>
             <div className="metric-content">
               <span className="metric-label">Market Cap</span>
               <span className="metric-value">
                 {currency.Symbol}
-                {coindata.market_data.market_cap[currency.name].toLocaleString()}
+                {coindata.market_data.market_cap[
+                  currency.name
+                ].toLocaleString()}
               </span>
             </div>
           </div>
@@ -383,8 +473,12 @@ const Coin = () => {
           <div className="metric-card">
             <div className="metric-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
               </svg>
             </div>
             <div className="metric-content">
@@ -400,15 +494,21 @@ const Coin = () => {
           <div className="metric-card">
             <div className="metric-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                />
               </svg>
             </div>
             <div className="metric-content">
               <span className="metric-label">Total Volume (24h)</span>
               <span className="metric-value">
                 {currency.Symbol}
-                {coindata.market_data.total_volume[currency.name].toLocaleString()}
+                {coindata.market_data.total_volume[
+                  currency.name
+                ].toLocaleString()}
               </span>
             </div>
           </div>
@@ -418,8 +518,12 @@ const Coin = () => {
           <div className="metric-card">
             <div className="metric-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+                />
               </svg>
             </div>
             <div className="metric-content">
@@ -434,8 +538,12 @@ const Coin = () => {
           <div className="metric-card">
             <div className="metric-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
               </svg>
             </div>
             <div className="metric-content">
@@ -452,15 +560,22 @@ const Coin = () => {
           <div className="metric-card">
             <div className="metric-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                />
               </svg>
             </div>
             <div className="metric-content">
               <span className="metric-label">Circulating Supply</span>
               <span className="metric-value">
-                {coindata.market_data.circulating_supply?.toLocaleString() || "N/A"}
-                <span className="supply-symbol">&nbsp;{coindata.symbol?.toUpperCase()}</span>
+                {coindata.market_data.circulating_supply?.toLocaleString() ||
+                  "N/A"}
+                <span className="supply-symbol">
+                  &nbsp;{coindata.symbol?.toUpperCase()}
+                </span>
               </span>
             </div>
           </div>
@@ -468,20 +583,30 @@ const Coin = () => {
           <div className="metric-card">
             <div className="metric-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                />
               </svg>
             </div>
             <div className="metric-content">
               <span className="metric-label">Max Supply</span>
               <span className="metric-value">
-                {coindata.market_data.max_supply
-                  ? <>{coindata.market_data.max_supply.toLocaleString()}<span className="supply-symbol">&nbsp;{coindata.symbol?.toUpperCase()}</span></>
-                  : "Unlimited"}
+                {coindata.market_data.max_supply ? (
+                  <>
+                    {coindata.market_data.max_supply.toLocaleString()}
+                    <span className="supply-symbol">
+                      &nbsp;{coindata.symbol?.toUpperCase()}
+                    </span>
+                  </>
+                ) : (
+                  "Unlimited"
+                )}
               </span>
             </div>
           </div>
-
         </div>
       </div>
     </div>

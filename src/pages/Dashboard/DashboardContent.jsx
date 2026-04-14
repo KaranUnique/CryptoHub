@@ -476,7 +476,7 @@ const MarketOverviewWidget = ({ isDark, navigate }) => {
                 <p
                   className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}
                 >
-                  {currency.Symbol}
+                  {currency.symbol}
                   {coin.current_price?.toLocaleString()}
                 </p>
                 <p

@@ -276,18 +276,24 @@ const Home = () => {
                 <div className="table-row" key={item.id}>
                   <div className="col-star">
                     <button
-                      className={`watchlist-star-btn ${isInWatchlist(item.id) ? 'active' : ''}`}
+                      className={`watchlist-star-btn ${isInWatchlist(item.id) ? "active" : ""}`}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         toggleWatchlist(item.id, item.name);
                       }}
-                      title={isInWatchlist(item.id) ? 'Remove from watchlist' : 'Add to watchlist'}
+                      title={
+                        isInWatchlist(item.id)
+                          ? "Remove from watchlist"
+                          : "Add to watchlist"
+                      }
                     >
                       <FiStar />
                     </button>
                   </div>
-                  <Link to={`/coin/${item.id}`} className="col-rank">{item.market_cap_rank}</Link>
+                  <Link to={`/coin/${item.id}`} className="col-rank">
+                    {item.market_cap_rank}
+                  </Link>
                   <Link to={`/coin/${item.id}`} className="col-name">
                     <img
                       src={item.image}
@@ -302,7 +308,7 @@ const Home = () => {
                     </div>
                   </Link>
                   <Link to={`/coin/${item.id}`} className="col-price">
-                    {currency.Symbol || currency.symbol}
+                    {currency.symbol || currency.Symbol}
                     {item.current_price.toLocaleString()}
                   </Link>
                   <Link
@@ -317,7 +323,7 @@ const Home = () => {
                     {Math.abs(item.price_change_percentage_24h).toFixed(2)}%
                   </Link>
                   <Link to={`/coin/${item.id}`} className="col-mcap">
-                    {currency.Symbol || currency.symbol}
+                    {currency.symbol || currency.Symbol}
                     {item.market_cap.toLocaleString()}
                   </Link>
                 </div>
