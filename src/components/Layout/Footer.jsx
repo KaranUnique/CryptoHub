@@ -109,6 +109,25 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Company */}
+          <div className="footer-links">
+            <h4>Company</h4>
+            <ul>
+              <li>
+                <Link to="/about">About Us</Link>
+              </li>
+              <li>
+                <Link to="/contactus">Contact Us</Link>
+              </li>
+              <li>
+                <Link to="/faq">FAQ</Link>
+              </li>
+              <li>
+                <Link to="/contributors">Contributors</Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Newsletter */}
           <div className="footer-newsletter">
             <h4>Newsletter</h4>
