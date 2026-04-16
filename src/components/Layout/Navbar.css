@@ -2118,3 +2118,154 @@
     padding-left: 1.5rem;
   }
 }
+
+/* =============================================
+   NAVBAR RESPONSIVE FIXES
+   Apply these overrides to your Navbar.css
+   ============================================= */
+
+/* -----------------------------------------------
+   FIX 1: Remove the translateX(-30px) shift that
+   pushes the entire mobile nav content left.
+   ----------------------------------------------- */
+@media (max-width: 767px) {
+  .navbar-content {
+    transform: none; /* was: translateX(-30px) — this caused the leftward shift */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-right: 0.5rem;
+  }
+
+  /* Also fix navbar height so it doesn't collapse */
+  .navbar {
+    height: 64px;
+    padding: 0 1rem;
+  }
+
+  /* Keep mobile menu aligned to the new fixed top */
+  .mobile-menu {
+    top: 64px;
+  }
+}
+
+/* -----------------------------------------------
+   FIX 2: Mobile dropdown toggle buttons (Markets,
+   more) must look like links, not pill badges.
+   ----------------------------------------------- */
+.mobile-menu-link.mobile-dropdown-toggle {
+  /* Reset button defaults */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+
+  /* Match .mobile-menu-link styles exactly */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Chevron arrow indicator for expandable items */
+.mobile-menu-link.mobile-dropdown-toggle::after {
+  content: "›";
+  font-size: 1.2rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.4);
+  transition: transform 0.3s ease, color 0.3s ease;
+  transform: rotate(90deg);
+}
+
+/* Rotate chevron when open */
+.mobile-menu-link.mobile-dropdown-toggle[aria-expanded="true"]::after {
+  transform: rotate(-90deg);
+  color: #00f3ff;
+}
+
+.mobile-menu-link.mobile-dropdown-toggle:hover {
+  color: #ffffff;
+  text-shadow:
+    0 0 10px rgba(0, 243, 255, 0.5),
+    0 0 20px rgba(176, 38, 255, 0.3);
+  background: transparent;
+}
+
+/* Hover underline effect — match other mobile links */
+.mobile-menu-link.mobile-dropdown-toggle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+      rgba(176, 38, 255, 0.1) 0%,
+      rgba(0, 243, 255, 0.05) 100%);
+  border-radius: 10px;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+.mobile-menu-link.mobile-dropdown-toggle:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* -----------------------------------------------
+   FIX 3: Ensure mobile auth buttons sit correctly
+   with full width and proper spacing.
+   ----------------------------------------------- */
+@media (max-width: 767px) {
+  .mobile-auth {
+    padding: 1rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mobile-auth .navbar-btn {
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+  }
+}
+
+/* -----------------------------------------------
+   FIX 4: Smooth scroll-position fix so mobile
+   menu covers full width without any clipping.
+   ----------------------------------------------- */
+.mobile-menu {
+  left: 0;
+  right: 0;
+  width: 100vw;
+}
+
+/* -----------------------------------------------
+   FIX 5: Clean up mobile menu item borders so
+   they don't clip the hover background.
+   ----------------------------------------------- */
+.mobile-menu-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin: 0 0.5rem;
+  border-radius: 10px;
+}
+
+.mobile-menu-item:last-child {
+  border-bottom: none;
+}
