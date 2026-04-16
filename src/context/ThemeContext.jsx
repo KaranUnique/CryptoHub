@@ -6,7 +6,8 @@ import React, {
   useCallback,
 } from "react";
 
-const ThemeContext = createContext();
+// Create and export the context object separately to avoid Vite Fast Refresh warnings
+export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
@@ -40,4 +41,5 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-export default ThemeContext;
+// Removed `export default ThemeContext;` 
+// Now, components should import ThemeProvider for wrapping, and ThemeContext for useContext.

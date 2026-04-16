@@ -929,7 +929,7 @@ volumes:
 - ✅ Provide `.env.example` template
 - ✅ Use docker compose for consistency
 - ✅ Version lock Docker images
-- ✅ Maintain docker compose.yml in git
+- ✅ Maintain docker-compose.yml in git
 - ✅ Share debugging procedures
 
 ---
