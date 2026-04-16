@@ -60,11 +60,11 @@ const Footer = () => {
             </p>
 
             <div className="payment-methods">
-              <FaCcVisa />
-              <FaCcMastercard />
-              <FaCcPaypal />
-              <FaApplePay />
-              <FaGooglePay />
+              <FaCcVisa className="payment-icon" />
+              <FaCcMastercard className="payment-icon" />
+              <FaCcPaypal className="payment-icon" />
+              <FaApplePay className="payment-icon" />
+              <FaGooglePay className="payment-icon" />
             </div>
           </div>
 
@@ -109,12 +109,31 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Company */}
+          <div className="footer-links">
+            <h4>Company</h4>
+            <ul>
+              <li>
+                <Link to="/about">About Us</Link>
+              </li>
+              <li>
+                <Link to="/contactus">Contact Us</Link>
+              </li>
+              <li>
+                <Link to="/faq">FAQ</Link>
+              </li>
+              <li>
+                <Link to="/contributors">Contributors</Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Newsletter */}
           <div className="footer-newsletter">
             <h4>Newsletter</h4>
             <p>Weekly crypto insights & market updates</p>
 
-            <form onSubmit={handleSubscribe}>
+            <form onSubmit={handleSubscribe} className="newsletter-form">
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -192,7 +211,8 @@ const Footer = () => {
             <p>
               <Link to="/privacy">Privacy Policy</Link> |{" "}
               <Link to="/terms">Terms of Service</Link> |{" "}
-              <Link to="/cookies">Cookies</Link>|{" "}
+              <Link to="/cookies">Cookies</Link> |{" "}
+              <Link to="/contactus">Contact Us</Link>
             </p>
             <p>© {currentYear} CryptoHub. All rights reserved.</p>
           </div>

@@ -19,7 +19,7 @@
 }
 
 .footer-content {
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 60px 24px 24px;
 }
@@ -27,7 +27,7 @@
 /* Main Grid */
 .footer-main {
   display: grid;
-  grid-template-columns: 2fr 1.2fr 1.2fr 1.5fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
   gap: 48px;
   margin-bottom: 40px;
 }
@@ -299,7 +299,7 @@ button:hover {
 /* Responsive Design */
 @media (max-width: 1024px) {
   .footer-brand {
-    grid-column: span 3;
+    grid-column: span 2;
     text-align: center;
   }
 
@@ -310,12 +310,16 @@ button:hover {
   }
 
   .footer-main {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 32px;
   }
 
   .footer-brand {
-    grid-column: span 3;
+    grid-column: span 2;
+  }
+
+  .footer-newsletter {
+    grid-column: span 2;
   }
 }
 
