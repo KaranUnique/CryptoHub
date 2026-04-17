@@ -12,7 +12,8 @@ const CoinContextProvider = (props) => {
     symbol: "$",
   });
 
-  const fetchCoinData = async (curr) => {
+  // Function to fetch coin data from the CoinGecko API based on currency
+  const fetchCoinData = async (curr) => { 
     const apiKey = import.meta.env.VITE_CG_API_KEY;
     const options = {
       method: "GET",
@@ -34,6 +35,7 @@ const CoinContextProvider = (props) => {
     return response.json();
   };
 
+  // Using React Query to fetch and cache coin data automatically
   const {
     data: allCoin = [],
     isLoading,
@@ -46,6 +48,7 @@ const CoinContextProvider = (props) => {
     refetchOnWindowFocus: false,
   });
 
+  // Memoizing the filtered coins list to optimize performance and prevent re-renders
   const filteredCoins = useMemo(() => {
     if (!Array.isArray(allCoin) || allCoin.length === 0) return [];
 
@@ -80,6 +83,7 @@ const CoinContextProvider = (props) => {
     return Array.from(new Map(result.map((coin) => [coin.id, coin])).values());
   }, [allCoin, selectedFilters]);
 
+  // Providing the context values to be used by child components
   const contextValue = useMemo(
     () => ({
       allCoin,
@@ -110,5 +114,5 @@ const CoinContextProvider = (props) => {
   );
 };
 
-// Export ONLY the provider component
+// Export ONLY the provider component to ensure Fast Refresh works correctly
 export default CoinContextProvider;
