@@ -144,8 +144,8 @@ const App = () => {
           },
         }}
       />
-      <ThemeProvider>
-        <AuthProvider>
+      
+        
           <WatchlistProvider>
           <div className="app">
             {isLoading && !isDashboard && <LoadingSpinner />}
@@ -227,8 +227,8 @@ const App = () => {
           <ScrollToTop lenis={lenisRef.current} />
           <CryptoChatbot />
           </WatchlistProvider>
-        </AuthProvider>
-      </ThemeProvider>
+        
+      
     </>
   );
 };
