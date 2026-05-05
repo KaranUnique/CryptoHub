@@ -80,3 +80,48 @@
   text-align: center;
   font-size: 14px;
 }
+
+.feedback-subtitle {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.feedback-select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #111;
+  color: #fff;
+}
+
+.feedback-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  color: #ccc;
+}
+
+.star {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #555;
+  transition: 0.3s;
+}
+
+.star:hover,
+.star.active {
+  color: #facc15;
+  transform: scale(1.2);
+}
+
+.feedback-success {
+  background: rgba(0, 255, 150, 0.1);
+  color: #00ffae;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
