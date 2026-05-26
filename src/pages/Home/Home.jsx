@@ -37,7 +37,7 @@ const Home = () => {
         setDisplayCoin(filteredCoins);
       } else {
         const filtered = filteredCoins.filter((coin) =>
-          coin.name.toLowerCase().includes(input.toLowerCase())
+          coin.name.toLowerCase().includes(input.toLowerCase()),
         );
         setDisplayCoin(filtered);
       }
@@ -55,13 +55,13 @@ const Home = () => {
 
     if (minPrice) {
       filtered = filtered.filter(
-        (coin) => coin.current_price >= Number(minPrice)
+        (coin) => coin.current_price >= Number(minPrice),
       );
     }
 
     if (maxPrice) {
       filtered = filtered.filter(
-        (coin) => coin.current_price <= Number(maxPrice)
+        (coin) => coin.current_price <= Number(maxPrice),
       );
     }
 
@@ -79,16 +79,14 @@ const Home = () => {
   // =========================
   const totalMarketCap = useMemo(
     () => allCoin?.reduce((sum, c) => sum + c.market_cap, 0) || 0,
-    [allCoin]
+    [allCoin],
   );
 
   const avgChange = useMemo(
     () =>
-      allCoin?.reduce(
-        (sum, c) => sum + c.price_change_percentage_24h,
-        0
-      ) / (allCoin?.length || 1),
-    [allCoin]
+      allCoin?.reduce((sum, c) => sum + c.price_change_percentage_24h, 0) /
+      (allCoin?.length || 1),
+    [allCoin],
   );
 
   // =========================
@@ -97,9 +95,7 @@ const Home = () => {
   const trendingCoins = useMemo(() => {
     return [...(displayCoin || [])]
       .sort(
-        (a, b) =>
-          b.price_change_percentage_24h -
-          a.price_change_percentage_24h
+        (a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h,
       )
       .slice(0, 5);
   }, [displayCoin]);
@@ -111,7 +107,7 @@ const Home = () => {
 
   const currentCoins = displayCoin.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handlePageChange = (newPage) => {
@@ -140,12 +136,27 @@ const Home = () => {
 
   return (
     <div className="home-container">
-
       {/* ================= HERO ================= */}
       <section className="cosmic-hero">
+        {/* Decorative Background Elements */}
+        <div className="hero-glow-center"></div>
+        <div className="hero-planet"></div>
+        <div className="orbital-element orb-1">
+          <span>🌍</span> Explore
+        </div>
+        <div className="orbital-element orb-2">
+          <span>📊</span> Analyze
+        </div>
+        <div className="orbital-element orb-3">
+          <span>⚡</span> Real-time
+        </div>
+        <div className="orbital-element orb-4">
+          <span>🎯</span> Trade
+        </div>
+
         <div className="hero-content">
           <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            🚀 Crypto Universe
+            Crypto Universe
           </motion.h1>
 
           <p>Explore real-time blockchain data</p>
@@ -186,7 +197,10 @@ const Home = () => {
       <section className="global-stats glass-panel">
         <div className="stat-card">
           <h4>Market Cap</h4>
-          <p>{currency.symbol}{totalMarketCap.toLocaleString()}</p>
+          <p>
+            {currency.symbol}
+            {totalMarketCap.toLocaleString()}
+          </p>
         </div>
 
         <div className="stat-card">
@@ -227,7 +241,6 @@ const Home = () => {
         </div>
 
         <div className="table-container">
-
           {/* HEADER */}
           <div className="table-header">
             <div>#</div>
@@ -287,9 +300,7 @@ const Home = () => {
           {/* PAGINATION */}
           {totalPages > 1 && (
             <div className="pagination">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-              >
+              <button onClick={() => handlePageChange(currentPage - 1)}>
                 <FiChevronLeft />
               </button>
 
@@ -297,9 +308,7 @@ const Home = () => {
                 Page {currentPage} of {totalPages}
               </span>
 
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-              >
+              <button onClick={() => handlePageChange(currentPage + 1)}>
                 <FiChevronRight />
               </button>
             </div>
@@ -310,9 +319,7 @@ const Home = () => {
       {/* BACK TO TOP */}
       <button
         className="back-to-top"
-        onClick={() =>
-          window.scrollTo({ top: 0, behavior: "smooth" })
-        }
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       >
         ↑
       </button>
