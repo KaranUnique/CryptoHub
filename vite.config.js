@@ -10,6 +10,18 @@ export default defineConfig({
   plugins: [react()],
   build: {
     sourcemap: false,
+    target: "esnext",
+    minify: "esbuild",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "ui-vendor": ["framer-motion", "react-hot-toast", "lucide-react"],
+          "data-vendor": ["@tanstack/react-query", "axios"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
   },
   resolve: {
     alias: {

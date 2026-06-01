@@ -1,22 +1,12 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db, isFirebaseConfigured } from "../firebase";
 import { useAuth } from "./useAuth";
 import toast from "react-hot-toast";
+import { WatchlistContextDef } from "./WatchlistContextDefinition";
 
-const WatchlistContext = createContext({
-  watchlist: [],
-  isInWatchlist: () => false,
-  toggleWatchlist: () => {},
-  clearWatchlist: () => {},
-  loading: false,
-});
-
-export const useWatchlist = () => useContext(WatchlistContext);
-
-const LOCAL_KEY = "cryptohub_watchlist";
-
-export const WatchlistProvider = ({ children }) => {
+// Component - provider
+function WatchlistProvider({ children }) {
   const [watchlist, setWatchlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
@@ -32,10 +22,15 @@ export const WatchlistProvider = ({ children }) => {
           const snap = await getDoc(ref);
           if (snap.exists() && snap.data().watchlist) {
             setWatchlist(snap.data().watchlist);
-            localStorage.setItem(LOCAL_KEY, JSON.stringify(snap.data().watchlist));
+            localStorage.setItem(
+              "cryptohub_watchlist",
+              JSON.stringify(snap.data().watchlist),
+            );
           } else {
             // Fallback to localStorage
-            const local = JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]");
+            const local = JSON.parse(
+              localStorage.getItem("cryptohub_watchlist") || "[]",
+            );
             setWatchlist(local);
             // Persist to Firestore
             if (local.length > 0) {
@@ -43,12 +38,16 @@ export const WatchlistProvider = ({ children }) => {
             }
           }
         } else {
-          const local = JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]");
+          const local = JSON.parse(
+            localStorage.getItem("cryptohub_watchlist") || "[]",
+          );
           setWatchlist(local);
         }
       } catch (err) {
         console.warn("Watchlist load error:", err);
-        const local = JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]");
+        const local = JSON.parse(
+          localStorage.getItem("cryptohub_watchlist") || "[]",
+        );
         setWatchlist(local);
       } finally {
         setLoading(false);
@@ -60,7 +59,7 @@ export const WatchlistProvider = ({ children }) => {
   // Persist helper
   const persist = useCallback(
     async (newList) => {
-      localStorage.setItem(LOCAL_KEY, JSON.stringify(newList));
+      localStorage.setItem("cryptohub_watchlist", JSON.stringify(newList));
       if (currentUser && isFirebaseConfigured() && db) {
         try {
           const ref = doc(db, "users", currentUser.uid);
@@ -101,15 +100,22 @@ export const WatchlistProvider = ({ children }) => {
   }, [persist]);
 
   const value = useMemo(
-    () => ({ watchlist, isInWatchlist, toggleWatchlist, clearWatchlist, loading }),
+    () => ({
+      watchlist,
+      isInWatchlist,
+      toggleWatchlist,
+      clearWatchlist,
+      loading,
+    }),
     [watchlist, isInWatchlist, toggleWatchlist, clearWatchlist, loading],
   );
 
   return (
-    <WatchlistContext.Provider value={value}>
+    <WatchlistContextDef.Provider value={value}>
       {children}
-    </WatchlistContext.Provider>
+    </WatchlistContextDef.Provider>
   );
-};
+}
 
-export default WatchlistContext;
+export { WatchlistProvider };
+export default WatchlistProvider;

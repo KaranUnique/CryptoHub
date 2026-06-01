@@ -1,0 +1,20 @@
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'cryptoplace@0.0.0',
+npm warn EBADENGINE   required: { node: '20.x' },
+npm warn EBADENGINE   current: { node: 'v22.17.1', npm: '10.9.2' }
+npm warn EBADENGINE }
+
+removed 7 packages, changed 1 package, and audited 550 packages in 8s
+
+151 packages are looking for funding
+  run `npm fund` for details
+
+17 vulnerabilities (7 moderate, 7 high, 3 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.

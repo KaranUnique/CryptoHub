@@ -20,8 +20,7 @@ const TopGainers = () => {
       try {
         const { gainers } = await getGainersLosers("inr", 50);
         setGainers(gainers || []);
-      } catch (err) {
-        console.error("TopGainers fetch error:", err);
+      } catch {
         setError("Failed to fetch market data.");
       } finally {
         setLoading(false);

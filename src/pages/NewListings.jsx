@@ -40,7 +40,7 @@ const fetchNewListings = async (currency) => {
 
       if (!response.ok) throw new Error(`API Error: ${response.status}`);
       return response.json();
-    })
+    }),
   );
 
   // Combine all pages and sort by ATL date (newest ATL date = most recently listed)
@@ -53,7 +53,7 @@ const fetchNewListings = async (currency) => {
 
   // Remove duplicates
   const uniqueCoins = Array.from(
-    new Map(withAtlDate.map((coin) => [coin.id, coin])).values()
+    new Map(withAtlDate.map((coin) => [coin.id, coin])).values(),
   );
 
   return uniqueCoins;
@@ -90,17 +90,24 @@ const NewListings = () => {
         return copy.sort((a, b) => a.current_price - b.current_price);
       case "change_high":
         return copy.sort(
-          (a, b) => (b.price_change_percentage_24h || 0) - (a.price_change_percentage_24h || 0)
+          (a, b) =>
+            (b.price_change_percentage_24h || 0) -
+            (a.price_change_percentage_24h || 0),
         );
       case "volume":
-        return copy.sort((a, b) => (b.total_volume || 0) - (a.total_volume || 0));
+        return copy.sort(
+          (a, b) => (b.total_volume || 0) - (a.total_volume || 0),
+        );
       default:
         return copy;
     }
   }, [newCoins, sortBy]);
 
   // Pagination (memoized)
-  const totalPages = useMemo(() => Math.max(1, Math.ceil(sortedCoins.length / itemsPerPage)), [sortedCoins.length]);
+  const totalPages = useMemo(
+    () => Math.max(1, Math.ceil(sortedCoins.length / itemsPerPage)),
+    [sortedCoins.length],
+  );
   const currentCoins = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
     return sortedCoins.slice(start, start + itemsPerPage);
@@ -113,7 +120,7 @@ const NewListings = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
-    [totalPages]
+    [totalPages],
   );
 
   const formatDate = (dateStr) => {
@@ -144,56 +151,60 @@ const NewListings = () => {
   };
 
   // Memoized row component to reduce re-renders
-  const CoinRow = useCallback(
-    React.memo(({ coin, index }) => {
-      const changeVal = Number(coin.price_change_percentage_24h) || 0;
-      const changeClass = changeVal > 0 ? "positive" : changeVal < 0 ? "negative" : "neutral";
-      const changeSign = changeVal > 0 ? "+" : "";
-      return (
-        <motion.div
-          key={coin.id}
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: index * 0.03 }}
-        >
-          <Link to={`/coin/${coin.id}`} className="nl-table-row">
-            <div className="nl-col-rank">{(currentPage - 1) * itemsPerPage + index + 1}</div>
-            <div className="nl-col-name">
-              <img src={coin.image} alt={coin.name} className="nl-coin-icon" />
-              <div className="nl-coin-info">
-                <span className="nl-coin-symbol">{coin.symbol.toUpperCase()}</span>
-                <span className="nl-coin-fullname">{coin.name}</span>
-              </div>
+  const CoinRow = React.memo(({ coin, index }) => {
+    const changeVal = Number(coin.price_change_percentage_24h) || 0;
+    const changeClass =
+      changeVal > 0 ? "positive" : changeVal < 0 ? "negative" : "neutral";
+    const changeSign = changeVal > 0 ? "+" : "";
+    return (
+      <motion.div
+        key={coin.id}
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3, delay: index * 0.03 }}
+      >
+        <Link to={`/coin/${coin.id}`} className="nl-table-row">
+          <div className="nl-col-rank">
+            {(currentPage - 1) * itemsPerPage + index + 1}
+          </div>
+          <div className="nl-col-name">
+            <img src={coin.image} alt={coin.name} className="nl-coin-icon" />
+            <div className="nl-coin-info">
+              <span className="nl-coin-symbol">
+                {coin.symbol.toUpperCase()}
+              </span>
+              <span className="nl-coin-fullname">{coin.name}</span>
             </div>
-            <div className={`nl-col-price ${changeClass}`}>
-              {currency.Symbol || currency.symbol}
-              {coin.current_price < 0.01 ? coin.current_price.toFixed(6) : coin.current_price.toLocaleString()}
-            </div>
-            <div className={`nl-col-change ${changeClass}`}>
-              {changeVal > 0 ? <FiArrowUpRight /> : <FiArrowDownRight />}
-              {changeSign}{Math.abs(changeVal).toFixed(2)}%
-            </div>
-            <div className="nl-col-volume">
-              {currency.Symbol || currency.symbol}
-              {formatNumber(coin.total_volume)}
-            </div>
-            <div className="nl-col-mcap">
-              {currency.Symbol || currency.symbol}
-              {formatNumber(coin.market_cap)}
-            </div>
-            <div className="nl-col-date">
-              <span className="date-badge">{formatDate(coin.atl_date)}</span>
-            </div>
-          </Link>
-        </motion.div>
-      );
-    }),
-    [currency, currentPage, itemsPerPage]
-  );
+          </div>
+          <div className={`nl-col-price ${changeClass}`}>
+            {currency.Symbol || currency.symbol}
+            {coin.current_price < 0.01
+              ? coin.current_price.toFixed(6)
+              : coin.current_price.toLocaleString()}
+          </div>
+          <div className={`nl-col-change ${changeClass}`}>
+            {changeVal > 0 ? <FiArrowUpRight /> : <FiArrowDownRight />}
+            {changeSign}
+            {Math.abs(changeVal).toFixed(2)}%
+          </div>
+          <div className="nl-col-volume">
+            {currency.Symbol || currency.symbol}
+            {formatNumber(coin.total_volume)}
+          </div>
+          <div className="nl-col-mcap">
+            {currency.Symbol || currency.symbol}
+            {formatNumber(coin.market_cap)}
+          </div>
+          <div className="nl-col-date">
+            <span className="date-badge">{formatDate(coin.atl_date)}</span>
+          </div>
+        </Link>
+      </motion.div>
+    );
+  });
 
   return (
     <div className="new-listings-container">
-      
       {/* Hero Section */}
       <section className="new-listings-hero">
         <div className="nl-hero-glow"></div>
@@ -233,7 +244,11 @@ const NewListings = () => {
               <FiTrendingUp className="stat-icon" />
               <div className="stat-info">
                 <span className="stat-value">
-                  {newCoins.filter((c) => (c.price_change_percentage_24h || 0) > 0).length}
+                  {
+                    newCoins.filter(
+                      (c) => (c.price_change_percentage_24h || 0) > 0,
+                    ).length
+                  }
                 </span>
                 <span className="stat-label">Gainers (24h)</span>
               </div>
@@ -259,11 +274,21 @@ const NewListings = () => {
               .sort((a, b) => (b.market_cap || 0) - (a.market_cap || 0))
               .slice(0, 4)
               .map((coin, idx) => (
-                <Link to={`/coin/${coin.id}`} className="nl-top3-card glass-card" key={coin.id}>
+                <Link
+                  to={`/coin/${coin.id}`}
+                  className="nl-top3-card glass-card"
+                  key={coin.id}
+                >
                   <div className="nl-top3-rank">#{idx + 1}</div>
-                  <img src={coin.image} alt={coin.name} className="nl-top3-icon" />
+                  <img
+                    src={coin.image}
+                    alt={coin.name}
+                    className="nl-top3-icon"
+                  />
                   <div className="nl-top3-info">
-                    <div className="nl-top3-symbol">{coin.symbol.toUpperCase()}</div>
+                    <div className="nl-top3-symbol">
+                      {coin.symbol.toUpperCase()}
+                    </div>
                     <div className="nl-top3-name">{coin.name}</div>
                     <div className="nl-top3-price">
                       {currency.Symbol || currency.symbol}
@@ -272,7 +297,8 @@ const NewListings = () => {
                         : coin.current_price.toLocaleString()}
                     </div>
                     <div className="nl-top3-mcap">
-                      Market Cap: {currency.Symbol || currency.symbol}{formatNumber(coin.market_cap)}
+                      Market Cap: {currency.Symbol || currency.symbol}
+                      {formatNumber(coin.market_cap)}
                     </div>
                   </div>
                 </Link>
@@ -377,7 +403,7 @@ const NewListings = () => {
                           >
                             {num}
                           </button>
-                        )
+                        ),
                       )
                     : (() => {
                         const pages = [];

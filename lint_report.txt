@@ -1,0 +1,32 @@
+
+> cryptoplace@0.0.0 lint
+> eslint .
+
+
+C:\Users\KARAN MANICKAM\OneDrive\Desktop\Cryptoplace\Cryptoplace\src\App.jsx
+  5:3  error  'lazy' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\KARAN MANICKAM\OneDrive\Desktop\Cryptoplace\Cryptoplace\src\components\Layout\ModernNavbar.jsx
+  110:6  warning  React Hook useEffect has missing dependencies: 'isMobileMenuOpen' and 'mobileOpenDropdown'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\KARAN MANICKAM\OneDrive\Desktop\Cryptoplace\Cryptoplace\src\components\Layout\Navbar.jsx
+    5:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                   no-unused-vars
+   38:9   error    'toggleProfile' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                   no-unused-vars
+  109:6   warning  React Hook useEffect has missing dependencies: 'isMobileMenuOpen' and 'mobileOpenDropdown'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  199:38  error    'handleDropdownClick' is not defined                                                                                                            no-undef
+  207:27  error    'handleDropdownClick' is not defined                                                                                                            no-undef
+
+C:\Users\KARAN MANICKAM\OneDrive\Desktop\Cryptoplace\Cryptoplace\src\context\WatchlistContext.jsx
+  15:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\KARAN MANICKAM\OneDrive\Desktop\Cryptoplace\Cryptoplace\src\pages\Dashboard\DashboardContent.jsx
+  14:11  error  'activities' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\KARAN MANICKAM\OneDrive\Desktop\Cryptoplace\Cryptoplace\src\pages\NewListings.jsx
+  147:19  warning  React Hook useCallback received a function whose dependencies are unknown. Pass an inline function instead  react-hooks/exhaustive-deps
+
+C:\Users\KARAN MANICKAM\OneDrive\Desktop\Cryptoplace\Cryptoplace\src\pages\TopGainers.jsx
+  23:16  error  'err' is defined but never used  no-unused-vars
+
+Γ£û 11 problems (8 errors, 3 warnings)
+

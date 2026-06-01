@@ -2,128 +2,107 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./CoinDetail.css";
 import { CoinContext } from "../../../context/CoinContextInstance";
-import { useTheme } from "../../../context/useTheme";
 import LineChart from "../../../components/Dashboard/LineChart";
-import AdvancedChart from "../../../components/Dashboard/AdvancedChart";
 import NewsPanel from "../../../components/Dashboard/NewsPanel";
-import { useWatchlist } from "../../../context/WatchlistContext";
+import { useWatchlist } from "../../../context/WatchlistContextDefinition";
 
 const Coin = () => {
   const { coinId } = useParams();
   const navigate = useNavigate();
-  const { isDark } = useTheme();
   const [coindata, setCoinData] = useState(null);
   const [historicaldata, setHistoricalData] = useState(null);
   const [coinLoading, setCoinLoading] = useState(true);
   const [historyLoading, setHistoryLoading] = useState(true);
-  const [coinError, setCoinError] = useState(null);
-  const [historyError, setHistoryError] = useState(null);
   const [timeframe, setTimeframe] = useState("7"); // Default 7 days
-  const [chartMode, setChartMode] = useState("advanced"); // "basic" or "advanced"
   const { currency } = useContext(CoinContext);
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
 
-  const fetchCoinData = React.useCallback(async () => {
-    const apiKey = import.meta.env.VITE_CG_API_KEY;
-    const url = apiKey
-      ? `/api/coingecko/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&x_cg_demo_api_key=${apiKey}`
-      : `/api/coingecko/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`;
-
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-      },
-    };
-
-    try {
-      const response = await fetch(url, options);
-
-      if (response.status === 429) {
-        const errorMsg =
-          "Rate limit exceeded. Please wait a moment and refresh.";
-        console.error(errorMsg);
-        setCoinError(errorMsg);
-        setCoinLoading(false);
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setCoinData(data);
-      setCoinError(null);
-      setCoinLoading(false);
-    } catch (err) {
-      setCoinLoading(false);
-      const errorMsg = err.message || "Failed to fetch coin data";
-      setCoinError(errorMsg);
-      console.error("Error fetching coin data:", err);
-    }
-  }, [coinId]);
-
   // Fetch coin data (separate from historical data)
   useEffect(() => {
+    const fetchCoinData = async () => {
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          "x-cg-demo-api-key": import.meta.env.VITE_CG_API_KEY,
+        },
+      };
+
+      try {
+        const response = await fetch(
+          `https://api.coingecko.com/api/v3/coins/${coinId}`,
+          options,
+        );
+
+        if (response.status === 429) {
+          console.error(
+            "Rate limit exceeded. Please wait a moment and refresh.",
+          );
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setCoinData(data);
+        setCoinLoading(false);
+      } catch (err) {
+        setCoinLoading(false);
+        console.error("Error fetching coin data:", err);
+      }
+    };
+
     // Add a small delay to avoid immediate rate limiting
     const timer = setTimeout(fetchCoinData, 300);
     return () => clearTimeout(timer);
-  }, [fetchCoinData]);
-
-  const fetchHistoricalData = React.useCallback(async () => {
-    if (!currency?.name) {
-      setHistoryLoading(false);
-      return;
-    }
-
-    const apiKey = import.meta.env.VITE_CG_API_KEY;
-    const url = apiKey
-      ? `/api/coingecko/coins/${coinId}/market_chart?vs_currency=${currency.name}&days=${timeframe}&interval=daily&x_cg_demo_api_key=${apiKey}`
-      : `/api/coingecko/coins/${coinId}/market_chart?vs_currency=${currency.name}&days=${timeframe}&interval=daily`;
-
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-      },
-    };
-
-    try {
-      const response = await fetch(url, options);
-
-      if (response.status === 429) {
-        const errorMsg =
-          "Rate limit exceeded. Please wait a moment before changing timeframes.";
-        console.error(errorMsg);
-        setHistoryError(errorMsg);
-        setHistoryLoading(false);
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      setHistoricalData(data);
-      setHistoryError(null);
-      setHistoryLoading(false);
-    } catch (err) {
-      setHistoryLoading(false);
-      const errorMsg = err.message || "Failed to fetch historical data";
-      setHistoryError(errorMsg);
-      console.error("History fetch error:", err);
-    }
-  }, [coinId, currency, timeframe]);
+  }, [coinId]);
 
   // Fetch historical data based on selected timeframe
   useEffect(() => {
+    const fetchHistoricalData = async () => {
+      if (!currency?.name) return;
+
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          "x-cg-demo-api-key": import.meta.env.VITE_CG_API_KEY,
+        },
+      };
+
+      try {
+        const response = await fetch(
+          `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency.name}&days=${timeframe}&interval=daily`,
+          options,
+        );
+
+        if (response.status === 429) {
+          console.error(
+            "Rate limit exceeded. Please wait a moment before changing timeframes.",
+          );
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        setHistoricalData(data);
+        setHistoryLoading(false);
+      } catch (err) {
+        setHistoryLoading(false);
+        console.error("History fetch error:", err);
+      }
+    };
+
     // Add delay to prevent rapid API calls when switching timeframes
     const timer = setTimeout(fetchHistoricalData, 500);
     return () => clearTimeout(timer);
-  }, [fetchHistoricalData]);
+  }, [currency, coinId, timeframe]);
 
   // Calculate sentiment based on price change
   const calculateSentiment = () => {
@@ -153,39 +132,7 @@ const Coin = () => {
     );
   }
 
-  // Error state
-  if (coinError || historyError) {
-    return (
-      <div className="coin-loader">
-        <p style={{ color: "#ff6b6b", marginBottom: "20px" }}>
-          {coinError || historyError}
-        </p>
-        <button
-          onClick={() => {
-            setCoinLoading(true);
-            setHistoryLoading(true);
-            setCoinError(null);
-            setHistoryError(null);
-            fetchCoinData();
-            fetchHistoricalData();
-          }}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#8b5cf6",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            fontSize: "14px",
-          }}
-        >
-          Retry
-        </button>
-      </div>
-    );
-  }
-
-  // Empty state
+  // Empty / error state
   if (!coindata || !historicaldata) {
     return (
       <div className="coin-loader">
@@ -271,7 +218,7 @@ const Coin = () => {
             </div>
             <div className="coin-price-row">
               <span className="coin-current-price">
-                {currency.symbol}
+                {currency.Symbol}
                 {coindata.market_data.current_price[
                   currency.name
                 ].toLocaleString()}
@@ -298,88 +245,24 @@ const Coin = () => {
           <div className="coin-card coin-chart-card">
             <div className="coin-chart-top">
               <span className="coin-card-title">Price Chart</span>
-              <div
-                style={{ display: "flex", gap: "12px", alignItems: "center" }}
-              >
-                <div className="timeframe-selector">
-                  {[
-                    { label: "7d", val: "7" },
-                    { label: "14d", val: "14" },
-                    { label: "30d", val: "30" },
-                  ].map(({ label, val }) => (
-                    <button
-                      key={val}
-                      className={`timeframe-btn ${timeframe === val ? "active" : ""}`}
-                      onClick={() => setTimeframe(val)}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "6px",
-                    borderLeft: "1px solid rgba(255,255,255,0.1)",
-                    paddingLeft: "12px",
-                  }}
-                >
+              <div className="timeframe-selector">
+                {[
+                  { label: "7d", val: "7" },
+                  { label: "14d", val: "14" },
+                  { label: "30d", val: "30" },
+                ].map(({ label, val }) => (
                   <button
-                    className={`chart-mode-btn ${chartMode === "basic" ? "active" : ""}`}
-                    onClick={() => setChartMode("basic")}
-                    title="Basic Chart"
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      border: "1px solid rgba(0,217,255,0.3)",
-                      background:
-                        chartMode === "basic"
-                          ? "rgba(0,217,255,0.2)"
-                          : "transparent",
-                      color: chartMode === "basic" ? "#00d9ff" : "#9ca3af",
-                      cursor: "pointer",
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      transition: "all 0.2s",
-                    }}
+                    key={val}
+                    className={`timeframe-btn ${timeframe === val ? "active" : ""}`}
+                    onClick={() => setTimeframe(val)}
                   >
-                    Basic
+                    {label}
                   </button>
-                  <button
-                    className={`chart-mode-btn ${chartMode === "advanced" ? "active" : ""}`}
-                    onClick={() => setChartMode("advanced")}
-                    title="Advanced Technical Indicators"
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      border: "1px solid rgba(0,217,255,0.3)",
-                      background:
-                        chartMode === "advanced"
-                          ? "rgba(0,217,255,0.2)"
-                          : "transparent",
-                      color: chartMode === "advanced" ? "#00d9ff" : "#9ca3af",
-                      cursor: "pointer",
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      transition: "all 0.2s",
-                    }}
-                  >
-                    Advanced
-                  </button>
-                </div>
+                ))}
               </div>
             </div>
-            <div
-              className={`coin-chart ${chartMode === "advanced" ? "coin-chart--advanced" : ""}`}
-            >
-              {chartMode === "advanced" ? (
-                <AdvancedChart
-                  historicaldata={historicaldata}
-                  isDark={isDark}
-                />
-              ) : (
-                <LineChart historicaldata={historicaldata} />
-              )}
+            <div className="coin-chart">
+              <LineChart historicaldata={historicaldata} />
             </div>
           </div>
 
@@ -394,11 +277,11 @@ const Coin = () => {
             </div>
             <div className="price-range-ends">
               <span className="range-low">
-                Low: {currency.symbol}
+                Low: {currency.Symbol}
                 {coindata.market_data.low_24h[currency.name].toLocaleString()}
               </span>
               <span className="range-high">
-                High: {currency.symbol}
+                High: {currency.Symbol}
                 {coindata.market_data.high_24h[currency.name].toLocaleString()}
               </span>
             </div>
