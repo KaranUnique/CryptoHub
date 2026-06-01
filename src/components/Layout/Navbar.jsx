@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "../../context/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FiLock, FiUser, FiLogOut, FiMail, FiBookmark, FiMenu, FiX, FiChevronDown } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  FiLock,
+  FiUser,
+  FiLogOut,
+  FiMail,
+  FiBookmark,
+  FiMenu,
+  FiX,
+  FiChevronDown,
+} from "react-icons/fi";
+
 import "./Navbar.css";
 
 function Navbar() {
@@ -33,12 +42,6 @@ function Navbar() {
     if (window.innerWidth > 1024) {
       setOpenDropdown(null);
     }
-  };
-
-  const toggleProfile = (e) => {
-    e.stopPropagation();
-    setIsProfileOpen(!isProfileOpen);
-    setOpenDropdown(null);
   };
 
   const toggleMobileMenu = () => {
@@ -106,7 +109,7 @@ function Navbar() {
       document.removeEventListener("click", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [openDropdown, isProfileOpen]);
+  }, [openDropdown, isProfileOpen, mobileOpenDropdown, isMobileMenuOpen]);
 
   // Close menus when the route changes
   useEffect(() => {
@@ -118,6 +121,10 @@ function Navbar() {
 
   const handleMobileDropdownClick = (label) => {
     setMobileOpenDropdown((prev) => (prev === label ? null : label));
+  };
+
+  const handleDropdownClick = (label) => {
+    setOpenDropdown((prev) => (prev === label ? null : label));
   };
 
   /* -------------------- Nav Links -------------------- */
@@ -132,7 +139,7 @@ function Navbar() {
         { to: "/trending", label: "Trending" },
         { to: "/gainers", label: "Gainers" },
         { to: "/top-losers", label: "Top Losers" },
-        {to:"watchlist", label:"Watchlist" },
+        { to: "watchlist", label: "Watchlist" },
       ],
     },
     { to: "/blog", label: "Insights" },
@@ -146,7 +153,6 @@ function Navbar() {
         { to: "/faq", label: "FAQ" },
       ],
     },
- 
   ];
 
   const authenticatedNavLinks = [
@@ -159,7 +165,11 @@ function Navbar() {
   const isLinkActive = (to) => {
     if (!to) return false;
     if (to === "/") return location.pathname === "/";
-    return location.pathname === to || location.pathname.startsWith(to + "/") || location.pathname.startsWith(to);
+    return (
+      location.pathname === to ||
+      location.pathname.startsWith(to + "/") ||
+      location.pathname.startsWith(to)
+    );
   };
 
   /* -------------------- JSX -------------------- */
@@ -348,7 +358,12 @@ function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && !isDashboardPage && (
-        <div id="mobile-menu" ref={mobileMenuRef} className="mobile-menu" aria-hidden={!isMobileMenuOpen}>
+        <div
+          id="mobile-menu"
+          ref={mobileMenuRef}
+          className="mobile-menu"
+          aria-hidden={!isMobileMenuOpen}
+        >
           <ul className="mobile-menu-list">
             {(currentUser ? authenticatedNavLinks : navLinks).map((link) => (
               <li key={link.label} className="mobile-menu-item">
@@ -364,7 +379,10 @@ function Navbar() {
                       {link.label}
                     </button>
                     {mobileOpenDropdown === link.label && (
-                      <ul id={`mobile-submenu-${link.label}`} className="mobile-dropdown-menu">
+                      <ul
+                        id={`mobile-submenu-${link.label}`}
+                        className="mobile-dropdown-menu"
+                      >
                         {link.dropdown.map((item) => (
                           <li key={item.to}>
                             <Link

@@ -16,7 +16,7 @@
     "axios": "^1.13.2",
     "chart.js": "^4.5.1",
     "clsx": "^2.1.1",
-    "firebase": "^12.9.0",
+    "firebase": "^10.7.0",
     "framer-motion": "^12.24.0",
     "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.7",

@@ -4,14 +4,12 @@ import { useAuth } from "../../context/useAuth";
 import { useTheme } from "../../context/useTheme";
 import { CoinContext } from "../../context/CoinContextInstance";
 import PortfolioExport from "../../components/PortfolioExport/PortfolioExport";
-import { useActivity } from "../../context/ActivityContext";
 
 const DashboardContent = () => {
   const { currentUser } = useAuth();
   const { isDark } = useTheme();
   const navigate = useNavigate();
   const [greeting, setGreeting] = useState("");
-  const { activities } = useActivity();
 
   useEffect(() => {
     const hour = new Date().getHours();

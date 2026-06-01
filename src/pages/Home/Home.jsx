@@ -13,7 +13,7 @@ import {
 } from "react-icons/fi";
 import { motion } from "framer-motion";
 import MarketFilters from "../../components/Dashboard/MarketFilters";
-import { useWatchlist } from "../../context/WatchlistContext";
+import { useWatchlist } from "../../context/WatchlistContextDefinition";
 
 const Home = () => {
   const { allCoin, filteredCoins, currency } = useContext(CoinContext);
@@ -276,18 +276,24 @@ const Home = () => {
                 <div className="table-row" key={item.id}>
                   <div className="col-star">
                     <button
-                      className={`watchlist-star-btn ${isInWatchlist(item.id) ? 'active' : ''}`}
+                      className={`watchlist-star-btn ${isInWatchlist(item.id) ? "active" : ""}`}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         toggleWatchlist(item.id, item.name);
                       }}
-                      title={isInWatchlist(item.id) ? 'Remove from watchlist' : 'Add to watchlist'}
+                      title={
+                        isInWatchlist(item.id)
+                          ? "Remove from watchlist"
+                          : "Add to watchlist"
+                      }
                     >
                       <FiStar />
                     </button>
                   </div>
-                  <Link to={`/coin/${item.id}`} className="col-rank">{item.market_cap_rank}</Link>
+                  <Link to={`/coin/${item.id}`} className="col-rank">
+                    {item.market_cap_rank}
+                  </Link>
                   <Link to={`/coin/${item.id}`} className="col-name">
                     <img
                       src={item.image}

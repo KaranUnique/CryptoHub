@@ -1,12 +1,13 @@
 import React, { useContext, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { CoinContext } from "../context/CoinContextInstance";
-import { useWatchlist } from "../context/WatchlistContext";
+import { useWatchlist } from "../context/WatchlistContextDefinition";
 import "./Watchlist.css";
 
 const Watchlist = () => {
   const { allCoin, currency } = useContext(CoinContext);
-  const { watchlist, toggleWatchlist, clearWatchlist, loading } = useWatchlist();
+  const { watchlist, toggleWatchlist, clearWatchlist, loading } =
+    useWatchlist();
   const [sortKey, setSortKey] = useState("market_cap");
   const [sortDir, setSortDir] = useState("desc");
   const [search, setSearch] = useState("");
@@ -320,10 +321,7 @@ const Watchlist = () => {
                         {coin.market_cap_rank || "—"}
                       </td>
                       <td className="wl-td wl-td-name">
-                        <Link
-                          to={"/coin/" + coin.id}
-                          className="wl-coin-link"
-                        >
+                        <Link to={"/coin/" + coin.id} className="wl-coin-link">
                           <img
                             src={coin.image}
                             alt={coin.name}
