@@ -62,34 +62,33 @@ const BlogDetail = () => {
     );
   }
 
-  // ✅ Normalized content
-  const content = {
-    toc: blog.content?.toc ?? [
-      "Introduction",
-      "Overview",
-      "Key Points",
-      "Analysis",
-      "Conclusion",
-    ],
-    sections: blog.content?.sections ?? [
-      {
-        heading: "Introduction",
-        text:
-          blog.excerpt ||
-          "This article provides insights into the latest cryptocurrency trends.",
-      },
-      {
-        heading: "Overview",
-        text: "This article is currently being prepared with detailed analysis and insights.",
-      },
-    ],
+  // Sections are the single source of truth for body + TOC (avoids toc/section count mismatches)
+  const sections =
+    blog.content?.sections?.length > 0
+      ? blog.content.sections
+      : [
+          {
+            heading: "Introduction",
+            text:
+              blog.excerpt ||
+              "This article provides insights into the latest cryptocurrency trends.",
+          },
+          {
+            heading: "Overview",
+            text:
+              "This article is currently being prepared with detailed analysis and insights.",
+          },
+        ];
+
+  const scrollToSection = (index) => {
+    document
+      .getElementById(`blog-section-${index}`)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   // Demo views
   const views = Math.floor(Math.random() * 2000) + 500;
 
-  // Handlers
-  // Handlers
   const handleBookmark = async () => {
     if (!currentUser) {
       toast.error("Please login to bookmark articles");
@@ -197,12 +196,18 @@ const BlogDetail = () => {
           <div className="sidebar-sticky">
             <h3 className="sidebar-title">Contents</h3>
             <ul className="blog-toc">
-              {content.toc.map((item, i) => (
-                <li key={i} className="toc-item">
-                  <span className="toc-number">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="toc-text">{item}</span>
+              {sections.map((section, i) => (
+                <li key={i} className="toc-item-wrap">
+                  <button
+                    type="button"
+                    className="toc-item"
+                    onClick={() => scrollToSection(i)}
+                  >
+                    <span className="toc-number">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="toc-text">{section.heading}</span>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -215,8 +220,12 @@ const BlogDetail = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          {content.sections.map((section, i) => (
-            <div key={i} className="content-section">
+          {sections.map((section, i) => (
+            <div
+              key={i}
+              id={`blog-section-${i}`}
+              className="content-section"
+            >
               <h2 className="section-heading">{section.heading}</h2>
               <p className="section-text">{section.text}</p>
             </div>

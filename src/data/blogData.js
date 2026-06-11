@@ -43,7 +43,6 @@ export const generateBlogPosts = () => {
         isFeatured: true,
         gradient: "linear-gradient(135deg, #4559DC30, #22c55e20)",
         content: {
-          toc: ["Market Overview", "On-chain Metrics", "Supply Dynamics", "Price Action Analysis", "Forward Outlook"],
           sections: [
             {
               heading: "Market Overview",
@@ -56,6 +55,14 @@ export const generateBlogPosts = () => {
             {
               heading: "Supply Dynamics",
               text: "The percentage of supply held in profit has recovered to 85%, indicating most holders remain in profit despite recent volatility. Realized capitalization growth suggests organic capital inflow rather than speculative trading."
+            },
+            {
+              heading: "Price Action Analysis",
+              text: "Bitcoin is testing key structural levels as volume profiles show accumulation near current prices. The Vector models highlight a narrowing range that often precedes a directional expansion."
+            },
+            {
+              heading: "Forward Outlook",
+              text: "Institutional flows and holder behavior suggest patience is warranted; the next major move will likely align with macro liquidity and ETF flow trends. We continue to monitor exchange balances and realized cap for confirmation signals."
             }
           ]
         }
@@ -73,7 +80,6 @@ export const generateBlogPosts = () => {
         isFeatured: true,
         gradient: "linear-gradient(135deg, #22c55e30, #9d4edd20)",
         content: {
-          toc: ["Weekly Summary", "Exchange Flows", "Miner Activity", "Network Health", "Trading Volume"],
           sections: [
             {
               heading: "Weekly Summary",
@@ -82,6 +88,18 @@ export const generateBlogPosts = () => {
             {
               heading: "Exchange Flows",
               text: "Major exchanges recorded significant outflows, particularly from institutional custody solutions. This suggests accumulation by long-term investors despite uncertain price action."
+            },
+            {
+              heading: "Miner Activity",
+              text: "Hash rate remains near all-time highs while miner revenue holds steady post-difficulty adjustment. Selling pressure from miners has been orderly relative to prior cycles."
+            },
+            {
+              heading: "Network Health",
+              text: "Block times and mempool congestion are within normal ranges. Node count and geographic distribution continue to support a resilient network topology."
+            },
+            {
+              heading: "Trading Volume",
+              text: "Spot volumes are stable week-over-week; derivatives open interest declined slightly as leverage resets. On-chain transfer volume remains consistent with consolidation rather than distribution."
             }
           ]
         }
@@ -99,7 +117,6 @@ export const generateBlogPosts = () => {
         isFeatured: true,
         gradient: "linear-gradient(135deg, #9d4edd30, #f59e0b20)",
         content: {
-          toc: ["Volatility Analysis", "Options Positioning", "Liquidity Conditions", "Market Sentiment", "Risk Assessment"],
           sections: [
             {
               heading: "Volatility Analysis",
@@ -108,6 +125,18 @@ export const generateBlogPosts = () => {
             {
               heading: "Options Positioning",
               text: "Dealer gamma exposure is turning positive near current price levels, creating potential for accelerated moves should key technical levels break."
+            },
+            {
+              heading: "Liquidity Conditions",
+              text: "Order book depth has improved versus late December, though weekend liquidity remains thinner. Stablecoin balances on exchanges provide a modest buffer for large clips."
+            },
+            {
+              heading: "Market Sentiment",
+              text: "Funding rates are neutral to slightly positive; social sentiment indicators show cautious optimism without euphoria typical of late-cycle tops."
+            },
+            {
+              heading: "Risk Assessment",
+              text: "Key risks include macro surprises and sudden deleveraging in perpetual markets. Position sizing and defined risk remain prudent given compressed volatility regimes."
             }
           ]
         }
