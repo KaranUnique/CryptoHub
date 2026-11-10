@@ -229,3 +229,9 @@ const ChangePassword = () => {
 };
 
 export default ChangePassword;
+
+      return false;
+    // Check if new password and confirm password match
+      return false;
+    // validate form before API Call
+      notifySuccess("Password changed successfully.");
