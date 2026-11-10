@@ -137,6 +137,9 @@ const Features = () => {
   };
 
   const itemVariants = {
+
+// Placeholder export for potential watchlist‑related services.
+export const watchlistService = {};
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
