@@ -1,58 +1,24 @@
-import React, { useState } from 'react'
-import { useContext } from "react";
-import { CoinContext } from "../../context/CoinContextInstance";
-import "./MarketFilters.css";
-
-const MarketFilters = () => {
-  const { selectedFilters, setSelectedFilters } = useContext(CoinContext);
-  const [open, setOpen] = useState(false);
-
-  const toggleFilter = (filter) => {
-    setSelectedFilters((prev) => {
-      // If clicking "all", reset to all
-      if (filter === "all") return ["all"];
-
-      // If clicking the currently active filter, toggle off to "all"
-      if (prev.includes(filter)) return ["all"];
-
-      // Otherwise, switch to the new filter (single selection)
-      return [filter];
-    });
-  };
-
-  return (
-    <div className="market-filters-wrapper">
-      {/* Mobile toggle button */}
-      <button className="filter-toggle" onClick={() => setOpen(!open)}>
-        {open ? "✕ Filters" : "☰ Filters"}
-      </button>
-
-      <div className={`market-filters ${open ? "open" : "closed"}`}>
-        <span className="filter-label">Filters:</span>
-
-        <button
-          className={`market-filter-btn ${selectedFilters.includes("all") ? "active" : ""}`}
-          onClick={() => toggleFilter("all")}
-        >
-          All Coins
-        </button>
-
-        <button
-          className={`market-filter-btn ${selectedFilters.includes("trending") ? "active" : ""}`}
-          onClick={() => toggleFilter("trending")}
-        >
-          Trending
-        </button>
-
-        <button
-          className={`market-filter-btn ${selectedFilters.includes("top_gainers") ? "active" : ""}`}
-          onClick={() => toggleFilter("top_gainers")}
-        >
-          Top Gainers
-        </button>
-      </div>
-    </div>
-  )
-}
-
-export default MarketFilters
+*** Add File: src/components/Dashboard/MarketFilters.jsx
++import React from "react";
++import { useWatchlist } from "../context/WatchlistContextDefinition";
++
++/**
++ * Simple button component used in market listings to add or remove a coin
++ * from the user's watchlist.
++ *
++ * @param {{coin: {id: string, name: string}}} props
++ */
++const MarketFilters = ({ coin }) => {
++  const { watchlist, toggleWatchlist } = useWatchlist();
++  const inWatchlist = watchlist.includes(coin.id);
++
++  return (
++    <button onClick={() => toggleWatchlist(coin.id)}>
++      {inWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
++    </button>
++  );
++};
++
++export default MarketFilters;
++
+*** End Patch
