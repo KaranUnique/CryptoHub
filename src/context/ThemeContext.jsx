@@ -22,6 +22,16 @@ export const ThemeProvider = ({ children }) => {
     });
   }, [theme]);
 
+  // Helper to persist arbitrary data (e.g., watchlist) – can be used by other components
+  const setPersistedItem = (key, value) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+      console.error(`Failed to persist ${key}:`, e);
+    }
+  };
+      setPersistedItem,
+
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);
