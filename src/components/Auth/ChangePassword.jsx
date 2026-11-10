@@ -56,8 +56,8 @@ const ChangePassword = () => {
       return false;
     }
     // Check new password length
-    if (newPassword.length < 6) {
-      setError("New Password must be at Least 6 characters long.");
+    if (newPassword.length < 8) {
+      setError("New Password must be at Least 8 characters long.");
       return false;
     }
     // Check if new password and confirm password match
