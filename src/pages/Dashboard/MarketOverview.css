@@ -2,4 +2,16 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+
+/* Watchlist star button */
+.favorite-star {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--color-muted);
+  transition: color 0.2s ease-in-out;
+}
+
+.favorite-star.active {
+  color: gold;
+}
 }

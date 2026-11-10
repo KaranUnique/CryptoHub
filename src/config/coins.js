@@ -7,4 +7,7 @@ export const topCoins = [
     { id: "ripple", name: "XRP", symbol: "XRP", color: "#23292F" },
     { id: "dogecoin", name: "Dogecoin", symbol: "DOGE", color: "#C2A633" },
     { id: "polkadot", name: "Polkadot", symbol: "DOT", color: "#E6007A" },
+
+// Utility to get a coin object by its id – useful for watchlist rendering
+export const getCoinById = (id) => topCoins.find((c) => c.id === id);
 ];
