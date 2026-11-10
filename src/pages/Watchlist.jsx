@@ -134,12 +134,31 @@ const Watchlist = () => {
           {/* Stats */}
           <div className="wl-stats-row">
             <div className="wl-stat">
-              <span className="wl-stat-value">{watchlist.length}</span>
-              <span className="wl-stat-label">Coins Tracked</span>
-            </div>
-            <div className="wl-stat-divider"></div>
-            <div className="wl-stat">
-              <span
+  // Load watchlist from localStorage on mount
+  const [watchlist, setWatchlist] = useState([]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("cryptohub-watchlist");
+    if (stored) {
+      try {
+        setWatchlist(JSON.parse(stored));
+      } catch (e) {
+        console.error("Failed to parse watchlist from localStorage", e);
+      }
+    }
+  }, []);
+          <span className="wl-stat-value">{watchlist.length}</span>
+            {watchlist
+              .filter((coin) =>
+                coin.name.toLowerCase().includes(search.toLowerCase()) ||
+                coin.symbol.toLowerCase().includes(search.toLowerCase())
+              )
+              .map((coin) => (
+                <div key={coin.id} className="wl-coin-row">
+                  {/* Placeholder: render coin info; actual rendering handled by existing components */}
+                  <span>{coin.name} ({coin.symbol})</span>
+                </div>
+              ))}
                 className={
                   "wl-stat-value " +
                   (avgChange >= 0 ? "wl-positive" : "wl-negative")
